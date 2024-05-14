@@ -35,30 +35,9 @@ function afficherGalerie(travaux) {
 }
 
 /*
-** Premier affichage de la galerie de travaux
+** Déclaration de la fonction qui génère dynamiquement le menu de catégories
 */
-afficherGalerie(travaux)
-
-
-/*
-** Déclaration de la fonction qui génère dynamiquement le menu de catégories fonctionnel
-*/
-function genererMenuCategorie(travaux) {
-
-    /* 
-    ** Récupération des catégories en supprimant les doublons
-    */
-
-    let categories = new Map() // Création d'un nouvel objet Map, pour y stocker des paires de clé-valeur en mémorisant l'ordre d'insertion.
-    travaux.forEach( // méthode forEach pour exécuter une fonction une fois pour chaque élément du tableau "travaux"
-        projet => categories.set(projet.category.id, projet.category) // fonction lambda + set(key, value) appliqué à la structure Map pour y stocker des données
-    )
-    let listeCategories = Array.from(categories.values()) // Constitution d'un tableau à partir des values
-    console.log(listeCategories) // Vérif
-
-    /*
-    ** Génération dynamique du menu de catégories
-    */
+function genererBoutonsCategorie(listeCategories) {
 
     //** Génération du bouton pour réinitialiser l'affichage par défaut **//
     const baliseButtonParDefaut = document.createElement("button")
@@ -79,10 +58,13 @@ function genererMenuCategorie(travaux) {
         const divFilterButtons = document.querySelector(".filter-buttons") // Récupération de la <div> de classe "filter-buttons" qui comportera tous les boutons de catégories
         divFilterButtons.appendChild(baliseButton) // Rattachement de chaque balise <button> (enfant) à la <div> de classe "filter-buttons" (parent)
     }
+}
 
-    /*
-    ** Gestion des boutons de catégories
-    */
+
+/*
+** Déclaration de la fonction qui gère le fonctionnement des boutons du menu de catégories
+*/
+function gererBoutonsCategorie(travaux, listeCategories) {
 
     //** Affichage par défaut **//
     const affichageParDefaut = document.querySelector(".btn-par-defaut")
@@ -111,11 +93,31 @@ function genererMenuCategorie(travaux) {
             }
         }
     )}
-
 }
 
-/*
-** Affichage du menu de catégories fonctionnel
-*/
-genererMenuCategorie(travaux)
 
+
+/*
+** Premier affichage de la galerie de travaux
+*/
+afficherGalerie(travaux)
+
+/* 
+** Récupération des catégories en supprimant les doublons
+*/
+let categories = new Map() // Création d'un nouvel objet Map, pour y stocker des paires de clé-valeur en mémorisant l'ordre d'insertion.
+travaux.forEach( // méthode forEach pour exécuter une fonction une fois pour chaque élément du tableau "travaux"
+    projet => categories.set(projet.category.id, projet.category) // fonction lambda + set(key, value) appliqué à la structure Map pour y stocker des données
+)
+let listeCategories = Array.from(categories.values()) // Constitution d'un tableau à partir des values
+console.log(listeCategories) // Vérif
+
+/*
+** Génération dynamique du menu de catégories
+*/
+genererBoutonsCategorie(listeCategories)
+
+/*
+** Gestion du fonctionnement des boutons du menu de catégories
+*/
+gererBoutonsCategorie(travaux, listeCategories)
