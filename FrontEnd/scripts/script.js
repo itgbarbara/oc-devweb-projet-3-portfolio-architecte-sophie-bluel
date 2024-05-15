@@ -1,5 +1,7 @@
 
+//*******************************************************************************************//
 //*************** Déclaration des fonctions liées à l'affichage de la galerie ***************//
+//*******************************************************************************************//
 
 /*
 ** Déclaration de la fonction qui génère dynamiquement tout le contenu de la galerie des projets
@@ -86,4 +88,6 @@ export function gererBoutonsCategorie(travaux, listeCategories) {
 }
 
 
+//***********************************************************************************************//
 //*************** Déclaration des fonctions liées à la connexion de l'utilisateur ***************//
+//***********************************************************************************************//

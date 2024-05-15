@@ -1,7 +1,7 @@
 /*
 ** Import des fonctions
 */
-import { afficherGalerie, genererBoutonsCategorie, gererBoutonsCategorie } from "./functions.js"
+import { afficherGalerie, genererBoutonsCategorie, gererBoutonsCategorie } from "./script.js"
 
 
 /*
