@@ -9,7 +9,7 @@ import { afficherGalerie, genererBoutonsCategorie, gererBoutonsCategorie } from 
 */
 //** Récupération des pièces éventuellement stockées dans le localStorage **//
 let travaux = window.localStorage.getItem("travaux")
-if (travaux === null) {
+if (travaux === null) { // peut aussi s'écrire if (!travaux)
     //** S'il n'y a rien dans le localStorage, récupération des travaux depuis l'API **//
     const reponse = await fetch("http://localhost:5678/api/works") // Envoi d'une requête GET pour récupérer les données de l'API (route : GET /works) + stockage du résultat dans une constante
     const travaux = await reponse.json() // Désérialisation du JSON et stockage de la liste d'objets (= travaux) obtenue dans la variable "travaux"
