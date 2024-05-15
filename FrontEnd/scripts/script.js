@@ -91,3 +91,21 @@ export function gererBoutonsCategorie(travaux, listeCategories) {
 //***********************************************************************************************//
 //*************** Déclaration des fonctions liées à la connexion de l'utilisateur ***************//
 //***********************************************************************************************//
+
+/*
+** Déclaration des fonctions qui définissent des règles de validation
+*/
+//** Vérification de la validité de la saisie de l'e-mail **//
+export function validerEmail(email) {
+    let emailRegEx = new RegExp("[a-z0-9._-]+@[a-z0-9._-]+\\.[a-z0-9._-]+")
+    if (!emailRegEx.test(email)) {
+        throw new Error("L'adresse email n'est pas valide")
+    }
+}
+
+//** Vérification de la validité de la saisie du mot de passe **//
+export function validerMdp(mdp) {
+    if (mdp.trim() === "") {
+        throw new Error("Veuillez saisir votre mot de passe")
+    }
+}
