@@ -84,3 +84,6 @@ export function gererBoutonsCategorie(travaux, listeCategories) {
         }
     )}
 }
+
+
+//*************** Déclaration des fonctions liées à la connexion de l'utilisateur ***************//

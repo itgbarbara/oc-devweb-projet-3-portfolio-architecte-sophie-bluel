@@ -1,7 +1,7 @@
 /*
 ** Import des fonctions
 */
-import { afficherGalerie, genererBoutonsCategorie, gererBoutonsCategorie } from "./galerie.js"
+import { afficherGalerie, genererBoutonsCategorie, gererBoutonsCategorie } from "./functions.js"
 
 
 /*
@@ -11,7 +11,7 @@ import { afficherGalerie, genererBoutonsCategorie, gererBoutonsCategorie } from 
 let travaux = window.localStorage.getItem("travaux")
 if (travaux === null) {
     //** S'il n'y a rien dans le localStorage, récupération des travaux depuis l'API **//
-    const reponse = await fetch("http://localhost:5678/api/works") // Envoi d'une requête pour récupérer les données de l'API (route : GET /works) + stockage du résultat dans une constante
+    const reponse = await fetch("http://localhost:5678/api/works") // Envoi d'une requête GET pour récupérer les données de l'API (route : GET /works) + stockage du résultat dans une constante
     const travaux = await reponse.json() // Désérialisation du JSON et stockage de la liste d'objets (= travaux) obtenue dans la variable "travaux"
 
     //** Transformation des travaux en JSON pour les stocker dans le localStorage **//
@@ -23,7 +23,6 @@ if (travaux === null) {
     //** S'il y avait bien des données dans le localStorage, on reconstruit les données en mémoire **//
     travaux = JSON.parse(travaux) // Analyse du JSON pour reconstruire les données (valeurs ou objets) décrites par la chaîne de caractère
 }
-
 
 
 //*************** Exécution du script ***************//
