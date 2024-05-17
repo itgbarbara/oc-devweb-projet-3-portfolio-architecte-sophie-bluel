@@ -166,7 +166,7 @@ li:hover {
 	cursor: pointer;
 }
 
-.filter-buttons button:hover {
+.filter-buttons button:hover { /* Ajout */
 	color: white;
 	background-color: #1D6154;
 }
@@ -229,6 +229,10 @@ li:hover {
 #login span { /* Ajout */
 	text-align: center;
 	margin-top: 1rem;
+}
+
+#login a:hover {
+	color: #B1663C;
 }
 
 #contact textarea {
