@@ -11,7 +11,6 @@ import { activerModeEdition, deconnecterUtilisateur, desactiverModeEdition } fro
 let storedToken = localStorage.getItem("token")
 if (storedToken !== null) { // si token existe
     const token = JSON.parse(storedToken) // Reconstruction des données
-    console.log(token)
     activerModeEdition()
 } else {
     desactiverModeEdition()
