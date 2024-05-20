@@ -148,3 +148,4 @@ export function connecterUtilisateur(url, loginUtilisateur) {
         }
     })
     .catch(error => afficherMessageErreur(error.message))
+}
