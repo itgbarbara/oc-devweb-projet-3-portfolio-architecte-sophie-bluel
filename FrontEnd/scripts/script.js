@@ -149,3 +149,18 @@ export function connecterUtilisateur(url, loginUtilisateur) {
     })
     .catch(error => afficherMessageErreur(error.message))
 }
+
+
+/*
+** Déclaration de la fonction qui permet de supprimer le token et déconnecter l'utilisateur
+*/
+export function deconnecterUtilisateur() {
+    const btnLogout = document.getElementById("lien-logout")
+    btnLogout.addEventListener("click", () => {
+        localStorage.removeItem("token")
+        //** Cacher le lien logout **//
+        //** afficher le lien logout **//
+        //** Cacher le bandeau d'édition **//
+        //** Cacher le bouton modifier **//
+    })
+}
