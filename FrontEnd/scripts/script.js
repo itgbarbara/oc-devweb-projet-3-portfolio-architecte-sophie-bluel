@@ -162,7 +162,7 @@ export function activerModeEdition() {
     document.querySelector("header").classList.add("header-mode-edition") // Décaller le header
     document.getElementById("lien-logout").classList.remove("inactive") // Afficher le lien logout
     document.getElementById("lien-login").classList.add("inactive") // Cacher le lien login
-    document.querySelector(".bouton-modifier").classList.remove("inactive") // Afficher le bouton modifier
+    document.querySelector(".edit-button").classList.remove("inactive") // Afficher le bouton modifier
 }
 
 export function desactiverModeEdition() {
@@ -170,7 +170,7 @@ export function desactiverModeEdition() {
     document.querySelector("header").classList.remove("header-mode-edition") // Décaller le header
     document.getElementById("lien-logout").classList.add("inactive") // Cacher le lien logout
     document.getElementById("lien-login").classList.remove("inactive") // Afficher le lien login
-    document.querySelector(".bouton-modifier").classList.add("inactive") // Cacher le bouton modifier
+    document.querySelector(".edit-button").classList.add("inactive") // Cacher le bouton modifier
 }
 
 /*
