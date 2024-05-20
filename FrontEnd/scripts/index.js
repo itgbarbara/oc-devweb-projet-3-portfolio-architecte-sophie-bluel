@@ -1,7 +1,7 @@
 /*
 ** Import des fonctions
 */
-import { afficherGalerie, genererBoutonsCategorie, gererBoutonsCategorie, deconnecterUtilisateur, activerModeEdition } from "./script.js"
+import { afficherGalerie, genererBoutonsCategorie, gererBoutonsCategorie } from "./script.js"
 
 
 /*
@@ -50,6 +50,3 @@ genererBoutonsCategorie(listeCategories)
 ** Gestion du fonctionnement des boutons du menu de catégories
 */
 gererBoutonsCategorie(travaux, listeCategories)
-
-
-deconnecterUtilisateur()
