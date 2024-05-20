@@ -1,7 +1,7 @@
 
-//*******************************************************************************************//
-//*************** Déclaration des fonctions liées à l'affichage de la galerie ***************//
-//*******************************************************************************************//
+//********************************************************************************************************//
+//*************** Déclaration des fonctions liées à l'affichage de la galerie (gallery.js) ***************//
+//********************************************************************************************************//
 
 /*
 ** Déclaration de la fonction qui génère dynamiquement tout le contenu de la galerie des projets
@@ -23,8 +23,7 @@ export function afficherGalerie(travaux) {
         baliseFigure.appendChild(captionProjet) // Rattachement de la balise <figcaption> (enfant) à la balise <figure> (parent)
 
         //** Récupération de l'élément du DOM qui accueillera les projets (parent) **//
-        const divGallery = document.querySelector(".gallery") // Récupération de la <div> de classe "gallery" qui comportera tous les travaux
-        divGallery.appendChild(baliseFigure) // Rattachement de chaque balise <figure> (enfant) à la <div> de classe "gallery" (parent)
+        document.querySelector(".gallery").appendChild(baliseFigure) // Rattachement de chaque balise <figure> (enfant) à la <div> de classe "gallery" (parent)
     }
 }
 
@@ -73,7 +72,7 @@ export function gererBoutonsCategorie(travaux, listeCategories) {
 
             let btnCategorieClick = event.target.value // Sélection du bouton qui a déclenché l'évènement (bouton sur lequel l'utilisateur a cliqué)
 
-            for (let index = 0; index < listeCategories.length; index++) {
+            for (let index = 0; index < listeCategories.length; index++) { // On parcourt toutes les catégories de la listeCategories
                 if (btnCategorieClick === listeCategories[index].name) {
 
                     let categorieChoisie = travaux.filter(travaux => travaux.category.name === listeCategories[index].name)
@@ -87,9 +86,9 @@ export function gererBoutonsCategorie(travaux, listeCategories) {
 }
 
 
-//***********************************************************************************************//
-//*************** Déclaration des fonctions liées à la connexion de l'utilisateur ***************//
-//***********************************************************************************************//
+//**********************************************************************************************************//
+//*************** Déclaration des fonctions liées à la connexion de l'utilisateur (login.js) ***************//
+//**********************************************************************************************************//
 
 /*
 ** Déclaration des fonctions qui définissent des règles de validation
@@ -109,7 +108,6 @@ export function validerMdp(mdp) {
     }
 }
 
-
 /*
 ** Déclaration de la fonction qui affiche le message d'erreur
 */
@@ -126,3 +124,27 @@ export function afficherMessageErreur(message) {
     }
     spanMessageErreur.innerText = message // Ajout ou mise à jour du message à l'intérieur de la <span>
 }
+
+/*
+** Déclaration de la fonction qui permet de récupérer le token et connecter l'utilisateur
+*/
+export function connecterUtilisateur(url, loginUtilisateur) {
+    fetch(url, { // Requête POST pour envoyer les données à l'API (route : POST /users/login) + récupérer le token en réponse + stockage de la réponse dans une constante
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(loginUtilisateur) // Charge utile : chaîne de caractères (string) au format JSON
+    })
+    .then(reponse => {
+        if (reponse.ok) {
+            reponse.json()
+            .then(token => {
+                localStorage.setItem("token", JSON.stringify(token))
+                window.location.href="index.html" // Redirection vers la page d'accueil
+            })
+        } else {
+            document.getElementById("email").value = ""
+            document.getElementById("mdp").value = ""
+            throw new Error("Erreur d'identifiant ou de mot de passe")
+        }
+    })
+    .catch(error => afficherMessageErreur(error.message))
