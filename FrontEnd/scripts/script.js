@@ -1,7 +1,7 @@
 
-//********************************************************************************************************//
-//*************** Déclaration des fonctions liées à l'affichage de la galerie (gallery.js) ***************//
-//********************************************************************************************************//
+//*******************************************************************************************************************//
+//*************** Déclaration des fonctions liées à l'affichage de la galerie (homepage_portfolio.js) ***************//
+//*******************************************************************************************************************//
 
 /*
 ** Déclaration de la fonction qui génère dynamiquement tout le contenu de la galerie des projets
@@ -153,9 +153,9 @@ export function connecterUtilisateur(url, loginUtilisateur) {
 
 
 
-//*************************************************************************************************//
-//*************** Déclaration des fonctions liées au mode edition (edition_mode.js) ***************//
-//*************************************************************************************************//
+//**************************************************************************************************//
+//*************** Déclaration des fonctions liées au mode edition (homepage_edit.js) ***************//
+//**************************************************************************************************//
 
 export function activerModeEdition() {
     document.querySelector(".bandeau-mode-edition").classList.remove("inactive") // Afficher le bandeau d'édition
