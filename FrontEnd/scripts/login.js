@@ -1,13 +1,13 @@
 /*
 ** Import des fonctions
 */
-import { validerEmail, validerMdp, afficherMessageErreur, recupererToken, connecterUtilisateur } from "./script.js"
+import { validerEmail, validerMdp, afficherMessageErreur, connecterUtilisateur } from "./script.js"
 
 
 //*************** Exécution du script ***************//
 
 /*
-** Validation du formulaire
+** Soumission du formulaire de connexion
 */
 
 document.getElementById("email").value = ""
