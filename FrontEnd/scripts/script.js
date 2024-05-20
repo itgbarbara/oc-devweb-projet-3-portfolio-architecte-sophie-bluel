@@ -125,6 +125,7 @@ export function afficherMessageErreur(message) {
     spanMessageErreur.innerText = message // Ajout ou mise à jour du message à l'intérieur de la <span>
 }
 
+
 /*
 ** Déclaration de la fonction qui permet de récupérer le token et connecter l'utilisateur
 */
@@ -151,22 +152,34 @@ export function connecterUtilisateur(url, loginUtilisateur) {
 }
 
 
-/*
-** Déclaration de la fonction qui permet de supprimer le token et déconnecter l'utilisateur
-*/
-export function deconnecterUtilisateur() {
-    const btnLogout = document.getElementById("lien-logout")
-    btnLogout.addEventListener("click", () => {
-        localStorage.removeItem("token")
-        //** Cacher le lien logout **//
-        //** afficher le lien logout **//
-        //** Cacher le bandeau d'édition **//
-        //** Cacher le bouton modifier **//
-    })
-}
-
-
 
 //*************************************************************************************************//
 //*************** Déclaration des fonctions liées au mode edition (edition_mode.js) ***************//
 //*************************************************************************************************//
+
+export function activerModeEdition() {
+    document.querySelector(".bandeau-mode-edition").classList.remove("inactive") // Afficher le bandeau d'édition
+    document.querySelector("header").classList.add("header-mode-edition") // Décaller le header
+    document.getElementById("lien-logout").classList.remove("inactive") // Afficher le lien logout
+    document.getElementById("lien-login").classList.add("inactive") // Cacher le lien login
+    document.querySelector(".bouton-modifier").classList.remove("inactive") // Afficher le bouton modifier
+}
+
+export function desactiverModeEdition() {
+    document.querySelector(".bandeau-mode-edition").classList.add("inactive") // Cacher le beandeau d'édition
+    document.querySelector("header").classList.remove("header-mode-edition") // Décaller le header
+    document.getElementById("lien-logout").classList.add("inactive") // Cacher le lien logout
+    document.getElementById("lien-login").classList.remove("inactive") // Afficher le lien login
+    document.querySelector(".bouton-modifier").classList.add("inactive") // Cacher le bouton modifier
+}
+
+/*
+** Déclaration de la fonction qui permet de supprimer le token, déconnecter l'utilisateur et quitter le mode édition
+*/
+export function deconnecterUtilisateur() {
+    const btnLogout = document.getElementById("lien-logout")
+    btnLogout.addEventListener("click", () => {
+        localStorage.removeItem("token") // Supprimer le token du localStorage
+        document.location.reload() // Recharger la page pour afficher les modifications
+    })
+}

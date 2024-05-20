@@ -1,10 +1,20 @@
 /*
 ** Import des fonctions
 */
-import { activerModeEdition } from "./script.js"
+import { activerModeEdition, deconnecterUtilisateur, desactiverModeEdition } from "./script.js"
 
 /*
 ** Récupération des données depuis le localStorage ou l'API HTTP
 */
 
-// => Récupérer le token stocké dans le local storage, s'il existe, activer le mode édition, sinon ne rien faire
+//** Récupération du token éventuellement stockées dans le localStorage **//
+let storedToken = localStorage.getItem("token")
+if (storedToken !== null) { // si token existe
+    const token = JSON.parse(storedToken) // Reconstruction des données
+    console.log(token)
+    activerModeEdition()
+} else {
+    desactiverModeEdition()
+}
+
+deconnecterUtilisateur()
