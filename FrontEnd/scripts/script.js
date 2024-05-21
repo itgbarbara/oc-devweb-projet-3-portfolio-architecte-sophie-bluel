@@ -173,6 +173,7 @@ export function desactiverModeEdition() {
     document.querySelector(".edit-button").classList.add("inactive") // Cacher le bouton modifier
 }
 
+
 /*
 ** Déclaration de la fonction qui permet de supprimer le token, déconnecter l'utilisateur et quitter le mode édition
 */
@@ -182,4 +183,30 @@ export function deconnecterUtilisateur() {
         localStorage.removeItem("token") // Supprimer le token du localStorage
         document.location.reload() // Recharger la page pour afficher les modifications
     })
+}
+
+
+//***********************************************************************************************//
+//*************** Déclaration des fonctions liées à la modale (homepage-modal.js) ***************//
+//***********************************************************************************************//
+
+export function afficherGalerieModale(travaux) {
+    for (let i=0; i < travaux.length; i++) {
+        const projet = travaux[i]
+
+        //** Création des élements html de la galerie de travaux **//
+        const baliseFigure = document.createElement("figure") // Création d'une balise <figure> dédiée à chaque projet
+    
+        const imageProjet = document.createElement("img") // Création d'une balise <img> pour chaque projet
+        imageProjet.src = projet.imageUrl // Ajout d'un attribut 'src' à la balise <img>, en allant chercher l'URL source dans la variable "travaux", indice i, propriété 'imageUrl'
+        imageProjet.alt = projet.title // Ajout d'un attribut 'alt' à la balise <img>, en allant chercher la description dans la variable "travaux", indice i, propriété 'title'
+        baliseFigure.appendChild(imageProjet) // Rattachement de la balise <img> (enfant) à la balise <figure> (parent)
+        
+        const iconePoubelle = document.createElement("i") // Création d'une balise <figcaption> pour chaque projet
+        iconePoubelle.classList.add("fa-solid", "fa-trash-can")
+        baliseFigure.appendChild(iconePoubelle) // Rattachement de la balise <figcaption> (enfant) à la balise <figure> (parent)
+
+        //** Récupération de l'élément du DOM qui accueillera les projets (parent) **//
+        document.querySelector(".modal-gallery").appendChild(baliseFigure) // Rattachement de chaque balise <figure> (enfant) à la <div> de classe "gallery" (parent)
+    }
 }
