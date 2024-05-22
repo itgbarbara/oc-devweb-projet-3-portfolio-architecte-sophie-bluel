@@ -1,8 +1,7 @@
-
 /*
 ** Import des fonctions
 */
-import { afficherGalerieModale } from "./script.js"
+import { afficherGalerieModale, listerCategories, selectionnerCategorie } from "./script.js"
 
 /*
 ** Récupération des données depuis le localStorage ou l'API HTTP
@@ -25,6 +24,11 @@ if (travaux === null) { // peut aussi s'écrire if (!travaux)
 ** Affichage de la galerie de travaux
 */
 afficherGalerieModale(travaux)
+
+let listeCategories = listerCategories(travaux)
+
+selectionnerCategorie(listeCategories)
+
 
 
 

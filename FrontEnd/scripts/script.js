@@ -28,6 +28,19 @@ export function afficherGalerie(travaux) {
 }
 
 /*
+** Déclaration de la fonction qui permettent d'extraire la liste de catégories sans doublons
+*/
+export function listerCategories(travaux) {
+    //** Récupération des catégories de travaux, en supprimant les doublons **//
+    let categories = new Map() // Création d'un nouvel objet Map, pour y stocker des paires de clé-valeur en mémorisant l'ordre d'insertion.
+    travaux.forEach( // méthode forEach pour exécuter une fonction une fois pour chaque élément du tableau "travaux"
+        projet => categories.set(projet.category.id, projet.category) // fonction lambda + set(key, value) appliqué à la structure Map pour y stocker des données
+    )
+    let listeCategories = Array.from(categories.values()) // Constitution d'un tableau à partir des values
+    return listeCategories
+}
+
+/*
 ** Déclaration de la fonction qui génère dynamiquement le menu de catégories
 */
 export function genererBoutonsCategorie(listeCategories) {
@@ -190,6 +203,9 @@ export function deconnecterUtilisateur() {
 //*************** Déclaration des fonctions liées à la modale (homepage-modal.js) ***************//
 //***********************************************************************************************//
 
+/*
+** Déclaration de la fonction qui permet d'afficher les travaux dans la page 1 de la modale
+*/
 export function afficherGalerieModale(travaux) {
     for (let i=0; i < travaux.length; i++) {
         const projet = travaux[i]
@@ -208,5 +224,21 @@ export function afficherGalerieModale(travaux) {
 
         //** Récupération de l'élément du DOM qui accueillera les projets (parent) **//
         document.querySelector(".modal-gallery").appendChild(baliseFigure) // Rattachement de chaque balise <figure> (enfant) à la <div> de classe "gallery" (parent)
+    }
+}
+
+/*
+** Déclaration des fonctions qui permettent d'afficher la liste déroulante de catégories dans la page 2 de la modale
+*/
+export function selectionnerCategorie(listeCategories) {
+    //** Génération dynamique de a liste déroulante de catégories **//
+    for (let i = 0; i < listeCategories.length; i++) {
+        const baliseOption = document.createElement("option") // Création d'une balise <option> pour chaque categorie
+        baliseOption.value = listeCategories[i].name
+        baliseOption.innerText = listeCategories[i].name
+        baliseOption.dataset.id = listeCategories[i].id // Ajout de l'attribut id="listeCategories[i].id"
+
+        const selectCategory = document.getElementById("select-category") // Récupération de la balise qui comportera toutes les options du menu déroulant
+        selectCategory.appendChild(baliseOption) // Rattachement de chaque balise <option> (enfant) à la balise <select> avec l'id "select-category" (parent)
     }
 }
