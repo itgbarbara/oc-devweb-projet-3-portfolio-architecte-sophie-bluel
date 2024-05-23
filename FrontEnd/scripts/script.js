@@ -145,7 +145,10 @@ export function afficherMessageErreur(message) {
 export function connecterUtilisateur(url, loginUtilisateur) {
     fetch(url, { // Requête POST pour envoyer les données à l'API (route : POST /users/login) + récupérer le token en réponse + stockage de la réponse dans une constante
         method: "POST",
-        headers: {"Content-Type": "application/json"},
+        headers: {
+            "accept": "application/json",
+            "Content-Type": "application/json"
+        },
         body: JSON.stringify(loginUtilisateur) // Charge utile : chaîne de caractères (string) au format JSON
     })
     .then(reponse => {
@@ -200,7 +203,7 @@ export function deconnecterUtilisateur() {
 
 
 //***********************************************************************************************//
-//*************** Déclaration des fonctions liées à la modale (homepage-modal.js) ***************//
+//*************** Déclaration des fonctions liées à la modale (homepage_modal.js) ***************//
 //***********************************************************************************************//
 
 /*
@@ -219,7 +222,7 @@ export function afficherGalerieModale(travaux) {
         baliseFigure.appendChild(imageProjet) // Rattachement de la balise <img> (enfant) à la balise <figure> (parent)
         
         const iconePoubelle = document.createElement("i") // Création d'une balise <figcaption> pour chaque projet
-        iconePoubelle.classList.add("fa-solid", "fa-trash-can")
+        iconePoubelle.classList.add("fa-solid", "fa-trash-can", "js-delete-work")
         baliseFigure.appendChild(iconePoubelle) // Rattachement de la balise <figcaption> (enfant) à la balise <figure> (parent)
 
         //** Récupération de l'élément du DOM qui accueillera les projets (parent) **//
@@ -241,4 +244,84 @@ export function selectionnerCategorie(listeCategories) {
         const selectCategory = document.getElementById("select-category") // Récupération de la balise qui comportera toutes les options du menu déroulant
         selectCategory.appendChild(baliseOption) // Rattachement de chaque balise <option> (enfant) à la balise <select> avec l'id "select-category" (parent)
     }
+}
+
+/*
+** Déclaration de la fonction qui permettent d'éviter la propagation d'un évènement vers les éléments enfants de l'élément du DOM qui a déclenché l'évènement
+*/
+export function stopPropagation(event) {
+    event.stopPropagation()
+}
+
+/*
+** Déclaration de la fonction permettant de changer de vue dans la modale
+*/
+export function changerVueModale() {
+    document.getElementById("modal-vue-1").classList.toggle("inactive")
+    document.getElementById("modal-vue-2").classList.toggle("inactive")
+}
+
+/*
+** Déclaration de la fonction qui gère les évènements à l'ouverture de la modale et son fonctionnement interne
+*/
+export function ouvrirModale(event) {
+    event.preventDefault() // On empêche le comportement par défaut du clic sur le lien (renvoi vers l'ancre #modal)
+    modal = document.getElementById("modal")
+
+    //** Modifications html **//
+    modal.style.display = null // On enlève l'attribut style="display: none" a l'élément d'id "modal" pour faire apparaître la fenêtre
+    modal.setAttribute("aria-hidden", "false")
+    modal.setAttribute("aria-modal", "true")
+
+    //** Gestion des vues de la modale **//
+        /* Vue par défaut */
+    document.getElementById("modal-vue-1").classList.remove("inactive")
+    document.getElementById("modal-vue-2").classList.add("inactive")
+
+        /* Changement de vue */
+    document.querySelector(".btn-add-work").addEventListener("click", changerVueModale)
+    document.querySelectorAll(".modal-previous-btn").forEach(btnPrecedent => {
+        btnPrecedent.addEventListener("click", changerVueModale)
+    })
+    
+    //** Fermeture de la modale **//
+    modal.addEventListener("click", fermerModale) // Lorsque l'on clique dans la modale (#modal), ça la ferme
+    modal.querySelector(".js-stop-propagation").addEventListener("click", stopPropagation) // On empêche la propagation du listener à partir de l'élément "modal-wrapper" (et ses enfants)
+    modal.querySelectorAll(".js-close-modal").forEach(btnFermer => {
+        btnFermer.addEventListener("click", fermerModale)
+    })
+}
+
+/*
+** Déclaration de la fonction qui nettoie la modale à sa fermeture
+*/
+export function fermerModale(event) { // Cette fonction fait l'inverse de la fonction ouvrirModale(event). Permet de nettoyer la boîte modale
+    if (modal === null) return // Si on n'a pas encore ouvert la modale, cette variable renvoie la valeur null, donc on s'arrête là. Sinon on continue :
+    
+    event.preventDefault()
+    modal.style.display = "none"
+   
+    //** Reset html **//
+    modal.setAttribute("aria-hidden", "true")
+    modal.removeAttribute("aria-modal")
+    
+    //** Reset des vues de la modale **//
+        /* Vue par défaut */
+    document.getElementById("modal-vue-1").classList.add("inactive")
+    document.getElementById("modal-vue-2").classList.remove("inactive")
+
+        /* Changement de vue */
+    document.querySelector(".btn-add-work").removeEventListener("click", changerVueModale)
+    document.querySelectorAll(".modal-previous-btn").forEach(btnPrecedent => {
+        btnPrecedent.removeEventListener("click", changerVueModale)
+    })
+
+    //** Fermeture de la modale **//
+    modal.removeEventListener("click", fermerModale)
+    modal.querySelector(".js-stop-propagation").removeEventListener("click", stopPropagation)
+    modal.querySelectorAll(".js-close-modal").forEach(btnFermer => {
+        btnFermer.removeEventListener("click", fermerModale)
+    })
+    
+    modal = null // Après avoir tout réinitialisé, on redéfinit la valeur de la variable "modal" sur null
 }
