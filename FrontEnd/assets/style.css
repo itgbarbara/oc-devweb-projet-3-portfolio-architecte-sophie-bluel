@@ -54,6 +54,8 @@ table {
 }
 /** end reset css**/
 
+/** Géneral **/
+
 
 * { /* Ajout */
 	box-sizing: border-box;
@@ -119,6 +121,8 @@ li:hover {
 	color: #B1663C;
 }
 
+/* Section introduction */
+
 #introduction {
 	display: flex;
 	align-items: center;
@@ -145,6 +149,8 @@ li:hover {
 #introduction p {
 	margin-bottom: 0.5em;
 }
+
+/* Section portfolio */
 
 #portfolio h2 {
 	text-align: center;
@@ -187,6 +193,8 @@ li:hover {
 .gallery img {
 	width: 100%;
 }
+
+/* Mise en forme des formulaires (sections Contact et page Login) */
 
 #contact,
 #login {
@@ -264,7 +272,7 @@ footer nav ul {
 }
 
 
-/* Mode édition */
+/* Homepage mode édition */
 
 .header-mode-edition { /* Ajout */
 	padding-top: 59px;
@@ -321,8 +329,8 @@ footer nav ul {
 
 .modal-background {
 	display: flex;
-	justify-content: center;
-	align-items: center;
+	justify-content: center; /* Pour centrer la fenêtre modale horizontalement  */
+	align-items: center; /* Pour centrer la fenêtre modale verticalement */
 	position: fixed;
 	top: 59px;
 	left: 0;
@@ -421,6 +429,7 @@ hr {
 	top: 5px;
 	right: 5px;
 	z-index: 2;
+	cursor: pointer;
 }
 
 .modal-gallery img {
@@ -497,6 +506,7 @@ hr {
 	background-color: #CBD6DC;
 	border-radius: 50px;
 	margin: auto;
+	cursor: pointer;
 }
 
 .modal-form select {
@@ -513,4 +523,8 @@ hr {
 
 .inactive { /* Ajout */
 	display: none;
+}
+
+.hidden {
+	visibility: hidden;
 }
