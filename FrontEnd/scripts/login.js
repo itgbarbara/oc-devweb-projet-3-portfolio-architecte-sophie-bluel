@@ -15,8 +15,8 @@ document.getElementById("mdp").value = ""
 /*
 ** Soumission du formulaire de connexion
 */
-const loginForm = document.querySelector(".login-form") // Sélection du formulaire de connexion
-loginForm.addEventListener("submit", async (event) => { // Ajout d'un écouteur sur l'évènement "submit" du formulaire de connexion
+const loginForm = document.querySelector(".login-form")
+loginForm.addEventListener("submit", async (event) => {
     event.preventDefault() // Empêche le comportement par défaut du navigateur (changer l'URL de l'onglet et recharger la page)
     try {
         //** Récupération de la saisie dans les champs **//
