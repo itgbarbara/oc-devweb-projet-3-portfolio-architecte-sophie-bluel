@@ -82,12 +82,12 @@
 		</a>
 	</div>
 
-	<aside id="modal" class="modal-background" aria-hidden="true" role="dialog">
+	<aside id="modal" class="modal-background" aria-hidden="true" role="dialog" style="display:none">   <!-- style="display:none;" -->
 		<div class="modal-wrapper js-stop-propagation">
-			<div class="modal-main-container modal-1 inactive">
+			<div id="modal-vue-1" class="modal-main-container"> <!-- Mettre <section> ici ? -->
 				<div class="modal-action-buttons">
-					<button class="modal-previous-btn"><i class="fa-solid fa-arrow-left"></i></button>
-					<button class="modal-close-btn"><i class="fa-solid fa-xmark"></i></button>
+					<button class="modal-previous-btn hidden"><i class="fa-solid fa-arrow-left"></i></button>
+					<button class="modal-close-btn js-close-modal"><i class="fa-solid fa-xmark"></i></button>
 				</div>
 				<h3 class="modal-title">Galerie photo</h3>
 				<div class="modal-content modal-gallery">
@@ -97,10 +97,10 @@
 				<button class="modal-submit-btn btn-add-work">Ajouter une photo</button>
 			</div>
 
-			<div class="modal-main-container modal-2">
+			<div id="modal-vue-2" class="modal-main-container inactive"> <!-- Mettre <section> ici ? -->
 				<div class="modal-action-buttons">
 					<button class="modal-previous-btn"><i class="fa-solid fa-arrow-left"></i></button>
-					<button class="modal-close-btn"><i class="fa-solid fa-xmark"></i></button>
+					<button class="modal-close-btn js-close-modal"><i class="fa-solid fa-xmark"></i></button>
 				</div>
 				<h3 class="modal-title">Ajout photo</h3>
 				<div class="modal-content modal-form">
@@ -122,7 +122,7 @@
 					</form>
 				</div>
 				<hr>
-				<button class="modal-submit-btn btn-add-work">Valider</button>
+				<button class="modal-submit-btn btn-submit-work">Valider</button>
 			</div>
 		</div>
 	</aside>
