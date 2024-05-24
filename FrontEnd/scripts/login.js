@@ -37,7 +37,6 @@ loginForm.addEventListener("submit", async (event) => {
             email: email, // Récupération de la valeur du champ email du formulaire de connexion
             password: mdp // Récupération de la valeur du champ mot de passe du formulaire de connexion
         }
-        console.log(loginUtilisateur)
         
         connecterUtilisateur("http://localhost:5678/api/users/login", loginUtilisateur)
         
