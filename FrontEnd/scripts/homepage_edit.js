@@ -13,9 +13,21 @@ let isLogedIn = false
 if (token !== null) { // si token existe
     token = JSON.parse(token)
     isLogedIn = true
+}
+
+
+//*************** Exécution du script ***************//
+
+//** Vérification de la présence du token d'authentification */
+if (isLogedIn === true) {
     activerModeEdition() // Affichage des éléments liés à l'édition
 } else {
     desactiverModeEdition() // Retrait des éléments liés à l'édition
 }
 
-deconnecterUtilisateur()
+//** Déconnexion */
+const btnLogout = document.getElementById("lien-logout")
+btnLogout.addEventListener("click", () => {
+    deconnecterUtilisateur()
+    document.location.reload()
+})
