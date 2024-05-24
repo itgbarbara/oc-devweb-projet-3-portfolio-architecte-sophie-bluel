@@ -1,7 +1,7 @@
 /*
 ** Import des fonctions
 */
-import { afficherGalerieModale, listerCategories, selectionnerCategorie, ouvrirModale } from "./script.js"
+import {ouvrirModale } from "./script.js"
 
 /*
 ** Récupération des données depuis le localStorage ou l'API HTTP
@@ -29,17 +29,9 @@ if (storedToken !== null) { // si token existe
 //*************** Exécution du script ***************//
 
 
-let modal = null // Définition d'une variable globale "modal" qui est nulle par défaut
-
 //** Ouvrir la modale **//
 document.querySelectorAll(".js-open-modal").forEach(btnModifier => {
-    btnModifier.addEventListener("click", ouvrirModale)
+    btnModifier.addEventListener("click", (event) => {
+        ouvrirModale(event, travaux)
+    })
 })
-
-//** Affichage des données de l'API **//
-    /* Vue 1 */
-    afficherGalerieModale(travaux)
-
-    /* Vue 2 */
-    let listeCategories = listerCategories(travaux)
-    selectionnerCategorie(listeCategories)

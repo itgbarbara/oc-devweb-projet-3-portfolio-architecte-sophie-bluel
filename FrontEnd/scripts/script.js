@@ -221,9 +221,12 @@ export function afficherGalerieModale(travaux) {
         imageProjet.alt = projet.title // Ajout d'un attribut 'alt' à la balise <img>, en allant chercher la description dans la variable "travaux", indice i, propriété 'title'
         baliseFigure.appendChild(imageProjet) // Rattachement de la balise <img> (enfant) à la balise <figure> (parent)
         
-        const iconePoubelle = document.createElement("i") // Création d'une balise <figcaption> pour chaque projet
-        iconePoubelle.classList.add("fa-solid", "fa-trash-can", "js-delete-work")
-        baliseFigure.appendChild(iconePoubelle) // Rattachement de la balise <figcaption> (enfant) à la balise <figure> (parent)
+        const btnSupprimer = document.createElement("button")
+        btnSupprimer.classList.add("modal-delete-button", "js-delete-work")
+        const iconeSupprimer = document.createElement("i") // Création d'une balise <figcaption> pour chaque projet
+        iconeSupprimer.classList.add("fa-solid", "fa-trash-can")
+        baliseFigure.appendChild(btnSupprimer) // Rattachement de la balise <figcaption> (enfant) à la balise <figure> (parent)
+        btnSupprimer.appendChild(iconeSupprimer)
 
         //** Récupération de l'élément du DOM qui accueillera les projets (parent) **//
         document.querySelector(".modal-gallery").appendChild(baliseFigure) // Rattachement de chaque balise <figure> (enfant) à la <div> de classe "gallery" (parent)
@@ -231,9 +234,20 @@ export function afficherGalerieModale(travaux) {
 }
 
 /*
-** Déclaration des fonctions qui permettent d'afficher la liste déroulante de catégories dans la page 2 de la modale
+** Déclaration de la fonction qui permet de supprimer les travaux dans la page 1 de la modale (nettoyage de la modale lors de sa fermeture)
+*/
+export function supprimerGalerieModale() {
+    document.querySelector(".modal-gallery").innerHTML = ""
+}
+
+/*
+** Déclaration de la fonction qui permet d'afficher la liste déroulante de catégories dans la page 2 de la modale
 */
 export function selectionnerCategorie(listeCategories) {
+    const baliseOptionVide = document.createElement("option")
+    baliseOptionVide.value = ""
+    document.getElementById("select-category").appendChild(baliseOptionVide)
+    
     //** Génération dynamique de a liste déroulante de catégories **//
     for (let i = 0; i < listeCategories.length; i++) {
         const baliseOption = document.createElement("option") // Création d'une balise <option> pour chaque categorie
@@ -241,9 +255,15 @@ export function selectionnerCategorie(listeCategories) {
         baliseOption.innerText = listeCategories[i].name
         baliseOption.dataset.id = listeCategories[i].id // Ajout de l'attribut id="listeCategories[i].id"
 
-        const selectCategory = document.getElementById("select-category") // Récupération de la balise qui comportera toutes les options du menu déroulant
-        selectCategory.appendChild(baliseOption) // Rattachement de chaque balise <option> (enfant) à la balise <select> avec l'id "select-category" (parent)
+        document.getElementById("select-category").appendChild(baliseOption)
     }
+}
+
+/*
+** Déclaration de la fonction qui permet d'afficher la liste déroulante de catégories dans la page 2 de la modale
+*/
+export function supprimerSelectionCategorie () {
+    document.getElementById("select-category").innerHTML = ""
 }
 
 /*
@@ -264,7 +284,9 @@ export function changerVueModale() {
 /*
 ** Déclaration de la fonction qui gère les évènements à l'ouverture de la modale et son fonctionnement interne
 */
-export function ouvrirModale(event) {
+let modal = null // Définition d'une variable globale "modal" qui est nulle par défaut
+export function ouvrirModale(event, travaux) {
+
     event.preventDefault() // On empêche le comportement par défaut du clic sur le lien (renvoi vers l'ancre #modal)
     modal = document.getElementById("modal")
 
@@ -279,10 +301,18 @@ export function ouvrirModale(event) {
     document.getElementById("modal-vue-2").classList.add("inactive")
 
         /* Changement de vue */
-    document.querySelector(".btn-add-work").addEventListener("click", changerVueModale)
+    document.querySelector(".modal-next-btn").addEventListener("click", changerVueModale)
     document.querySelectorAll(".modal-previous-btn").forEach(btnPrecedent => {
         btnPrecedent.addEventListener("click", changerVueModale)
     })
+
+    //** Affichage des données provenant de l'API **//
+        /* Vue 1 */
+    afficherGalerieModale(travaux) // Travaux non défini
+
+        /* Vue 2 */
+    let listeCategories = listerCategories(travaux)
+    selectionnerCategorie(listeCategories)
     
     //** Fermeture de la modale **//
     modal.addEventListener("click", fermerModale) // Lorsque l'on clique dans la modale (#modal), ça la ferme
@@ -311,10 +341,17 @@ export function fermerModale(event) { // Cette fonction fait l'inverse de la fon
     document.getElementById("modal-vue-2").classList.remove("inactive")
 
         /* Changement de vue */
-    document.querySelector(".btn-add-work").removeEventListener("click", changerVueModale)
+    document.querySelector(".modal-next-btn").removeEventListener("click", changerVueModale)
     document.querySelectorAll(".modal-previous-btn").forEach(btnPrecedent => {
         btnPrecedent.removeEventListener("click", changerVueModale)
     })
+
+    //** Suppression des données provenant de l'API **//
+        /* Vue 1 */
+    supprimerGalerieModale()
+
+        /* Vue 2 */
+    supprimerSelectionCategorie()
 
     //** Fermeture de la modale **//
     modal.removeEventListener("click", fermerModale)
