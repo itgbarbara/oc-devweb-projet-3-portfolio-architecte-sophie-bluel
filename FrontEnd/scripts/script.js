@@ -11,19 +11,20 @@ export function afficherGalerie(travaux) {
         const projet = travaux[i]
 
         //** Création des élements html de la galerie de travaux **//
-        const baliseFigure = document.createElement("figure") // Création d'une balise <figure> dédiée à chaque projet
+        const baliseFigure = document.createElement("figure")
+        baliseFigure.dataset.id = projet.id
     
-        const imageProjet = document.createElement("img") // Création d'une balise <img> pour chaque projet
+        const imageProjet = document.createElement("img")
         imageProjet.src = projet.imageUrl // Ajout d'un attribut 'src' à la balise <img>, en allant chercher l'URL source dans la variable "travaux", indice i, propriété 'imageUrl'
         imageProjet.alt = projet.title // Ajout d'un attribut 'alt' à la balise <img>, en allant chercher la description dans la variable "travaux", indice i, propriété 'title'
-        baliseFigure.appendChild(imageProjet) // Rattachement de la balise <img> (enfant) à la balise <figure> (parent)
+        baliseFigure.appendChild(imageProjet)
         
-        const captionProjet = document.createElement("figcaption") // Création d'une balise <figcaption> pour chaque projet
+        const captionProjet = document.createElement("figcaption")
         captionProjet.innerText = projet.title // Ajout de texte à la balise <figcaption>, provenant de la propriété "title" de chaque objet du tableau "travaux"
         baliseFigure.appendChild(captionProjet) // Rattachement de la balise <figcaption> (enfant) à la balise <figure> (parent)
 
         //** Récupération de l'élément du DOM qui accueillera les projets (parent) **//
-        document.querySelector(".gallery").appendChild(baliseFigure) // Rattachement de chaque balise <figure> (enfant) à la <div> de classe "gallery" (parent)
+        document.querySelector(".gallery").appendChild(baliseFigure)
     }
 }
 
@@ -194,11 +195,7 @@ export function desactiverModeEdition() {
 ** Déclaration de la fonction qui permet de supprimer le token, déconnecter l'utilisateur et quitter le mode édition
 */
 export function deconnecterUtilisateur() {
-    const btnLogout = document.getElementById("lien-logout")
-    btnLogout.addEventListener("click", () => {
-        localStorage.removeItem("token") // Supprimer le token du localStorage
-        document.location.reload() // Recharger la page pour afficher les modifications
-    })
+    localStorage.removeItem("token") // Supprimer le token du localStorage
 }
 
 
@@ -215,7 +212,8 @@ export function afficherGalerieModale(travaux) {
 
         //** Création des élements html de la galerie de travaux **//
         const baliseFigure = document.createElement("figure") // Création d'une balise <figure> dédiée à chaque projet
-    
+        baliseFigure.dataset.id = projet.id
+
         const imageProjet = document.createElement("img") // Création d'une balise <img> pour chaque projet
         imageProjet.src = projet.imageUrl // Ajout d'un attribut 'src' à la balise <img>, en allant chercher l'URL source dans la variable "travaux", indice i, propriété 'imageUrl'
         imageProjet.alt = projet.title // Ajout d'un attribut 'alt' à la balise <img>, en allant chercher la description dans la variable "travaux", indice i, propriété 'title'
@@ -260,7 +258,7 @@ export function selectionnerCategorie(listeCategories) {
 }
 
 /*
-** Déclaration de la fonction qui permet d'afficher la liste déroulante de catégories dans la page 2 de la modale
+** Déclaration de la fonction qui permet de supprimer la liste déroulante de catégories dans la page 2 de la modale (nettoyage de la modale lors de sa fermeture)
 */
 export function supprimerSelectionCategorie () {
     document.getElementById("select-category").innerHTML = ""
@@ -281,12 +279,38 @@ export function changerVueModale() {
     document.getElementById("modal-vue-2").classList.toggle("inactive")
 }
 
+
+/*
+** Déclaration de la fonction permettant de supprimer un projet
+*/
+export function supprimerProjet(projetASupprimer, id, token) { // Ajout 1er param
+    fetch(`http://localhost:5678/api/works/${id}`, {
+        method: "DELETE",
+        headers: {
+            "accept": "*/*",
+            "Authorization": `Bearer ${token.token}`,
+        }
+    })
+    .then(reponse => {
+        if (!reponse.ok) {
+            throw new Error("Erreur :" + error.message)
+        } else {
+            console.log("L'élément a bien été supprimé")
+
+            projetASupprimer.remove() // suppression immédiate de l'élément dans le DOM, sans recharger la page
+
+            // Enlever le projet dans la liste "travaux" issue de l'API ? Puis stocker la nouvelle liste dans le localStorage et réafficher les 2 galeries ?
+            
+        }
+    })
+    .catch(error => error.message)
+}
+
 /*
 ** Déclaration de la fonction qui gère les évènements à l'ouverture de la modale et son fonctionnement interne
 */
 let modal = null // Définition d'une variable globale "modal" qui est nulle par défaut
-export function ouvrirModale(event, travaux) {
-
+export function ouvrirModale(event, travaux, token) {
     event.preventDefault() // On empêche le comportement par défaut du clic sur le lien (renvoi vers l'ancre #modal)
     modal = document.getElementById("modal")
 
@@ -308,11 +332,22 @@ export function ouvrirModale(event, travaux) {
 
     //** Affichage des données provenant de l'API **//
         /* Vue 1 */
-    afficherGalerieModale(travaux) // Travaux non défini
+    afficherGalerieModale(travaux) // 1er affichage de la galerie (risque de poser problème si on supprime un projet ?)
 
         /* Vue 2 */
     let listeCategories = listerCategories(travaux)
     selectionnerCategorie(listeCategories)
+
+    //** Suppression d'un projet **//
+    document.querySelectorAll(".js-delete-work").forEach(btnSupprimer => {
+        btnSupprimer.addEventListener("click", (event) => {
+            event.preventDefault()
+            let projetASupprimer = event.target.closest("figure")
+            let id = projetASupprimer.getAttribute("data-id")
+    
+            supprimerProjet(projetASupprimer, id, token)
+        })
+    })
     
     //** Fermeture de la modale **//
     modal.addEventListener("click", fermerModale) // Lorsque l'on clique dans la modale (#modal), ça la ferme
@@ -352,6 +387,17 @@ export function fermerModale(event) { // Cette fonction fait l'inverse de la fon
 
         /* Vue 2 */
     supprimerSelectionCategorie()
+
+    //** Suppression d'un projet **//
+    document.querySelectorAll(".js-delete-work").forEach(btnSupprimer => {
+        btnSupprimer.removeEventListener("click", (event) => {
+            event.preventDefault()
+            let projetASupprimer = event.target.closest("figure")
+            let id = projetASupprimer.getAttribute("data-id")
+    
+            supprimerProjet(id, token)
+        })
+    })
 
     //** Fermeture de la modale **//
     modal.removeEventListener("click", fermerModale)
