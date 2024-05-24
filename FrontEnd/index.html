@@ -84,7 +84,7 @@
 
 	<aside id="modal" class="modal-background" aria-hidden="true" role="dialog" style="display:none">   <!-- style="display:none;" -->
 		<div class="modal-wrapper js-stop-propagation">
-			<div id="modal-vue-1" class="modal-main-container"> <!-- Mettre <section> ici ? -->
+			<div id="modal-vue-1" class="modal-vue"> <!-- Mettre <section> ici ? -->
 				<div class="modal-action-buttons">
 					<button class="modal-previous-btn hidden"><i class="fa-solid fa-arrow-left"></i></button>
 					<button class="modal-close-btn js-close-modal"><i class="fa-solid fa-xmark"></i></button>
@@ -94,10 +94,10 @@
 					<!-- Génération de la galerie modale via le script homepage_modal.js-->
 				</div>
 				<hr>
-				<button class="modal-submit-btn btn-add-work">Ajouter une photo</button>
+				<button class="modal-submit-btn modal-next-btn">Ajouter une photo</button>
 			</div>
 
-			<div id="modal-vue-2" class="modal-main-container inactive"> <!-- Mettre <section> ici ? -->
+			<div id="modal-vue-2" class="modal-vue inactive"> <!-- Mettre <section> ici ? -->
 				<div class="modal-action-buttons">
 					<button class="modal-previous-btn"><i class="fa-solid fa-arrow-left"></i></button>
 					<button class="modal-close-btn js-close-modal"><i class="fa-solid fa-xmark"></i></button>
@@ -116,7 +116,6 @@
 						<input type="text" id="title" name="title"><br>
 						<label for="Category">Catégorie</label><br>
 						<select id="select-category" name="Category">
-							<option value=""></option>
 							<!-- Généreration des catégories via le script homepage_modal.js -->
 						</select>
 					</form>
