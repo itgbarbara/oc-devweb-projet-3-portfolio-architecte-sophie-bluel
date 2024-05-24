@@ -3,9 +3,9 @@
 */
 import {ouvrirModale } from "./script.js"
 
-/*
-** Récupération des données depuis le localStorage ou l'API HTTP
-*/
+
+//*************** Récupération des données depuis le localStorage ou l'API HTTP ***************//
+
 //** Récupération de la liste de travaux **//
 let travaux = window.localStorage.getItem("travaux")
 if (travaux === null) { // peut aussi s'écrire if (!travaux)
@@ -21,14 +21,12 @@ if (travaux === null) { // peut aussi s'écrire if (!travaux)
 let token = localStorage.getItem("token")
 let isLogedIn = false
 if (token !== null) { // si token existe
-    token = JSON.parse(token) // Reconstruction des données
+    token = JSON.parse(token)
     isLogedIn = true
 }
 
 
-
 //*************** Exécution du script ***************//
-
 
 //** Ouvrir la modale **//
 document.querySelectorAll(".js-open-modal").forEach(btnModifier => {
