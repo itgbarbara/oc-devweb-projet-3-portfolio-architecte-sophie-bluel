@@ -34,8 +34,8 @@ loginForm.addEventListener("submit", async (event) => {
 
         //** Création de l'objet correspondant aux infos de login **//
         let loginUtilisateur = { // Création d'un objet login utilisateur, qui sera convertit en chaîne de caractère JSON pour la charge utile de la requête POST 
-            email: email, // Récupération de la valeur du champ email du formulaire de connexion
-            password: mdp // Récupération de la valeur du champ mot de passe du formulaire de connexion
+            email: email,
+            password: mdp
         }
         
         connecterUtilisateur("http://localhost:5678/api/users/login", loginUtilisateur)
