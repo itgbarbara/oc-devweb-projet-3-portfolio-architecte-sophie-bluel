@@ -1,0 +1,13 @@
+{
+    "html": {
+        // Use of the default VSCode formatter instead of Prettier in order to be compliant with some rules applied by the W3C HTML validator
+        "editor.defaultFormatter": "vscode.html-language-features"
+    },
+    "liveServer.settings.ignoreFiles": [
+        ".vscode/**",
+        "**/*.sass",
+        "**/*.scss",
+        "**/*.sqlite",
+        "**/*.ts"
+    ]
+}
