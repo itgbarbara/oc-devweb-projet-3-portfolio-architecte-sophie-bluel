@@ -351,7 +351,7 @@ footer nav ul {
 	padding: 20px;
 }
 
-.modal-main-container {
+.modal-vue {
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
@@ -361,7 +361,7 @@ footer nav ul {
 .modal-action-buttons {
 	width: 100%;
 	display: flex;
-	justify-content: space-between; /* Cacher le bouton flèche dans la première modale */
+	justify-content: space-between;
 }
 
 .modal-close-btn, .modal-previous-btn {
@@ -407,7 +407,7 @@ hr {
 }
 
 
-/* Modale : Galerie photo */
+/* Modale vue 1 : Galerie photo */
 
 .modal-gallery {
 	display: grid;
@@ -420,9 +420,17 @@ hr {
 	position: relative;
 }
 
-.modal-gallery .fa-trash-can {
-	color: white;
+.modal-gallery img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	position: relative;
+	z-index: 1;
+}
+
+.modal-delete-button {
 	background-color: black;
+	border: none;
 	border-radius: 3px;
 	padding: 5px;
 	position: absolute;
@@ -432,15 +440,11 @@ hr {
 	cursor: pointer;
 }
 
-.modal-gallery img {
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-	position: relative;
-	z-index: 1;
+.modal-gallery .fa-trash-can {
+	color: white;
 }
 
-/* Modale : Ajout photo */
+/* Modale vue 2 : Ajout photo */
 
 .modal-form {
 	display: flex;
