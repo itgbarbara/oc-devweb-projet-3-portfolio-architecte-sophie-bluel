@@ -281,9 +281,9 @@ export function changerVueModale() {
 
 
 /*
-** Déclaration de la fonction permettant de supprimer un projet
+** Déclaration de la fonction permettant de faire une requête pour supprimer un projet de la BDD
 */
-export function supprimerProjet(projetASupprimer, id, token) { // Ajout 1er param
+export function supprimerProjet(id, token) { // Ajout 1er param
     fetch(`http://localhost:5678/api/works/${id}`, {
         method: "DELETE",
         headers: {
@@ -297,10 +297,13 @@ export function supprimerProjet(projetASupprimer, id, token) { // Ajout 1er para
         } else {
             console.log("L'élément a bien été supprimé")
 
-            projetASupprimer.remove() // suppression immédiate de l'élément dans le DOM, sans recharger la page
+            let galerieModale = document.querySelector(".modal-gallery")
+            let projetASupprimerModale = galerieModale.querySelector(`figure[data-id="${id}"]`)
+            projetASupprimerModale.remove()
 
-            // Enlever le projet dans la liste "travaux" issue de l'API ? Puis stocker la nouvelle liste dans le localStorage et réafficher les 2 galeries ?
-            
+            let galerieIndex = document.querySelector(".gallery")
+            let projetASupprimerIndex = galerieIndex.querySelector(`figure[data-id="${id}"]`)
+            projetASupprimerIndex.remove()
         }
     })
     .catch(error => error.message)
@@ -310,7 +313,7 @@ export function supprimerProjet(projetASupprimer, id, token) { // Ajout 1er para
 ** Déclaration de la fonction qui gère les évènements à l'ouverture de la modale et son fonctionnement interne
 */
 let modal = null // Définition d'une variable globale "modal" qui est nulle par défaut
-export function ouvrirModale(event, travaux, token) {
+export async function ouvrirModale(event, travaux, token) {
     event.preventDefault() // On empêche le comportement par défaut du clic sur le lien (renvoi vers l'ancre #modal)
     modal = document.getElementById("modal")
 
@@ -342,10 +345,9 @@ export function ouvrirModale(event, travaux, token) {
     document.querySelectorAll(".js-delete-work").forEach(btnSupprimer => {
         btnSupprimer.addEventListener("click", (event) => {
             event.preventDefault()
-            let projetASupprimer = event.target.closest("figure")
-            let id = projetASupprimer.getAttribute("data-id")
-    
-            supprimerProjet(projetASupprimer, id, token)
+
+            let id = event.target.closest("figure").getAttribute("data-id")
+            supprimerProjet(id, token)
         })
     })
     
@@ -360,7 +362,7 @@ export function ouvrirModale(event, travaux, token) {
 /*
 ** Déclaration de la fonction qui nettoie la modale à sa fermeture
 */
-export function fermerModale(event) { // Cette fonction fait l'inverse de la fonction ouvrirModale(event). Permet de nettoyer la boîte modale
+export async function fermerModale(event) { // Cette fonction fait l'inverse de la fonction ouvrirModale(event). Permet de nettoyer la boîte modale
     if (modal === null) return // Si on n'a pas encore ouvert la modale, cette variable renvoie la valeur null, donc on s'arrête là. Sinon on continue :
     
     event.preventDefault()
@@ -381,7 +383,7 @@ export function fermerModale(event) { // Cette fonction fait l'inverse de la fon
         btnPrecedent.removeEventListener("click", changerVueModale)
     })
 
-    //** Suppression des données provenant de l'API **//
+    //** Suppression des données générée dynamiquement avec appel de l'API **//
         /* Vue 1 */
     supprimerGalerieModale()
 
@@ -392,9 +394,8 @@ export function fermerModale(event) { // Cette fonction fait l'inverse de la fon
     document.querySelectorAll(".js-delete-work").forEach(btnSupprimer => {
         btnSupprimer.removeEventListener("click", (event) => {
             event.preventDefault()
-            let projetASupprimer = event.target.closest("figure")
-            let id = projetASupprimer.getAttribute("data-id")
-    
+
+            let id = event.target.closest("figure").getAttribute("data-id")
             supprimerProjet(id, token)
         })
     })
@@ -407,4 +408,12 @@ export function fermerModale(event) { // Cette fonction fait l'inverse de la fon
     })
     
     modal = null // Après avoir tout réinitialisé, on redéfinit la valeur de la variable "modal" sur null
+
+    window.localStorage.removeItem("travaux") // On vide le localStorage pour faire un nouvel appel à l'API
+    const reponse = await fetch("http://localhost:5678/api/works")
+    const travaux = await reponse.json()
+    const valeurTravaux = JSON.stringify(travaux)
+    window.localStorage.setItem("travaux", valeurTravaux)
+
+    document.location.reload() // On recharge la page
 }
