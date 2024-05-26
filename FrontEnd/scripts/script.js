@@ -414,6 +414,4 @@ export async function fermerModale(event) { // Cette fonction fait l'inverse de 
     const travaux = await reponse.json()
     const valeurTravaux = JSON.stringify(travaux)
     window.localStorage.setItem("travaux", valeurTravaux)
-
-    document.location.reload() // On recharge la page
 }
