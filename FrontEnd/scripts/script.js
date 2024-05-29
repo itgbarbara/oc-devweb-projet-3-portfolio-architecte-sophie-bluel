@@ -400,6 +400,8 @@ export async function fermerModale(event) { // Cette fonction fait l'inverse de 
         })
     })
 
+    viderFormulaire()
+
     //** Fermeture de la modale **//
     modal.removeEventListener("click", fermerModale)
     modal.querySelector(".js-stop-propagation").removeEventListener("click", stopPropagation)
@@ -409,7 +411,8 @@ export async function fermerModale(event) { // Cette fonction fait l'inverse de 
     
     modal = null // Après avoir tout réinitialisé, on redéfinit la valeur de la variable "modal" sur null
 
-    window.localStorage.removeItem("travaux") // On vide le localStorage pour faire un nouvel appel à l'API
+    //** Mise à jour du localStorage **//
+    window.localStorage.removeItem("travaux")
     const reponse = await fetch("http://localhost:5678/api/works")
     const travaux = await reponse.json()
     const valeurTravaux = JSON.stringify(travaux)
@@ -417,14 +420,13 @@ export async function fermerModale(event) { // Cette fonction fait l'inverse de 
 }
 
 
-export function validerChamps(imageProjet, titreProjet, categorieProjet) {
-    if (imageProjet === null || titreProjet.trim() === "" || categorieProjet.trim() === "")  {
-        throw new Error("Veuillez remplir tous les champs")
-    } else {
-        document.querySelector(".btn-submit-work").removeAttribute("disabled")
-    }
-}
 
+
+
+
+/*
+** Déclaration de la fonction permettant de faire une requête pour ajouter un projet à la BDD
+*/
 export function ajouterProjet(formData, token) {
     console.log(token.token)
     fetch("http://localhost:5678/api/works", {
@@ -447,4 +449,24 @@ export function ajouterProjet(formData, token) {
         error.message
         console.log("Votre projet n'a pas été ajouté")
     })
+}
+
+
+
+export function viderFormulaire() {
+    document.getElementById("image").files = null // Ne marche pas
+    document.getElementById("title").value = ""
+    document.getElementById("select-category").value = ""
+}
+
+
+export function validerChamps(imageProjet, titreProjet, categorieProjet) {
+    if (imageProjet === null || titreProjet.trim() === "" || categorieProjet === "")  {
+        document.querySelector(".btn-submit-work").setAttribute("disabled")
+        throw new Error("Veuillez remplir tous les champs")
+    } else {
+        let btnSubmitWork = document.querySelector(".btn-submit-work")
+        if (btnSubmitWork.attributes)
+        btnSubmitWork.removeAttribute("disabled")
+    }
 }
