@@ -1,7 +1,7 @@
 /*
 ** Import des fonctions
 */
-import { ouvrirModale, ajouterProjet, validerChamps, viderFormulaire } from "./script.js"
+import { ouvrirModale, ajouterProjet, validerChamps, resetFormulaire, afficherPreviewFichier, recupererSaisieFormulaire } from "./script.js"
 
 
 //*************** Récupération des données depuis le localStorage ou l'API HTTP ***************//
@@ -36,35 +36,43 @@ document.querySelectorAll(".js-open-modal").forEach(btnModifier => {
 })
 
 
-document.getElementById("image").addEventListener("change", () => {
-    document.querySelector(".btn-ajouter-photo").classList.add("inactive")
 
-    let baliseImg = document.createElement("img")
-    let nomImg = document.getElementById("image").files[0].name
-    let srcImg = `assets/images/${nomImg}`
-    baliseImg.src = srcImg
-    
-    document.querySelector(".placeholder").appendChild(baliseImg)
+
+//** Gestion du formulaire d'envoi **//
+
+let imageProjet = []
+let titreProjet = ""
+let categorieProjet = ""
+let btnSubmitWork = document.querySelector(".btn-submit-work")
+btnSubmitWork.disabled = true
+console.log(btnSubmitWork)
+
+
+document.getElementById("image").addEventListener("change", (event) => {
+    afficherPreviewFichier(event)
 })
+
+
+
+document.querySelectorAll(".form-field").forEach(formField => {
+    formField.addEventListener("change", () => {
+        imageProjet = document.getElementById("image").files[0]
+        console.log(document.getElementById("image").files)
+        titreProjet = document.getElementById("title").value
+        categorieProjet = document.getElementById("select-category").value
+
+        validerChamps(imageProjet, titreProjet, categorieProjet)
+        console.log(btnSubmitWork)
+    })
+})
+
 
 
 let modalForm = document.getElementById("modal-form")
 modalForm.addEventListener("submit", (event) => {
-
     event.preventDefault()
     
-    let imageProjet = document.getElementById("image").files[0]
-    let titreProjet = document.getElementById("title").value
-    let categorieProjet = document.getElementById("select-category").value
-    let idCategorieProjet = document.querySelector(`option[value="${categorieProjet}"]`).dataset.id
-
-    const formData = new FormData()
-    formData.append("image", imageProjet)
-    formData.append("title", titreProjet)
-    formData.append("category", parseInt(idCategorieProjet))
-
+    let formData = recupererSaisieFormulaire(imageProjet, titreProjet, categorieProjet)
     ajouterProjet(formData, token)
-    viderFormulaire()
-
-    // validerFormulaire(event, imageProjet, titreProjet, idCategorieProjet, token)
+    resetFormulaire()
 })
