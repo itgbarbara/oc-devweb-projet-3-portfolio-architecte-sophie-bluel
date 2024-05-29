@@ -309,6 +309,33 @@ export function supprimerProjet(id, token) {
     .catch(error => error.message)
 }
 
+
+/*
+** Déclaration de la fonction permettant d'afficher une preview de l'image sélectionnée dans le formulaire d'envoi d'un projet
+*/
+export function afficherPreviewFichier(event) {
+    event.preventDefault()
+
+    document.querySelector(".btn-ajouter-photo").classList.add("inactive")
+
+    let baliseImg = document.createElement("img")
+    let nomImg = document.getElementById("image").files[0].name
+    let srcImg = `assets/images/${nomImg}`
+    baliseImg.src = srcImg
+    
+    document.querySelector(".placeholder").appendChild(baliseImg)
+}
+
+export function supprimerPreviewFichier() {
+    document.querySelector(".btn-ajouter-photo").classList.remove("inactive")
+   
+    let baliseImg = document.querySelector(".placeholder img")
+    if (baliseImg) {
+        baliseImg.remove()
+    }
+}
+
+
 /*
 ** Déclaration de la fonction permettant de vider les champs du formulaire d'envoi d'un projet
 */
@@ -316,7 +343,6 @@ export function viderFormulaire() {
     // document.getElementById("image").files = [] // Ne marche pas
 
     let baliseImg = document.querySelector(".placeholder img")
-
     if (baliseImg) {
         baliseImg.remove()
     }
@@ -474,9 +500,14 @@ export function ajouterProjet(formData, token) {
 export function validerChamps(imageProjet, titreProjet, categorieProjet) {
     let btnSubmitWork = document.querySelector(".btn-submit-work")
     if (imageProjet === null || titreProjet.trim() === "" || categorieProjet === "")  {
-        btnSubmitWork.disabled = true
-        throw new Error("Veuillez remplir tous les champs")
+        if (btnSubmitWork.disabled = false) {
+            btnSubmitWork.disabled = true
+            console.log(btnSubmitWork)
+        }
     } else {
-        btnSubmitWork.disabled = false
+        if (btnSubmitWork.disabled = true) {
+            btnSubmitWork.disabled = false
+            console.log(btnSubmitWork)
+        }
     }
 }
