@@ -108,19 +108,19 @@
 						<div class="placeholder">
 							<i class="fa-regular fa-image"></i>
 							<label for="image">
-								<input type="file" id="image" name="image" accept=".jpg,.png" max-size="4000" class="inactive"> <!-- required -->
+								<input type="file" id="image" name="image" accept=".jpg,.png" max-size="4000" class="form-field inactive"> <!-- required -->
 								<p class="btn-ajouter-photo">+ Ajouter photo</p>
 							</label>
 							<span>jpg, png : 4mo max</span>
 						</div>
 						<label for="title">Titre</label>
-						<input type="text" id="title" name="title"> <!-- required -->
+						<input type="text" id="title" name="title" class="form-field"> <!-- required -->
 						<label for="category">Catégorie</label>
-						<select id="select-category" name="Category"> <!-- required -->
+						<select id="select-category" name="Category" class="form-field"> <!-- required -->
 							<!-- Généreration des catégories via le script homepage_modal.js -->
 						</select>
 						<hr>
-						<input type="submit" value="Valider" class="modal-submit-btn btn-submit-work"></button> <!-- disabled = "true" -->
+						<input type="submit" value="Valider" class="modal-submit-btn btn-submit-work" disabled></button> <!-- disabled -->
 					</form>	
 			</div>
 			</div>
