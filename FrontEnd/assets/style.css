@@ -446,36 +446,21 @@ hr {
 
 /* Modale vue 2 : Ajout photo */
 
-.modal-form {
+.modal-add-work {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 }
 
-.modal-form label { /* Pourquoi ça ne marche pas ?? */
-	margin: 1em 0 2em 0;
-	font-weight: 500;
-}
-
-.modal-form input[type="text"] {
-	color: #444444;
-	width: 100%;
-	height: 50px;
-	font-size: 1.2em;
-	border: none;
-	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
-}
-
-.add-file {
+#modal-form {
 	display: flex;
 	flex-direction: column;
-	color: #444444;
-	width: 100%;
-	height: 50px;
-	font-size: 1.2em;
-	border: none;
-	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
-	background-color: #E8F1F6;
+	justify-content: center;
+}
+
+#modal-form label {
+	margin: 2em 0 0.5em 0;
+	font-weight: 500;
 }
 
 .placeholder {
@@ -483,11 +468,17 @@ hr {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
+	align-items: center;
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 	background-color: #E8F1F6;
 	padding: 20px;
-	gap: 5px;
+	position: relative;
+}
+
+.placeholder img {
+	position: absolute;
+	height: 100%;
 }
 
 .placeholder .fa-image {
@@ -495,9 +486,8 @@ hr {
 	color: #CBD6DC;
 }
 
-.placeholder span {
-	font-size: 0.6rem;
-	color: #444444;
+.placeholder label {
+	margin: 0.5em 0;
 }
 
 .btn-ajouter-photo {
@@ -509,11 +499,16 @@ hr {
 	color:#306685;
 	background-color: #CBD6DC;
 	border-radius: 50px;
-	margin: auto;
 	cursor: pointer;
 }
 
-.modal-form select {
+.placeholder span {
+	font-size: 0.6rem;
+	color: #444444;
+}
+
+#modal-form input[type="text"],
+#modal-form select {
 	color: #444444;
 	background-color: white;
 	width: 100%;
@@ -521,6 +516,11 @@ hr {
 	font-size: 0.8rem;
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+
+.btn-submit-work:disabled {
+	background-color: #A7A7A7;
+	border: solid 1px #A7A7A7;
 }
 
 /* Laisser à la fin */
