@@ -310,6 +310,24 @@ export function supprimerProjet(id, token) {
 }
 
 /*
+** Déclaration de la fonction permettant de vider les champs du formulaire d'envoi d'un projet
+*/
+export function viderFormulaire() {
+    // document.getElementById("image").files = [] // Ne marche pas
+
+    let baliseImg = document.querySelector(".placeholder img")
+
+    if (baliseImg) {
+        baliseImg.remove()
+    }
+
+    document.querySelector(".btn-ajouter-photo").classList.remove("inactive")
+
+    document.getElementById("title").value = ""
+    document.getElementById("select-category").value = ""
+}
+
+/*
 ** Déclaration de la fonction qui gère les évènements à l'ouverture de la modale et son fonctionnement interne
 */
 let modal = null // Définition d'une variable globale "modal" qui est nulle par défaut
@@ -443,6 +461,7 @@ export function ajouterProjet(formData, token) {
             throw new Error("Votre projet n'a pas été ajouté")
         } else {
             console.log("Votre projet a bien été ajouté")
+            // Ajouter le projet au DOM sans rechargement de la page
         }
     })
     .catch(error => {
@@ -452,21 +471,12 @@ export function ajouterProjet(formData, token) {
 }
 
 
-
-export function viderFormulaire() {
-    document.getElementById("image").files = null // Ne marche pas
-    document.getElementById("title").value = ""
-    document.getElementById("select-category").value = ""
-}
-
-
 export function validerChamps(imageProjet, titreProjet, categorieProjet) {
+    let btnSubmitWork = document.querySelector(".btn-submit-work")
     if (imageProjet === null || titreProjet.trim() === "" || categorieProjet === "")  {
-        document.querySelector(".btn-submit-work").setAttribute("disabled")
+        btnSubmitWork.disabled = true
         throw new Error("Veuillez remplir tous les champs")
     } else {
-        let btnSubmitWork = document.querySelector(".btn-submit-work")
-        if (btnSubmitWork.attributes)
-        btnSubmitWork.removeAttribute("disabled")
+        btnSubmitWork.disabled = false
     }
 }
