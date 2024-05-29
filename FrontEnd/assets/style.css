@@ -522,6 +522,7 @@ hr {
 .btn-submit-work:disabled {
 	background-color: #A7A7A7;
 	border: solid 1px #A7A7A7;
+	cursor: default;
 }
 
 /* Laisser à la fin */
