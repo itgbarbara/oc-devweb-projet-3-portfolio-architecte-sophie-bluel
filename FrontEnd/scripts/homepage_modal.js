@@ -1,7 +1,7 @@
 /*
 ** Import des fonctions
 */
-import {ouvrirModale } from "./script.js"
+import { ouvrirModale, ajouterProjet, validerChamps, viderFormulaire } from "./script.js"
 
 
 //*************** Récupération des données depuis le localStorage ou l'API HTTP ***************//
@@ -33,4 +33,38 @@ document.querySelectorAll(".js-open-modal").forEach(btnModifier => {
     btnModifier.addEventListener("click", (event) => {
         ouvrirModale(event, travaux, token)
     })
+})
+
+
+document.getElementById("image").addEventListener("change", () => {
+    document.querySelector(".btn-ajouter-photo").classList.add("inactive")
+
+    let baliseImg = document.createElement("img")
+    let nomImg = document.getElementById("image").files[0].name
+    let srcImg = `assets/images/${nomImg}`
+    baliseImg.src = srcImg
+    
+    document.querySelector(".placeholder").appendChild(baliseImg)
+})
+
+
+let modalForm = document.getElementById("modal-form")
+modalForm.addEventListener("submit", (event) => {
+
+    event.preventDefault()
+    
+    let imageProjet = document.getElementById("image").files[0]
+    let titreProjet = document.getElementById("title").value
+    let categorieProjet = document.getElementById("select-category").value
+    let idCategorieProjet = document.querySelector(`option[value="${categorieProjet}"]`).dataset.id
+
+    const formData = new FormData()
+    formData.append("image", imageProjet)
+    formData.append("title", titreProjet)
+    formData.append("category", parseInt(idCategorieProjet))
+
+    ajouterProjet(formData, token)
+    viderFormulaire()
+
+    // validerFormulaire(event, imageProjet, titreProjet, idCategorieProjet, token)
 })
