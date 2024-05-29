@@ -15,13 +15,13 @@ export function afficherGalerie(travaux) {
         baliseFigure.dataset.id = projet.id
     
         const imageProjet = document.createElement("img")
-        imageProjet.src = projet.imageUrl // Ajout d'un attribut 'src' à la balise <img>, en allant chercher l'URL source dans la variable "travaux", indice i, propriété 'imageUrl'
-        imageProjet.alt = projet.title // Ajout d'un attribut 'alt' à la balise <img>, en allant chercher la description dans la variable "travaux", indice i, propriété 'title'
+        imageProjet.src = projet.imageUrl
+        imageProjet.alt = projet.title
         baliseFigure.appendChild(imageProjet)
         
         const captionProjet = document.createElement("figcaption")
-        captionProjet.innerText = projet.title // Ajout de texte à la balise <figcaption>, provenant de la propriété "title" de chaque objet du tableau "travaux"
-        baliseFigure.appendChild(captionProjet) // Rattachement de la balise <figcaption> (enfant) à la balise <figure> (parent)
+        captionProjet.innerText = projet.title
+        baliseFigure.appendChild(captionProjet)
 
         //** Récupération de l'élément du DOM qui accueillera les projets (parent) **//
         document.querySelector(".gallery").appendChild(baliseFigure)
@@ -56,14 +56,14 @@ export function genererBoutonsCategorie(listeCategories) {
 
     //** Génération dynamique des boutons de catégories **//
     for (let i = 0; i < listeCategories.length; i++) {
-        const baliseButton = document.createElement("button") // Création d'une balise <button> pour chaque categorie
-        baliseButton.classList.add("btn-categorie") // Ajout de la classe "btn-categorie"
-        baliseButton.value = listeCategories[i].name // Ajout de l'attribut value="listeCategories[i].name"
-        baliseButton.dataset.id = listeCategories[i].id // Ajout de l'attribut id="listeCategories[i].id"
-        baliseButton.innerText = listeCategories[i].name // Ajout de texte entre les balises, à partir de la propriété name
+        const baliseButton = document.createElement("button")
+        baliseButton.classList.add("btn-categorie")
+        baliseButton.value = listeCategories[i].name
+        baliseButton.dataset.id = listeCategories[i].id
+        baliseButton.innerText = listeCategories[i].name
         
-        const divFilterButtons = document.querySelector(".filter-buttons") // Récupération de la <div> de classe "filter-buttons" qui comportera tous les boutons de catégories
-        divFilterButtons.appendChild(baliseButton) // Rattachement de chaque balise <button> (enfant) à la <div> de classe "filter-buttons" (parent)
+        const divFilterButtons = document.querySelector(".filter-buttons")
+        divFilterButtons.appendChild(baliseButton)
     }
 }
 
@@ -80,13 +80,13 @@ export function gererBoutonsCategorie(travaux, listeCategories) {
     })
 
     //** Sélection d'une catégorie **//
-    const btnCategorie = document.querySelectorAll(".btn-categorie") // Sélection de tous les boutons de class "btn-categorie"
-    for (let i=0; i < btnCategorie.length; i++) { // Pour chaque bouton i :
-        btnCategorie[i].addEventListener("click", (event) => { // Ajout d'un écouteur sur l'évènement "click"
+    const btnCategorie = document.querySelectorAll(".btn-categorie") // Utiliser methode forEach pour alléger le code
+    for (let i=0; i < btnCategorie.length; i++) {
+        btnCategorie[i].addEventListener("click", (event) => {
 
-            let btnCategorieClick = event.target.value // Sélection du bouton qui a déclenché l'évènement (bouton sur lequel l'utilisateur a cliqué)
+            let btnCategorieClick = event.target.value
 
-            for (let index = 0; index < listeCategories.length; index++) { // On parcourt toutes les catégories de la listeCategories
+            for (let index = 0; index < listeCategories.length; index++) {
                 if (btnCategorieClick === listeCategories[index].name) {
 
                     let categorieChoisie = travaux.filter(travaux => travaux.category.name === listeCategories[index].name)
@@ -105,7 +105,7 @@ export function gererBoutonsCategorie(travaux, listeCategories) {
 //**********************************************************************************************************//
 
 /*
-** Déclaration des fonctions qui définissent des règles de validation
+** Déclaration des fonctions qui définissent des règles de validation des champs du formulaire Login
 */
 //** Vérification de la validité de la saisie de l'e-mail **//
 export function validerEmail(email) {
@@ -144,20 +144,20 @@ export function afficherMessageErreur(message) {
 ** Déclaration de la fonction qui permet de récupérer le token et connecter l'utilisateur
 */
 export function connecterUtilisateur(url, loginUtilisateur) {
-    fetch(url, { // Requête POST pour envoyer les données à l'API (route : POST /users/login) + récupérer le token en réponse + stockage de la réponse dans une constante
+    fetch(url, {
         method: "POST",
         headers: {
             "accept": "application/json",
             "Content-Type": "application/json"
         },
-        body: JSON.stringify(loginUtilisateur) // Charge utile : chaîne de caractères (string) au format JSON
+        body: JSON.stringify(loginUtilisateur)
     })
     .then(reponse => {
         if (reponse.ok) {
             reponse.json()
             .then(token => {
                 localStorage.setItem("token", JSON.stringify(token))
-                window.location.href="index.html" // Redirection vers la page d'accueil
+                window.location.href="index.html"
             })
         } else {
             document.getElementById("email").value = ""
@@ -175,19 +175,19 @@ export function connecterUtilisateur(url, loginUtilisateur) {
 //**************************************************************************************************//
 
 export function activerModeEdition() {
-    document.querySelector(".bandeau-mode-edition").classList.remove("inactive") // Afficher le bandeau d'édition
-    document.querySelector("header").classList.add("header-mode-edition") // Décaller le header
-    document.getElementById("lien-logout").classList.remove("inactive") // Afficher le lien logout
-    document.getElementById("lien-login").classList.add("inactive") // Cacher le lien login
-    document.querySelector(".edit-button").classList.remove("inactive") // Afficher le bouton modifier
+    document.querySelector(".bandeau-mode-edition").classList.remove("inactive")
+    document.querySelector("header").classList.add("header-mode-edition")
+    document.getElementById("lien-logout").classList.remove("inactive")
+    document.getElementById("lien-login").classList.add("inactive") 
+    document.querySelector(".edit-button").classList.remove("inactive")
 }
 
 export function desactiverModeEdition() {
-    document.querySelector(".bandeau-mode-edition").classList.add("inactive") // Cacher le beandeau d'édition
-    document.querySelector("header").classList.remove("header-mode-edition") // Décaller le header
-    document.getElementById("lien-logout").classList.add("inactive") // Cacher le lien logout
-    document.getElementById("lien-login").classList.remove("inactive") // Afficher le lien login
-    document.querySelector(".edit-button").classList.add("inactive") // Cacher le bouton modifier
+    document.querySelector(".bandeau-mode-edition").classList.add("inactive")
+    document.querySelector("header").classList.remove("header-mode-edition")
+    document.getElementById("lien-logout").classList.add("inactive")
+    document.getElementById("lien-login").classList.remove("inactive")
+    document.querySelector(".edit-button").classList.add("inactive")
 }
 
 
@@ -195,7 +195,7 @@ export function desactiverModeEdition() {
 ** Déclaration de la fonction qui permet de supprimer le token, déconnecter l'utilisateur et quitter le mode édition
 */
 export function deconnecterUtilisateur() {
-    localStorage.removeItem("token") // Supprimer le token du localStorage
+    localStorage.removeItem("token")
 }
 
 
@@ -211,23 +211,23 @@ export function afficherGalerieModale(travaux) {
         const projet = travaux[i]
 
         //** Création des élements html de la galerie de travaux **//
-        const baliseFigure = document.createElement("figure") // Création d'une balise <figure> dédiée à chaque projet
+        const baliseFigure = document.createElement("figure")
         baliseFigure.dataset.id = projet.id
 
-        const imageProjet = document.createElement("img") // Création d'une balise <img> pour chaque projet
-        imageProjet.src = projet.imageUrl // Ajout d'un attribut 'src' à la balise <img>, en allant chercher l'URL source dans la variable "travaux", indice i, propriété 'imageUrl'
-        imageProjet.alt = projet.title // Ajout d'un attribut 'alt' à la balise <img>, en allant chercher la description dans la variable "travaux", indice i, propriété 'title'
-        baliseFigure.appendChild(imageProjet) // Rattachement de la balise <img> (enfant) à la balise <figure> (parent)
+        const imageProjet = document.createElement("img")
+        imageProjet.src = projet.imageUrl
+        imageProjet.alt = projet.title
+        baliseFigure.appendChild(imageProjet)
         
         const btnSupprimer = document.createElement("button")
         btnSupprimer.classList.add("modal-delete-button", "js-delete-work")
-        const iconeSupprimer = document.createElement("i") // Création d'une balise <figcaption> pour chaque projet
+        const iconeSupprimer = document.createElement("i")
         iconeSupprimer.classList.add("fa-solid", "fa-trash-can")
-        baliseFigure.appendChild(btnSupprimer) // Rattachement de la balise <figcaption> (enfant) à la balise <figure> (parent)
+        baliseFigure.appendChild(btnSupprimer)
         btnSupprimer.appendChild(iconeSupprimer)
 
         //** Récupération de l'élément du DOM qui accueillera les projets (parent) **//
-        document.querySelector(".modal-gallery").appendChild(baliseFigure) // Rattachement de chaque balise <figure> (enfant) à la <div> de classe "gallery" (parent)
+        document.querySelector(".modal-gallery").appendChild(baliseFigure)
     }
 }
 
@@ -248,10 +248,10 @@ export function selectionnerCategorie(listeCategories) {
     
     //** Génération dynamique de a liste déroulante de catégories **//
     for (let i = 0; i < listeCategories.length; i++) {
-        const baliseOption = document.createElement("option") // Création d'une balise <option> pour chaque categorie
+        const baliseOption = document.createElement("option")
         baliseOption.value = listeCategories[i].name
         baliseOption.innerText = listeCategories[i].name
-        baliseOption.dataset.id = listeCategories[i].id // Ajout de l'attribut id="listeCategories[i].id"
+        baliseOption.dataset.id = listeCategories[i].id
 
         document.getElementById("select-category").appendChild(baliseOption)
     }
@@ -335,22 +335,62 @@ export function supprimerPreviewFichier() {
     }
 }
 
+export function recupererSaisieFormulaire(imageProjet, titreProjet, categorieProjet) {
+    imageProjet = document.getElementById("image").files[0]
+    titreProjet = document.getElementById("title").value
+    categorieProjet = document.getElementById("select-category").value
+
+    let idCategorieProjet = document.querySelector(`option[value="${categorieProjet}"]`).dataset.id
+
+    const formData = new FormData()
+    formData.append("image", imageProjet)
+    formData.append("title", titreProjet)
+    formData.append("category", parseInt(idCategorieProjet))
+
+    return formData
+}
+
+/*
+** Déclaration de la fonction permettant de faire une requête pour ajouter un projet à la BDD
+*/
+export function ajouterProjet(formData, token) {
+    console.log(token.token)
+    fetch("http://localhost:5678/api/works", {
+        method: "POST",
+        headers: {
+            // "Content-Type": "multipart/form-data", // Ne pas mettre sinon ça bloque la requête
+            "accept": "application/json",
+            "Authorization": `Bearer ${token.token}`
+        },
+        body: formData,
+    })
+    .then(reponse => {
+        if (!reponse.ok) {
+            throw new Error("Votre projet n'a pas été ajouté")
+        } else {
+            console.log("Votre projet a bien été ajouté")
+            // Ajouter le projet au DOM sans rechargement de la page
+        }
+    })
+    .catch(error => {
+        error.message
+        console.log("Votre projet n'a pas été ajouté")
+    })
+}
 
 /*
 ** Déclaration de la fonction permettant de vider les champs du formulaire d'envoi d'un projet
 */
-export function viderFormulaire() {
-    // document.getElementById("image").files = [] // Ne marche pas
-
+export function resetFormulaire() {
+    let modalForm = document.getElementById("modal-form")
+    modalForm.reset()
+    
     let baliseImg = document.querySelector(".placeholder img")
     if (baliseImg) {
         baliseImg.remove()
     }
 
     document.querySelector(".btn-ajouter-photo").classList.remove("inactive")
-
-    document.getElementById("title").value = ""
-    document.getElementById("select-category").value = ""
 }
 
 /*
@@ -444,7 +484,7 @@ export async function fermerModale(event) { // Cette fonction fait l'inverse de 
         })
     })
 
-    viderFormulaire()
+    resetFormulaire()
 
     //** Fermeture de la modale **//
     modal.removeEventListener("click", fermerModale)
@@ -468,33 +508,7 @@ export async function fermerModale(event) { // Cette fonction fait l'inverse de 
 
 
 
-/*
-** Déclaration de la fonction permettant de faire une requête pour ajouter un projet à la BDD
-*/
-export function ajouterProjet(formData, token) {
-    console.log(token.token)
-    fetch("http://localhost:5678/api/works", {
-        method: "POST",
-        headers: {
-            // "Content-Type": "multipart/form-data", // Ne pas mettre sinon ça bloque la requête
-            "accept": "application/json",
-            "Authorization": `Bearer ${token.token}`
-        },
-        body: formData,
-    })
-    .then(reponse => {
-        if (!reponse.ok) {
-            throw new Error("Votre projet n'a pas été ajouté")
-        } else {
-            console.log("Votre projet a bien été ajouté")
-            // Ajouter le projet au DOM sans rechargement de la page
-        }
-    })
-    .catch(error => {
-        error.message
-        console.log("Votre projet n'a pas été ajouté")
-    })
-}
+
 
 
 export function validerChamps(imageProjet, titreProjet, categorieProjet) {
