@@ -283,7 +283,7 @@ export function changerVueModale() {
 /*
 ** Déclaration de la fonction permettant de faire une requête pour supprimer un projet de la BDD
 */
-export function supprimerProjet(id, token) { // Ajout 1er param
+export function supprimerProjet(id, token) {
     fetch(`http://localhost:5678/api/works/${id}`, {
         method: "DELETE",
         headers: {
@@ -335,7 +335,7 @@ export async function ouvrirModale(event, travaux, token) {
 
     //** Affichage des données provenant de l'API **//
         /* Vue 1 */
-    afficherGalerieModale(travaux) // 1er affichage de la galerie (risque de poser problème si on supprime un projet ?)
+    afficherGalerieModale(travaux) // 1er affichage de la galerie
 
         /* Vue 2 */
     let listeCategories = listerCategories(travaux)
@@ -414,4 +414,37 @@ export async function fermerModale(event) { // Cette fonction fait l'inverse de 
     const travaux = await reponse.json()
     const valeurTravaux = JSON.stringify(travaux)
     window.localStorage.setItem("travaux", valeurTravaux)
+}
+
+
+export function validerChamps(imageProjet, titreProjet, categorieProjet) {
+    if (imageProjet === null || titreProjet.trim() === "" || categorieProjet.trim() === "")  {
+        throw new Error("Veuillez remplir tous les champs")
+    } else {
+        document.querySelector(".btn-submit-work").removeAttribute("disabled")
+    }
+}
+
+export function ajouterProjet(formData, token) {
+    console.log(token.token)
+    fetch("http://localhost:5678/api/works", {
+        method: "POST",
+        headers: {
+            // "Content-Type": "multipart/form-data", // Ne pas mettre sinon ça bloque la requête
+            "accept": "application/json",
+            "Authorization": `Bearer ${token.token}`
+        },
+        body: formData,
+    })
+    .then(reponse => {
+        if (!reponse.ok) {
+            throw new Error("Votre projet n'a pas été ajouté")
+        } else {
+            console.log("Votre projet a bien été ajouté")
+        }
+    })
+    .catch(error => {
+        error.message
+        console.log("Votre projet n'a pas été ajouté")
+    })
 }
