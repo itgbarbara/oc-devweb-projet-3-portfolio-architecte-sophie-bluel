@@ -103,25 +103,26 @@
 					<button class="modal-close-btn js-close-modal"><i class="fa-solid fa-xmark"></i></button>
 				</div>
 				<h3 class="modal-title">Ajout photo</h3>
-				<div class="modal-content modal-form">
-					<form method="post">
-						<label for="add-file"></label>
-						<button class="placeholder">
-							<input type="file" id="add-file" name="add-file" placeholder="" class="inactive"><br>
+				<div class="modal-content modal-add-work">
+					<form id="modal-form" method="post">
+						<div class="placeholder">
 							<i class="fa-regular fa-image"></i>
-							<p class="btn-ajouter-photo">+ Ajouter photo</p>
+							<label for="image">
+								<input type="file" id="image" name="image" accept=".jpg,.png" max-size="4000" class="inactive"> <!-- required -->
+								<p class="btn-ajouter-photo">+ Ajouter photo</p>
+							</label>
 							<span>jpg, png : 4mo max</span>
-						</button>
-						<label for="title">Titre</label><br>
-						<input type="text" id="title" name="title"><br>
-						<label for="Category">Catégorie</label><br>
-						<select id="select-category" name="Category">
+						</div>
+						<label for="title">Titre</label>
+						<input type="text" id="title" name="title"> <!-- required -->
+						<label for="category">Catégorie</label>
+						<select id="select-category" name="Category"> <!-- required -->
 							<!-- Généreration des catégories via le script homepage_modal.js -->
 						</select>
-					</form>
-				</div>
-				<hr>
-				<button class="modal-submit-btn btn-submit-work">Valider</button>
+						<hr>
+						<input type="submit" value="Valider" class="modal-submit-btn btn-submit-work"></button> <!-- disabled = "true" -->
+					</form>	
+			</div>
 			</div>
 		</div>
 	</aside>
