@@ -1,7 +1,7 @@
 /*
 ** Import des fonctions
 */
-import { activerModeEdition, deconnecterUtilisateur, desactiverModeEdition } from "./script.js"
+import { activerModeEdition, desactiverModeEdition, ouvrirPopupLogout } from "./script.js"
 
 
 //*************** Récupération des données depuis le localStorage ou l'API HTTP ***************//
@@ -35,9 +35,6 @@ if (isLogedIn === true) {
     desactiverModeEdition() // Retrait des éléments liés à l'édition
 }
 
-//** Déconnexion */
+//** Déconnexion **//
 const btnLogout = document.getElementById("lien-logout")
-btnLogout.addEventListener("click", () => {
-    deconnecterUtilisateur()
-    document.location.reload()
-})
+btnLogout.addEventListener("click", (event) => ouvrirPopupLogout(event))
