@@ -76,13 +76,15 @@
 		</form>
 	</section>
 
+	<!-- Elements non visibles par défaut (modale et pop-ups) : -->
+
 	<div class="bandeau-mode-edition inactive">
 		<a href="#">
 			<i class="fa-regular fa-pen-to-square"></i><p>Mode édition</p>
 		</a>
 	</div>
 
-	<aside id="modal" class="modal-background" aria-hidden="true" role="dialog" style="display:none">   <!-- style="display:none" -->
+	<aside id="modal" class="modal-background" aria-hidden="true" role="dialog" style="display:none">
 		<div class="modal-wrapper js-stop-propagation">
 			<div id="modal-vue-1" class="modal-vue"> <!-- Mettre <section> ici ? -->
 				<div class="modal-action-buttons">
@@ -128,6 +130,37 @@
 		</div>
 	</aside>
 
+	<aside id="popup-confirmation" class="popup-background" aria-hidden="true" role="dialog" style="display: none;"> <!-- style="display: none;" -->
+		<div class="popup-wrapper js-stop-propagation">
+			<h3 class="modal-title">Confirmation</h3>
+			<span>Êtes-vous sûr(e) de vouloir supprimer ce projet ?</span> <!-- changer le texte -->
+			<div class="popup-buttons">
+				<button class="popup-submit-btn js-confirmation" style="display: none;">Oui</button> <!-- cacher si besoin -->
+				<button class="popup-submit-btn js-close-popup">Retour</button> <!-- changer le texte -->
+			</div>
+		</div>
+	</aside>
+
+	<aside id="popup-logout" class="popup-background" aria-hidden="true" role="dialog" style="display: none;"> <!-- style="display: none;" -->
+		<div class="popup-wrapper js-stop-propagation">
+			<h3 class="modal-title">Confirmation</h3>
+			<p>Êtes-vous sûr(e) de vouloir vous déconnecter ?</p>
+			<div class="buttons">
+				<button class="popup-submit-btn js-confirmation-logout">Oui</button>
+				<button class="popup-submit-btn js-close-popup">Retour</button>
+			</div>
+		</div>
+	</aside>
+
+	<aside id="popup-confirmation-ajout" class="popup-background" aria-hidden="true" role="dialog" style="display: none;"> <!-- style="display: none;" -->
+		<div class="popup-wrapper js-stop-propagation">
+			<h3 class="modal-title">Confirmation</h3>
+			<span class="message-confirmation">Votre projet a bien été ajouté</span>
+			<div class="buttons">
+				<button class="popup-submit-btn js-close-popup">Ok</button>
+			</div>
+		</div>
+	</aside>
 
 </main>
 
