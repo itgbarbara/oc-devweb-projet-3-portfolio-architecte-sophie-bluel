@@ -327,7 +327,8 @@ footer nav ul {
 
 /* Modale : général */
 
-.modal-background {
+.modal-background,
+.popup-background {
 	display: flex;
 	justify-content: center; /* Pour centrer la fenêtre modale horizontalement  */
 	align-items: center; /* Pour centrer la fenêtre modale verticalement */
@@ -523,6 +524,35 @@ hr {
 	background-color: #A7A7A7;
 	border: solid 1px #A7A7A7;
 	cursor: default;
+}
+
+
+/* Popups */
+
+.popup-wrapper {
+	background-color: white;
+	max-width: calc(80vh);
+	position: relative;
+	border-radius: 10px;
+	padding: 20px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.popup-submit-btn {
+	font-family: 'Syne';
+	color: white;
+	font-size: 1rem;
+	font-weight: 700;
+	border: solid 1px #1D6154;
+	background-color: #1D6154;
+	border-radius: 60px;
+	width: 100px;
+	padding: 0.7em 0;
+	cursor: pointer;
+	margin-top: 25px;
 }
 
 /* Laisser à la fin */
