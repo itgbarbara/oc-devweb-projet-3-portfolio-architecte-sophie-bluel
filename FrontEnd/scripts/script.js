@@ -318,23 +318,34 @@ export function afficherPreviewFichier(event) {
 
     document.querySelector(".btn-ajouter-photo").classList.add("inactive")
 
-    let baliseImg = document.createElement("img")
-    let nomImg = document.getElementById("image").files[0].name
-    let srcImg = `assets/images/${nomImg}`
-    baliseImg.src = srcImg
-    
-    document.querySelector(".placeholder").appendChild(baliseImg)
+    const imageProjet = event.target.files[0] // Récupération du fichier sélectionné
+
+    if (imageProjet) { // Si un fichier a été uploadé alors : on lit le fichier
+        const reader = new FileReader()
+
+        reader.addEventListener("load", (event) => {
+            let baliseImg = document.createElement("img")
+            baliseImg.src = event.target.result
+
+            document.querySelector(".placeholder").appendChild(baliseImg)
+        })
+        reader.readAsDataURL(imageProjet)
+    }
 }
 
 export function supprimerPreviewFichier() {
     document.querySelector(".btn-ajouter-photo").classList.remove("inactive")
-   
+    
     let baliseImg = document.querySelector(".placeholder img")
     if (baliseImg) {
         baliseImg.remove()
     }
 }
 
+
+/*
+** Déclaration de la fonction permettant de récupérer les champs du formulaires pour créer un objet formData (body de la requête d'envoi)
+*/
 export function recupererSaisieFormulaire(imageProjet, titreProjet, categorieProjet) {
     imageProjet = document.getElementById("image").files[0]
     titreProjet = document.getElementById("title").value
@@ -348,6 +359,21 @@ export function recupererSaisieFormulaire(imageProjet, titreProjet, categoriePro
     formData.append("category", parseInt(idCategorieProjet))
 
     return formData
+}
+
+/*
+** Déclaration de la fonction permettant de vérifier les champs du formulaire et débloquer le bouton de soumission
+*/
+export function validerChamps(btnSubmitWork, imageProjet, titreProjet, categorieProjet) {
+    if (imageProjet === undefined || titreProjet.trim() === "" || categorieProjet === "")  {
+        if (!btnSubmitWork.disabled) {
+            btnSubmitWork.disabled = true
+        }
+    } else {
+        if (btnSubmitWork.disabled) {
+            btnSubmitWork.disabled = false
+        }
+    }
 }
 
 /*
@@ -384,13 +410,7 @@ export function ajouterProjet(formData, token) {
 export function resetFormulaire() {
     let modalForm = document.getElementById("modal-form")
     modalForm.reset()
-    
-    let baliseImg = document.querySelector(".placeholder img")
-    if (baliseImg) {
-        baliseImg.remove()
-    }
-
-    document.querySelector(".btn-ajouter-photo").classList.remove("inactive")
+    supprimerPreviewFichier()
 }
 
 /*
@@ -434,6 +454,37 @@ export async function ouvrirModale(event, travaux, token) {
             supprimerProjet(id, token)
         })
     })
+
+    //** Ajout d'un projet **//
+    resetFormulaire()
+    let imageProjet = []
+    let titreProjet = ""
+    let categorieProjet = ""
+    let btnSubmitWork = document.querySelector(".btn-submit-work")
+    btnSubmitWork.disabled = true
+    
+    document.getElementById("image").addEventListener("change", (event) => {
+        afficherPreviewFichier(event)
+    })
+    
+    document.querySelectorAll(".form-field").forEach(formField => {
+        formField.addEventListener("change", () => {
+            imageProjet = document.getElementById("image").files[0]
+            titreProjet = document.getElementById("title").value
+            categorieProjet = document.getElementById("select-category").value
+    
+            validerChamps(btnSubmitWork, imageProjet, titreProjet, categorieProjet)
+        })
+    })
+    
+    let modalForm = document.getElementById("modal-form")
+    modalForm.addEventListener("submit", (event) => {
+        event.preventDefault()
+        
+        let formData = recupererSaisieFormulaire(imageProjet, titreProjet, categorieProjet)
+        ajouterProjet(formData, token)
+        resetFormulaire()
+    })
     
     //** Fermeture de la modale **//
     modal.addEventListener("click", fermerModale) // Lorsque l'on clique dans la modale (#modal), ça la ferme
@@ -474,7 +525,7 @@ export async function fermerModale(event) { // Cette fonction fait l'inverse de 
         /* Vue 2 */
     supprimerSelectionCategorie()
 
-    //** Suppression d'un projet **//
+    //** Reset suppression d'un projet **//
     document.querySelectorAll(".js-delete-work").forEach(btnSupprimer => {
         btnSupprimer.removeEventListener("click", (event) => {
             event.preventDefault()
@@ -484,7 +535,36 @@ export async function fermerModale(event) { // Cette fonction fait l'inverse de 
         })
     })
 
+    //** Reset ajout d'un projet **//
     resetFormulaire()
+    let imageProjet = []
+    let titreProjet = ""
+    let categorieProjet = ""
+    let btnSubmitWork = document.querySelector(".btn-submit-work")
+    btnSubmitWork.disabled = true
+    
+    document.getElementById("image").removeEventListener("change", (event) => {
+        afficherPreviewFichier(event)
+    })
+    
+    document.querySelectorAll(".form-field").forEach(formField => {
+        formField.removeEventListener("change", () => {
+            imageProjet = document.getElementById("image").files[0]
+            titreProjet = document.getElementById("title").value
+            categorieProjet = document.getElementById("select-category").value
+    
+            validerChamps(btnSubmitWork, imageProjet, titreProjet, categorieProjet)
+        })
+    })
+    
+    let modalForm = document.getElementById("modal-form")
+    modalForm.removeEventListener("submit", (event) => {
+        event.preventDefault()
+        
+        let formData = recupererSaisieFormulaire(imageProjet, titreProjet, categorieProjet)
+        ajouterProjet(formData, token)
+        resetFormulaire()
+    })
 
     //** Fermeture de la modale **//
     modal.removeEventListener("click", fermerModale)
@@ -501,27 +581,4 @@ export async function fermerModale(event) { // Cette fonction fait l'inverse de 
     const travaux = await reponse.json()
     const valeurTravaux = JSON.stringify(travaux)
     window.localStorage.setItem("travaux", valeurTravaux)
-}
-
-
-
-
-
-
-
-
-
-export function validerChamps(imageProjet, titreProjet, categorieProjet) {
-    let btnSubmitWork = document.querySelector(".btn-submit-work")
-    if (imageProjet === null || titreProjet.trim() === "" || categorieProjet === "")  {
-        if (btnSubmitWork.disabled = false) {
-            btnSubmitWork.disabled = true
-            console.log(btnSubmitWork)
-        }
-    } else {
-        if (btnSubmitWork.disabled = true) {
-            btnSubmitWork.disabled = false
-            console.log(btnSubmitWork)
-        }
-    }
 }
