@@ -198,6 +198,57 @@ export function deconnecterUtilisateur() {
     localStorage.removeItem("token")
 }
 
+/*
+** Déclaration des fonctions qui permettent d'ouvrir et fermer une popup de confirmation pour se déconnecter
+*/
+let popupLogout = null
+export function ouvrirPopupLogout(event) {
+    event.preventDefault()
+
+    popupLogout = document.getElementById("popup-logout")
+
+    popupLogout.style.display = null
+    popupLogout.setAttribute("aria-hidden", "false")
+    popupLogout.setAttribute("aria-modal", "true")
+
+    popupLogout.querySelector(".js-confirmation-logout").addEventListener("click", (event) => {
+        fermerpopupLogout(event)
+        deconnecterUtilisateur()
+        document.location.reload()
+    })
+
+    popupLogout.addEventListener("click", fermerpopupLogout)
+    popupLogout.querySelector(".js-stop-propagation").addEventListener("click", stopPropagation) // On empêche la propagation du listener à partir de l'élément "modal-wrapper" (et ses enfants)
+    popupLogout.querySelectorAll(".js-close-popup").forEach(btnRetour => {
+        btnRetour.addEventListener("click", fermerpopupLogout)
+    })
+}
+
+
+export function fermerpopupLogout(event) {
+    if (popupLogout === null) return
+
+    event.preventDefault()
+
+    popupLogout.style.display = "none"
+    popupLogout.setAttribute("aria-hidden", "true")
+    popupLogout.removeAttribute("aria-modal")
+
+    popupLogout.querySelector(".js-confirmation-logout").removeEventListener("click", () => {
+        fermerpopupLogout(event)
+        deconnecterUtilisateur()
+        document.location.reload()
+    })
+
+    popupLogout.removeEventListener("click", fermerpopupLogout)
+    popupLogout.querySelector(".js-stop-propagation").removeEventListener("click", stopPropagation) // On empêche la propagation du listener à partir de l'élément "modal-wrapper" (et ses enfants)
+    popupLogout.querySelectorAll(".js-close-popup").forEach(btnRetour => {
+        btnRetour.removeEventListener("click", fermerpopupLogout)
+    })
+
+    popupLogout = null
+}
+
 
 //***********************************************************************************************//
 //*************** Déclaration des fonctions liées à la modale (homepage_modal.js) ***************//
@@ -376,6 +427,38 @@ export function validerChamps(btnSubmitWork, imageProjet, titreProjet, categorie
     }
 }
 
+
+/*
+** Déclaration de la fonction permettant d'afficher une popup de confirmation en cas de succès de l'ajout
+*/
+let popupConfirmationAjout = null
+function ouvrirPopupConfirmationAjout() {
+    popupConfirmationAjout = document.getElementById("popup-confirmation-ajout")
+
+    popupConfirmationAjout.style.display = null
+    popupConfirmationAjout.setAttribute("aria-hidden", "false")
+    popupConfirmationAjout.setAttribute("aria-modal", "true")
+
+    popupConfirmationAjout.addEventListener("click", fermerPopupConfirmationAjout)
+    popupConfirmationAjout.querySelector(".js-stop-propagation").addEventListener("click", stopPropagation)
+    popupConfirmationAjout.querySelector(".js-close-popup").addEventListener("click", fermerPopupConfirmationAjout)
+
+}
+
+function fermerPopupConfirmationAjout() {
+    if (popupConfirmationAjout === null) return
+
+    popupConfirmationAjout.style.display = "none"
+    popupConfirmationAjout.setAttribute("aria-hidden", "true")
+    popupConfirmationAjout.removeAttribute("aria-modal")
+
+    popupConfirmationAjout.removeEventListener("click", fermerPopupConfirmationAjout)
+    popupConfirmationAjout.querySelector(".js-stop-propagation").removeEventListener("click", stopPropagation)
+    popupConfirmationAjout.querySelector(".js-close-popup").removeEventListener("click", fermerPopupConfirmationAjout)
+
+    popupConfirmationAjout = null
+}
+
 /*
 ** Déclaration de la fonction permettant de faire une requête pour ajouter un projet à la BDD
 */
@@ -394,6 +477,7 @@ export function ajouterProjet(formData, token) {
         if (!reponse.ok) {
             throw new Error("Votre projet n'a pas été ajouté")
         } else {
+            ouvrirPopupConfirmationAjout()
             console.log("Votre projet a bien été ajouté")
             // Ajouter le projet au DOM sans rechargement de la page
         }
@@ -422,7 +506,7 @@ export async function ouvrirModale(event, travaux, token) {
     modal = document.getElementById("modal")
 
     //** Modifications html **//
-    modal.style.display = null // On enlève l'attribut style="display: none" a l'élément d'id "modal" pour faire apparaître la fenêtre
+    modal.style.display = null
     modal.setAttribute("aria-hidden", "false")
     modal.setAttribute("aria-modal", "true")
 
