@@ -209,41 +209,41 @@ export function ouvrirPopupLogout(event) {
 
     popupLogout.style.display = null
     popupLogout.setAttribute("aria-hidden", "false")
-    popupLogout.setAttribute("aria-modal", "true")
+    popupLogout.showModal()
 
     popupLogout.querySelector(".js-confirmation-logout").addEventListener("click", (event) => {
-        fermerpopupLogout(event)
+        fermerPopupLogout(event)
         deconnecterUtilisateur()
         document.location.reload()
     })
 
-    popupLogout.addEventListener("click", fermerpopupLogout)
-    popupLogout.querySelector(".js-stop-propagation").addEventListener("click", stopPropagation) // On empêche la propagation du listener à partir de l'élément "modal-wrapper" (et ses enfants)
+    // popupLogout.addEventListener("click", fermerpopupLogout)
+    // popupLogout.querySelector(".js-stop-propagation").addEventListener("click", stopPropagation) // On empêche la propagation du listener à partir de l'élément "modal-wrapper" (et ses enfants)
     popupLogout.querySelectorAll(".js-close-popup").forEach(btnRetour => {
-        btnRetour.addEventListener("click", fermerpopupLogout)
+        btnRetour.addEventListener("click", fermerPopupLogout)
     })
 }
 
 
-export function fermerpopupLogout(event) {
+export function fermerPopupLogout(event) {
     if (popupLogout === null) return
 
     event.preventDefault()
 
     popupLogout.style.display = "none"
     popupLogout.setAttribute("aria-hidden", "true")
-    popupLogout.removeAttribute("aria-modal")
+    popupLogout.close()
 
     popupLogout.querySelector(".js-confirmation-logout").removeEventListener("click", () => {
-        fermerpopupLogout(event)
+        fermerPopupLogout(event)
         deconnecterUtilisateur()
         document.location.reload()
     })
 
-    popupLogout.removeEventListener("click", fermerpopupLogout)
-    popupLogout.querySelector(".js-stop-propagation").removeEventListener("click", stopPropagation) // On empêche la propagation du listener à partir de l'élément "modal-wrapper" (et ses enfants)
+    // popupLogout.removeEventListener("click", fermerpopupLogout)
+    // popupLogout.querySelector(".js-stop-propagation").removeEventListener("click", stopPropagation) // On empêche la propagation du listener à partir de l'élément "modal-wrapper" (et ses enfants)
     popupLogout.querySelectorAll(".js-close-popup").forEach(btnRetour => {
-        btnRetour.removeEventListener("click", fermerpopupLogout)
+        btnRetour.removeEventListener("click", fermerPopupLogout)
     })
 
     popupLogout = null
@@ -434,13 +434,13 @@ export function validerChamps(btnSubmitWork, imageProjet, titreProjet, categorie
 let popupConfirmationAjout = null
 function ouvrirPopupConfirmationAjout() {
     popupConfirmationAjout = document.getElementById("popup-confirmation-ajout")
+    popupConfirmationAjout.showModal()
 
     popupConfirmationAjout.style.display = null
     popupConfirmationAjout.setAttribute("aria-hidden", "false")
-    popupConfirmationAjout.setAttribute("aria-modal", "true")
 
-    popupConfirmationAjout.addEventListener("click", fermerPopupConfirmationAjout)
-    popupConfirmationAjout.querySelector(".js-stop-propagation").addEventListener("click", stopPropagation)
+    // popupConfirmationAjout.addEventListener("click", fermerPopupConfirmationAjout)
+    // popupConfirmationAjout.querySelector(".js-stop-propagation").addEventListener("click", stopPropagation)
     popupConfirmationAjout.querySelector(".js-close-popup").addEventListener("click", fermerPopupConfirmationAjout)
 
 }
@@ -448,12 +448,13 @@ function ouvrirPopupConfirmationAjout() {
 function fermerPopupConfirmationAjout() {
     if (popupConfirmationAjout === null) return
 
+    popupConfirmationAjout.close()
+
     popupConfirmationAjout.style.display = "none"
     popupConfirmationAjout.setAttribute("aria-hidden", "true")
-    popupConfirmationAjout.removeAttribute("aria-modal")
 
-    popupConfirmationAjout.removeEventListener("click", fermerPopupConfirmationAjout)
-    popupConfirmationAjout.querySelector(".js-stop-propagation").removeEventListener("click", stopPropagation)
+    // popupConfirmationAjout.removeEventListener("click", fermerPopupConfirmationAjout)
+    // popupConfirmationAjout.querySelector(".js-stop-propagation").removeEventListener("click", stopPropagation)
     popupConfirmationAjout.querySelector(".js-close-popup").removeEventListener("click", fermerPopupConfirmationAjout)
 
     popupConfirmationAjout = null

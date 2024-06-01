@@ -37,4 +37,4 @@ if (isLogedIn === true) {
 
 //** Déconnexion **//
 const btnLogout = document.getElementById("lien-logout")
-btnLogout.addEventListener("click", (event) => ouvrirPopupLogout(event))
+btnLogout.addEventListener("click", ouvrirPopupLogout)
