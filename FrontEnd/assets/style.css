@@ -274,16 +274,17 @@ footer nav ul {
 
 /* Homepage mode édition */
 
-.header-mode-edition { /* Ajout */
+.header-mode-edition {
 	padding-top: 59px;
 }
 
-.bandeau-mode-edition { /* Ajout */
+.bandeau-mode-edition {
 	color: white;
 	background-color: black;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	gap: 0.5rem;
 	position: fixed;
 	top: 0px;
 	left: 0px;
@@ -291,20 +292,7 @@ footer nav ul {
 	height: 59px;
 }
 
-.bandeau-mode-edition a { /* Ajout */
-	display: flex;
-	gap: 0.5rem;
-}
-
-.bandeau-mode-edition .fa-pen-to-square { /* Ajout */
-	color: white;
-}
-
-.bandeau-mode-edition a:hover { /* Ajout */
-	color: #B1663C;
-}
-
-.titre-section-projet { /* Ajout */
+.titre-section-projet {
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -312,16 +300,13 @@ footer nav ul {
 	margin-bottom: 30px;
 }
 
-.edit-button { /* Ajout */
-	border: none;
-	background-color: white;
-	height: 1rem;
+.edit-button {
 	display: flex;
 	align-items: center;
 	gap: 0.5rem;
 }
 
-.edit-button:hover { /* Ajout */
+.edit-button:hover {
 	color: #B1663C;
 }
 
@@ -404,7 +389,7 @@ hr {
 	border: solid 1px;
 	display: block;
 	color: #B3B3B3;
-	width: 75%;
+	width: 100%;
 	margin: 50px 0 0 0;
 }
 
@@ -431,6 +416,7 @@ hr {
 }
 
 .modal-delete-button {
+	color: white;
 	background-color: black;
 	border: none;
 	border-radius: 3px;
@@ -440,10 +426,6 @@ hr {
 	right: 5px;
 	z-index: 2;
 	cursor: pointer;
-}
-
-.modal-gallery .fa-trash-can {
-	color: white;
 }
 
 /* Modale vue 2 : Ajout photo */
@@ -494,7 +476,7 @@ hr {
 
 .btn-ajouter-photo {
 	display: block;
-	font-size: 14px; /* Mettre en rem */
+	font-size: 0.9rem;
 	font-weight: 500;
 	width: fit-content;
 	padding: 10px 30px;
@@ -529,16 +511,27 @@ hr {
 
 /* Popups */
 
-.popup-wrapper {
+dialog::backdrop {
+	position: fixed;
+	top: 59px;
+	background-color: rgba(0, 0, 0, 0.3);
+}
+
+dialog {
 	background-color: white;
-	max-width: calc(80vh);
-	position: relative;
+	overflow: auto; /* Utile ou pas ? */
+	border: none;
 	border-radius: 10px;
 	padding: 20px;
+	position: fixed;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
 	align-items: center;
+}
+
+dialog[aria-hidden="true"] {
+	display: none;
 }
 
 .popup-submit-btn {
@@ -557,7 +550,7 @@ hr {
 
 /* Laisser à la fin */
 
-.inactive { /* Ajout */
+.inactive {
 	display: none;
 }
 
