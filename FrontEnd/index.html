@@ -79,9 +79,7 @@
 	<!-- Elements non visibles par défaut (modale et pop-ups) : -->
 
 	<div class="bandeau-mode-edition inactive">
-		<a href="#">
 			<i class="fa-regular fa-pen-to-square"></i><p>Mode édition</p>
-		</a>
 	</div>
 
 	<aside id="modal" class="modal-background" aria-hidden="true" role="dialog" style="display:none">
@@ -121,7 +119,6 @@
 						<select id="select-category" name="select-category" class="form-field" required>
 							<!-- Généreration des catégories via le script homepage_modal.js -->
 						</select>
-						<!-- Génération d'une <span> contenant le message d'erreur via le script homepage_modal.js -->
 						<hr>
 						<input type="submit" value="Valider" class="modal-submit-btn btn-submit-work" disabled></button>
 					</form>
@@ -130,37 +127,31 @@
 		</div>
 	</aside>
 
-	<aside id="popup-confirmation" class="popup-background" aria-hidden="true" role="dialog" style="display: none;"> <!-- style="display: none;" -->
-		<div class="popup-wrapper js-stop-propagation">
-			<h3 class="modal-title">Confirmation</h3>
-			<span>Êtes-vous sûr(e) de vouloir supprimer ce projet ?</span> <!-- changer le texte -->
-			<div class="popup-buttons">
-				<button class="popup-submit-btn js-confirmation" style="display: none;">Oui</button> <!-- cacher si besoin -->
-				<button class="popup-submit-btn js-close-popup">Retour</button> <!-- changer le texte -->
-			</div>
-		</div>
-	</aside>
+	<dialog id="popup-confirmation-suppression" class="popup" aria-hidden="true">
+		<h3 class="modal-title">Suppression d'un projet</h3>
+		<span>Êtes-vous sûr(e) de vouloir supprimer ce projet ?</span>
+		<menu class="popup-buttons">
+			<button class="popup-submit-btn js-delete-confirmation" style="display: none;">Oui</button>
+			<button class="popup-submit-btn js-close-popup">Annuler</button>
+		</menu>
+	</dialog>
 
-	<aside id="popup-logout" class="popup-background" aria-hidden="true" role="dialog" style="display: none;"> <!-- style="display: none;" -->
-		<div class="popup-wrapper js-stop-propagation">
-			<h3 class="modal-title">Confirmation</h3>
-			<p>Êtes-vous sûr(e) de vouloir vous déconnecter ?</p>
-			<div class="buttons">
-				<button class="popup-submit-btn js-confirmation-logout">Oui</button>
-				<button class="popup-submit-btn js-close-popup">Retour</button>
-			</div>
-		</div>
-	</aside>
+	<dialog id="popup-logout" class="popup" aria-hidden="true">
+		<h3 class="modal-title">Logout</h3>
+		<p>Êtes-vous sûr(e) de vouloir vous déconnecter ?</p>
+		<menu class="popup-buttons">
+			<button class="popup-submit-btn js-confirmation-logout">Oui</button>
+			<button class="popup-submit-btn js-close-popup">Annuler</button>
+		</menu>
+	</dialog>
 
-	<aside id="popup-confirmation-ajout" class="popup-background" aria-hidden="true" role="dialog" style="display: none;"> <!-- style="display: none;" -->
-		<div class="popup-wrapper js-stop-propagation">
-			<h3 class="modal-title">Confirmation</h3>
-			<span class="message-confirmation">Votre projet a bien été ajouté</span>
-			<div class="buttons">
-				<button class="popup-submit-btn js-close-popup">Ok</button>
-			</div>
-		</div>
-	</aside>
+	<dialog id="popup-confirmation-ajout" class="popup" aria-hidden="true">
+		<h3 class="modal-title">Ajout d'un projet</h3>
+		<span class="message-confirmation">Votre projet a bien été ajouté</span>
+		<menu class="popup-buttons">
+			<button class="popup-submit-btn js-close-popup">Ok</button>
+		</menu>
+	</dialog>
 
 </main>
 
