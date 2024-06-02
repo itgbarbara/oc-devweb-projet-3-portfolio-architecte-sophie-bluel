@@ -416,7 +416,7 @@ export function recupererSaisieFormulaire(imageProjet, titreProjet, categoriePro
 ** Déclaration de la fonction permettant de vérifier les champs du formulaire et débloquer le bouton de soumission
 */
 export function validerChamps(btnSubmitWork, imageProjet, titreProjet, categorieProjet) {
-    if (imageProjet === undefined || titreProjet.trim() === "" || categorieProjet === "")  {
+    if (imageProjet === undefined || titreProjet.trim() === "" || categorieProjet === "") {
         if (!btnSubmitWork.disabled) {
             btnSubmitWork.disabled = true
         }
@@ -425,6 +425,25 @@ export function validerChamps(btnSubmitWork, imageProjet, titreProjet, categorie
             btnSubmitWork.disabled = false
         }
     }
+}
+
+/*
+** Déclaration de la fonction permettant de mettre à jour le localStorage et les galeries
+*/
+export async function majProjets() {
+        //** Mise à jour du localStorage **//
+        window.localStorage.removeItem("travaux")
+        const reponse = await fetch("http://localhost:5678/api/works")
+        const travaux = await reponse.json()
+        const valeurTravaux = JSON.stringify(travaux)
+        window.localStorage.setItem("travaux", valeurTravaux)
+        
+        //** Mise à jour des galeries **//
+        document.querySelector(".gallery").innerHTML= ""
+        afficherGalerie(travaux)
+
+        document.querySelector(".modal-gallery").innerHTML = ""
+        afficherGalerieModale(travaux)
 }
 
 
@@ -480,7 +499,8 @@ export function ajouterProjet(formData, token) {
         } else {
             ouvrirPopupConfirmationAjout()
             console.log("Votre projet a bien été ajouté")
-            // Ajouter le projet au DOM sans rechargement de la page
+
+            majProjets()
         }
     })
     .catch(error => {
@@ -660,10 +680,5 @@ export async function fermerModale(event) { // Cette fonction fait l'inverse de 
     
     modal = null // Après avoir tout réinitialisé, on redéfinit la valeur de la variable "modal" sur null
 
-    //** Mise à jour du localStorage **//
-    window.localStorage.removeItem("travaux")
-    const reponse = await fetch("http://localhost:5678/api/works")
-    const travaux = await reponse.json()
-    const valeurTravaux = JSON.stringify(travaux)
-    window.localStorage.setItem("travaux", valeurTravaux)
+    majProjets()
 }
