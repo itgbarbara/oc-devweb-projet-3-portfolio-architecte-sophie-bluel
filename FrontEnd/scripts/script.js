@@ -472,7 +472,6 @@ function fermerPopupConfirmationAjout() {
 ** Déclaration de la fonction permettant de faire une requête pour ajouter un projet à la BDD
 */
 export function ajouterProjet(formData, token) {
-    console.log(token.token)
     fetch("http://localhost:5678/api/works", {
         method: "POST",
         headers: {
@@ -486,7 +485,7 @@ export function ajouterProjet(formData, token) {
         if (!reponse.ok) {
             throw new Error("Votre projet n'a pas été ajouté")
         } else {
-            // ouvrirPopupConfirmationAjout()
+            ouvrirPopupConfirmationAjout()
             console.log("Votre projet a bien été ajouté")
             resetTravauxLocalStorage()
         }
@@ -519,6 +518,14 @@ export async function ouvrirModale(event, travaux, token) {
     modal.setAttribute("aria-hidden", "false")
     modal.setAttribute("aria-modal", "true")
 
+    //** Affichage des données provenant de l'API **//
+        /* Vue 1 */
+    afficherGalerieModale(travaux) // 1er affichage de la galerie
+
+        /* Vue 2 */
+    let listeCategories = listerCategories(travaux)
+    selectionnerCategorie(listeCategories)
+
     //** Gestion des vues de la modale **//
         /* Vue par défaut */
     document.getElementById("modal-vue-1").classList.remove("inactive")
@@ -529,14 +536,6 @@ export async function ouvrirModale(event, travaux, token) {
     document.querySelectorAll(".modal-previous-btn").forEach(btnPrecedent => {
         btnPrecedent.addEventListener("click", changerVueModale)
     })
-
-    //** Affichage des données provenant de l'API **//
-        /* Vue 1 */
-    afficherGalerieModale(travaux) // 1er affichage de la galerie
-
-        /* Vue 2 */
-    let listeCategories = listerCategories(travaux)
-    selectionnerCategorie(listeCategories)
 
     //** Suppression d'un projet **//
     document.querySelectorAll(".js-delete-work").forEach(btnSupprimer => {
@@ -599,6 +598,13 @@ export async function fermerModale(event) { // Cette fonction fait l'inverse de 
     //** Reset html **//
     modal.setAttribute("aria-hidden", "true")
     modal.removeAttribute("aria-modal")
+
+    //** Suppression des données générée dynamiquement avec appel de l'API **//
+        /* Vue 1 */
+    supprimerGalerieModale()
+
+        /* Vue 2 */
+    supprimerSelectionCategorie()
     
     //** Reset des vues de la modale **//
         /* Vue par défaut */
@@ -610,13 +616,6 @@ export async function fermerModale(event) { // Cette fonction fait l'inverse de 
     document.querySelectorAll(".modal-previous-btn").forEach(btnPrecedent => {
         btnPrecedent.removeEventListener("click", changerVueModale)
     })
-
-    //** Suppression des données générée dynamiquement avec appel de l'API **//
-        /* Vue 1 */
-    supprimerGalerieModale()
-
-        /* Vue 2 */
-    supprimerSelectionCategorie()
 
     //** Reset suppression d'un projet **//
     document.querySelectorAll(".js-delete-work").forEach(btnSupprimer => {
