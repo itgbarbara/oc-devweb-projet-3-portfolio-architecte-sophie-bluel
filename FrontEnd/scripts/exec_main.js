@@ -1,7 +1,7 @@
 /*
 ** Import des fonctions
 */
-import { recupererTravaux, resetTravauxLocalStorage, listerCategories } from "./fetch_requests.js"
+import { recupererTravaux, resetTravauxLocalStorage, listerCategories, connecterUtilisateur, supprimerProjet, ajouterProjet } from "./fetch_requests.js"
 import { afficherGalerie, genererBoutonsCategorie, gererBoutonsCategorie } from "./homepage_portfolio.js"
 import { activerModeEdition, desactiverModeEdition, ouvrirPopupLogout } from "./login.js"
 import { ouvrirModale } from "./homepage_modal.js"
@@ -65,10 +65,12 @@ btnLogout.addEventListener("click", ouvrirPopupLogout)
 //** Ouverture et activation de la modale **//
 document.querySelectorAll(".js-open-modal").forEach(btnModifier => {
     btnModifier.addEventListener("click", (event) => {
+        travaux = JSON.parse(window.localStorage.getItem("travaux"))
+        console.log(travaux)
         ouvrirModale(event, travaux, token)
     })
 })
 
-console.log(travaux) // Debug : doit donner un résultat différent des deux premiers console.log(travaux)
+console.log(travaux) // Debug : doit donner un résultat différent des deux premiers console.log(travaux) après ajout ou suppression d'un projet
 
 // afficherGalerie(travaux)

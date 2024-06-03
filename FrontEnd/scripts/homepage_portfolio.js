@@ -1,7 +1,7 @@
 /*
 ** Import des fonctions
 */
-import { recupererTravaux, resetTravauxLocalStorage, listerCategories } from "./fetch_requests.js"
+import { recupererTravaux, resetTravauxLocalStorage, listerCategories, connecterUtilisateur, supprimerProjet, ajouterProjet } from "./fetch_requests.js"
 
 //*******************************************************************************************************************//
 //*************** Déclaration des fonctions liées à l'affichage de la galerie (homepage_portfolio.js) ***************//

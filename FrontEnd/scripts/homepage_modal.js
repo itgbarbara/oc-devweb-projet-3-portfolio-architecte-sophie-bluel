@@ -1,5 +1,8 @@
-
-import { recupererTravaux, resetTravauxLocalStorage, listerCategories, supprimerProjet, ajouterProjet } from "./fetch_requests.js"
+/*
+** Import des fonctions
+*/
+import { recupererTravaux, resetTravauxLocalStorage, listerCategories, connecterUtilisateur, supprimerProjet, ajouterProjet } from "./fetch_requests.js"
+import { afficherGalerie } from "./homepage_portfolio.js"
 
 
 //***********************************************************************************************//
@@ -190,6 +193,7 @@ export async function ouvrirModale(event, travaux, token) {
 
     //** Affichage des données provenant de l'API **//
         /* Vue 1 */
+    console.log(travaux)
     afficherGalerieModale(travaux) // 1er affichage de la galerie
 
         /* Vue 2 */
@@ -259,7 +263,7 @@ export async function ouvrirModale(event, travaux, token) {
 /*
 ** Déclaration de la fonction qui nettoie la modale à sa fermeture
 */
-export async function fermerModale(event) { // Cette fonction fait l'inverse de la fonction ouvrirModale(event). Permet de nettoyer la boîte modale
+export async function fermerModale(event, travaux) { // Cette fonction fait l'inverse de la fonction ouvrirModale(event). Permet de nettoyer la boîte modale
     if (modal === null) return // Si on n'a pas encore ouvert la modale, cette variable renvoie la valeur null, donc on s'arrête là. Sinon on continue :
     
     event.preventDefault()
@@ -336,4 +340,8 @@ export async function fermerModale(event) { // Cette fonction fait l'inverse de 
     })
     
     modal = null // Après avoir tout réinitialisé, on redéfinit la valeur de la variable "modal" sur null
+
+    travaux = JSON.parse(window.localStorage.getItem("travaux"))
+    console.log(travaux)
+    afficherGalerie(travaux)
 }
