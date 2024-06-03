@@ -29,8 +29,7 @@ loginForm.addEventListener("submit", async (event) => {
         afficherMessageErreur("") // Dans le cas où il n'y a pas d'erreur, on met une chaîne vide
 
         //** Vider les champs après la soumission du formulaire **//
-        document.getElementById("email").value = ""
-        document.getElementById("mdp").value = ""
+        loginForm.reset()
 
         //** Création de l'objet correspondant aux infos de login **//
         let loginUtilisateur = { // Création d'un objet login utilisateur, qui sera convertit en chaîne de caractère JSON pour la charge utile de la requête POST 
