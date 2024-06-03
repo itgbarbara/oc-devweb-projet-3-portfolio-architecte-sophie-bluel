@@ -15,7 +15,6 @@ if (travaux === null) { // peut aussi s'écrire if (!travaux)
 } else {
     travaux = JSON.parse(travaux)
 }
-console.log(travaux) // Debug
 
 //** Récupération du token éventuellement stockées dans le localStorage **//
 let token = localStorage.getItem("token")
@@ -26,7 +25,6 @@ if (token !== null) { // si token existe
 }
 
 //************************************ Exécution du script ************************************//
-
 
 //** Affichage des éléments dynamiques de la page d'accueil (galerie, filtres) **//
 afficherIndex(travaux)

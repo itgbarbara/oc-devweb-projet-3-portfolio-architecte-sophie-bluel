@@ -1,8 +1,8 @@
 
 //************************************ Import des fonctions ***********************************//
 
-import { afficherGalerie, afficherIndex } from "./homepage_portfolio.js"
-import { afficherGalerieModale } from "./homepage_modal.js"
+import { afficherIndex } from "./homepage_portfolio.js"
+import { afficherGalerieModale, ouvrirPopupConfirmationAjout } from "./homepage_modal.js"
 
 //*******************************************************************************************************************//
 //*************** Déclaration des fonctions liées à l'affichage de la galerie (homepage_portfolio.js) ***************//
@@ -11,7 +11,6 @@ import { afficherGalerieModale } from "./homepage_modal.js"
 /*
 ** Déclaration de la fonction permettant de récupérer les travaux et les stocker dans le localStorage
 */
-
 export async function recupererTravaux() {
     //** Requête pour récupérer les travaux **//
     const reponse = await fetch("http://localhost:5678/api/works")
@@ -34,7 +33,7 @@ export async function resetTravauxLocalStorage() {
 }
 
 /*
-** Déclaration de la fonction permettant de faire une requête pour supprimer un projet de la BDD
+** Déclaration de la fonction permettant de faire une requête pour supprimer un projet de la BDD + màj les galeries
 */
 export function supprimerProjet(id, token) {
     token = JSON.parse(localStorage.getItem("token"))
@@ -60,7 +59,7 @@ export function supprimerProjet(id, token) {
             // projetASupprimerIndex.remove()
 
             resetTravauxLocalStorage().then(travaux => {
-                afficherGalerie(travaux)
+                afficherIndex(travaux)
                 afficherGalerieModale(travaux)
             })
         }
@@ -69,7 +68,7 @@ export function supprimerProjet(id, token) {
 }
 
 /*
-** Déclaration de la fonction permettant de faire une requête pour ajouter un projet à la BDD
+** Déclaration de la fonction permettant de faire une requête pour ajouter un projet à la BDD + màj les galeries
 */
 export async function ajouterProjet(formData, token) {
     token = JSON.parse(localStorage.getItem("token"))
@@ -84,11 +83,11 @@ export async function ajouterProjet(formData, token) {
     })
     .then(reponse => {
         if (reponse.ok) {
-            // ouvrirPopupConfirmationAjout()
+            ouvrirPopupConfirmationAjout()
             console.log("Votre projet a bien été ajouté")
 
             resetTravauxLocalStorage().then(travaux => {
-                afficherGalerie(travaux)
+                afficherIndex(travaux)
                 afficherGalerieModale(travaux)
             })
         }

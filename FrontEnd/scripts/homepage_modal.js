@@ -1,6 +1,6 @@
 //************************************ Import des fonctions ***********************************//
 
-import { listerCategories, afficherIndex } from "./homepage_portfolio.js"
+import { listerCategories } from "./homepage_portfolio.js"
 import { ajouterProjet, supprimerProjet } from "./fetch_requests.js"
 
 
@@ -9,7 +9,7 @@ import { ajouterProjet, supprimerProjet } from "./fetch_requests.js"
 //***********************************************************************************************//
 
 /*
-** Déclaration de la fonction qui permet d'afficher les travaux dans la page 1 de la modale
+** Déclaration de la fonction qui permet d'afficher et supprimer les travaux dans la page 1 de la modale
 */
 export function afficherGalerieModale(travaux, token) {
     document.querySelector(".modal-gallery").innerHTML= ""
@@ -125,6 +125,9 @@ export function afficherPreviewFichier(event) {
     }
 }
 
+/*
+** Déclaration de la fonction permettant de supprimer la preview de l'image sélectionnée dans le formulaire d'envoi d'un projet
+*/
 export function supprimerPreviewFichier() {
     document.querySelector(".btn-ajouter-photo").classList.remove("inactive")
     let baliseImg = document.querySelector(".placeholder img")
@@ -170,16 +173,15 @@ export function validerChamps(btnSubmitWork, imageProjet, titreProjet, categorie
 ** Déclaration de la fonction permettant d'afficher une popup de confirmation en cas de succès de l'ajout
 */
 let popupConfirmationAjout = null
-function ouvrirPopupConfirmationAjout() {
+export function ouvrirPopupConfirmationAjout() {
     popupConfirmationAjout = document.getElementById("popup-confirmation-ajout")
     popupConfirmationAjout.showModal()
     popupConfirmationAjout.style.display = null
     popupConfirmationAjout.setAttribute("aria-hidden", "false")
     popupConfirmationAjout.querySelector(".js-close-popup").addEventListener("click", fermerPopupConfirmationAjout)
-
 }
 
-function fermerPopupConfirmationAjout() {
+export function fermerPopupConfirmationAjout() {
     if (popupConfirmationAjout === null) return
     popupConfirmationAjout.close()
     popupConfirmationAjout.style.display = "none"
@@ -200,7 +202,7 @@ export function resetFormulaire() {
 /*
 ** Déclaration de la fonction qui gère les évènements à l'ouverture de la modale et son fonctionnement interne
 */
-let modal = null // Définition d'une variable globale "modal" qui est nulle par défaut
+let modal = null
 export async function ouvrirModale(event, travaux, token) {
     event.preventDefault() // On empêche le comportement par défaut du clic sur le lien (renvoi vers l'ancre #modal)
     modal = document.getElementById("modal")
@@ -212,7 +214,7 @@ export async function ouvrirModale(event, travaux, token) {
 
     //** Affichage des données provenant de l'API **//
         /* Vue 1 */
-    afficherGalerieModale(travaux, token) // 1er affichage de la galerie
+    afficherGalerieModale(travaux, token)
 
         /* Vue 2 */
     let listeCategories = listerCategories(travaux)
@@ -281,7 +283,7 @@ export async function ouvrirModale(event, travaux, token) {
 /*
 ** Déclaration de la fonction qui nettoie la modale à sa fermeture
 */
-export async function fermerModale(event, travaux) { // Cette fonction fait l'inverse de la fonction ouvrirModale(event). Permet de nettoyer la boîte modale
+export async function fermerModale(event) { // Cette fonction fait l'inverse de la fonction ouvrirModale(event). Permet de nettoyer la boîte modale
     if (modal === null) return // Si on n'a pas encore ouvert la modale, cette variable renvoie la valeur null, donc on s'arrête là. Sinon on continue :
     
     event.preventDefault()
@@ -358,8 +360,4 @@ export async function fermerModale(event, travaux) { // Cette fonction fait l'in
     })
     
     modal = null // Après avoir tout réinitialisé, on redéfinit la valeur de la variable "modal" sur null
-
-    travaux = JSON.parse(window.localStorage.getItem("travaux"))
-    console.log(travaux)
-    afficherIndex(travaux)
 }
