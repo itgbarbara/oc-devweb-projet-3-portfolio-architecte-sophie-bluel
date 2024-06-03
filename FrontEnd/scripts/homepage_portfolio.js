@@ -29,6 +29,7 @@ if (token !== null) { // si token existe
 //*************** Exécution du script ***************//
 
 //** Premier affichage de la galerie de travaux **//
+document.querySelector(".gallery").innerHTML= ""
 afficherGalerie(travaux)
 
 //** Génération dynamique du menu de catégories **//
