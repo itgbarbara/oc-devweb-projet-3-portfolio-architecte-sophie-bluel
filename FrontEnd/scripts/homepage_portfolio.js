@@ -1,6 +1,3 @@
-//************************************ Import des fonctions ***********************************//
-
-import { listerCategories } from "./fetch_requests.js"
 
 //*******************************************************************************************************************//
 //*************** Déclaration des fonctions liées à l'affichage de la galerie (homepage_portfolio.js) ***************//
@@ -31,6 +28,19 @@ export function afficherGalerie(travaux) {
         //** Récupération de l'élément du DOM qui accueillera les projets (parent) **//
         document.querySelector(".gallery").appendChild(baliseFigure)
     }
+}
+
+/*
+** Déclaration de la fonction qui permettent d'extraire la liste de catégories sans doublons
+*/
+export function listerCategories(travaux) {
+    //** Récupération des catégories de travaux, en supprimant les doublons **//
+    let categories = new Map() // Création d'un nouvel objet Map, pour y stocker des paires de clé-valeur en mémorisant l'ordre d'insertion.
+    travaux.forEach( // méthode forEach pour exécuter une fonction une fois pour chaque élément du tableau "travaux"
+        projet => categories.set(projet.category.id, projet.category) // fonction lambda + set(key, value) appliqué à la structure Map pour y stocker des données
+    )
+    let listeCategories = Array.from(categories.values()) // Constitution d'un tableau à partir des values
+    return listeCategories
 }
 
 /*

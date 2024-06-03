@@ -1,7 +1,7 @@
 //************************************ Import des fonctions ***********************************//
 
-import { listerCategories, supprimerProjet, ajouterProjet } from "./fetch_requests.js"
-import { afficherIndex } from "./homepage_portfolio.js"
+import { listerCategories, afficherIndex } from "./homepage_portfolio.js"
+import { ajouterProjet, supprimerProjet } from "./fetch_requests.js"
 
 
 //***********************************************************************************************//
@@ -11,7 +11,7 @@ import { afficherIndex } from "./homepage_portfolio.js"
 /*
 ** Déclaration de la fonction qui permet d'afficher les travaux dans la page 1 de la modale
 */
-export function afficherGalerieModale(travaux) {
+export function afficherGalerieModale(travaux, token) {
     document.querySelector(".modal-gallery").innerHTML= ""
     
     for (let i=0; i < travaux.length; i++) {
@@ -36,15 +36,33 @@ export function afficherGalerieModale(travaux) {
         //** Récupération de l'élément du DOM qui accueillera les projets (parent) **//
         document.querySelector(".modal-gallery").appendChild(baliseFigure)
     }
+
+    //** Suppression d'un projet **//
+    document.querySelectorAll(".js-delete-work").forEach(btnSupprimer => {
+        btnSupprimer.addEventListener("click", (event) => {
+            event.preventDefault()
+
+            let id = event.target.closest("figure").getAttribute("data-id")
+            supprimerProjet(id, token)
+        })
+    })
 }
-
-
 
 /*
 ** Déclaration de la fonction qui permet de supprimer les travaux dans la page 1 de la modale (nettoyage de la modale lors de sa fermeture)
 */
 export function supprimerGalerieModale() {
     document.querySelector(".modal-gallery").innerHTML = ""
+
+    //** Suppression d'un projet **//
+    document.querySelectorAll(".js-delete-work").forEach(btnSupprimer => {
+        btnSupprimer.removeEventListener("click", (event) => {
+            event.preventDefault()
+
+            let id = event.target.closest("figure").getAttribute("data-id")
+            supprimerProjet(id, token)
+        })
+    })
 }
 
 /*
@@ -194,7 +212,7 @@ export async function ouvrirModale(event, travaux, token) {
 
     //** Affichage des données provenant de l'API **//
         /* Vue 1 */
-    afficherGalerieModale(travaux) // 1er affichage de la galerie
+    afficherGalerieModale(travaux, token) // 1er affichage de la galerie
 
         /* Vue 2 */
     let listeCategories = listerCategories(travaux)
@@ -211,15 +229,15 @@ export async function ouvrirModale(event, travaux, token) {
         btnPrecedent.addEventListener("click", changerVueModale)
     })
 
-    //** Suppression d'un projet **//
-    document.querySelectorAll(".js-delete-work").forEach(btnSupprimer => {
-        btnSupprimer.addEventListener("click", (event) => {
-            event.preventDefault()
+    // //** Suppression d'un projet **//
+    // document.querySelectorAll(".js-delete-work").forEach(btnSupprimer => {
+    //     btnSupprimer.addEventListener("click", (event) => {
+    //         event.preventDefault()
 
-            let id = event.target.closest("figure").getAttribute("data-id")
-            supprimerProjet(id, token)
-        })
-    })
+    //         let id = event.target.closest("figure").getAttribute("data-id")
+    //         supprimerProjet(id, token)
+    //     })
+    // })
 
     //** Ajout d'un projet **//
     resetFormulaire()
@@ -291,15 +309,15 @@ export async function fermerModale(event, travaux) { // Cette fonction fait l'in
         btnPrecedent.removeEventListener("click", changerVueModale)
     })
 
-    //** Reset suppression d'un projet **//
-    document.querySelectorAll(".js-delete-work").forEach(btnSupprimer => {
-        btnSupprimer.removeEventListener("click", (event) => {
-            event.preventDefault()
+    // //** Reset suppression d'un projet **//
+    // document.querySelectorAll(".js-delete-work").forEach(btnSupprimer => {
+    //     btnSupprimer.removeEventListener("click", (event) => {
+    //         event.preventDefault()
 
-            let id = event.target.closest("figure").getAttribute("data-id")
-            supprimerProjet(id, token)
-        })
-    })
+    //         let id = event.target.closest("figure").getAttribute("data-id")
+    //         supprimerProjet(id, token)
+    //     })
+    // })
 
     //** Reset ajout d'un projet **//
     resetFormulaire()

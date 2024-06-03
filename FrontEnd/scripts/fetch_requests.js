@@ -1,67 +1,12 @@
 
+//************************************ Import des fonctions ***********************************//
+
+import { afficherGalerie, afficherIndex } from "./homepage_portfolio.js"
+import { afficherGalerieModale } from "./homepage_modal.js"
+
 //*******************************************************************************************************************//
 //*************** Déclaration des fonctions liées à l'affichage de la galerie (homepage_portfolio.js) ***************//
 //*******************************************************************************************************************//
-
-/*
-** Déclaration de la fonction qui génère dynamiquement tout le contenu de la galerie des projets
-*/
-export function afficherGalerie(travaux) {
-    document.querySelector(".gallery").innerHTML = ""
-    
-    for (let i=0; i < travaux.length; i++) {
-        const projet = travaux[i]
-
-        //** Création des élements html de la galerie de travaux **//
-        const baliseFigure = document.createElement("figure")
-        baliseFigure.dataset.id = projet.id
-    
-        const imageProjet = document.createElement("img")
-        imageProjet.src = projet.imageUrl
-        imageProjet.alt = projet.title
-        baliseFigure.appendChild(imageProjet)
-        
-        const captionProjet = document.createElement("figcaption")
-        captionProjet.innerText = projet.title
-        baliseFigure.appendChild(captionProjet)
-
-        //** Récupération de l'élément du DOM qui accueillera les projets (parent) **//
-        document.querySelector(".gallery").appendChild(baliseFigure)
-    }
-}
-
-
-/*
-** Déclaration de la fonction qui permet d'afficher les travaux dans la page 1 de la modale
-*/
-export function afficherGalerieModale(travaux) {
-    document.querySelector(".modal-gallery").innerHTML= ""
-    
-    for (let i=0; i < travaux.length; i++) {
-        const projet = travaux[i]
-
-        //** Création des élements html de la galerie de travaux **//
-        const baliseFigure = document.createElement("figure")
-        baliseFigure.dataset.id = projet.id
-
-        const imageProjet = document.createElement("img")
-        imageProjet.src = projet.imageUrl
-        imageProjet.alt = projet.title
-        baliseFigure.appendChild(imageProjet)
-        
-        const btnSupprimer = document.createElement("button")
-        btnSupprimer.classList.add("modal-delete-button", "js-delete-work")
-        const iconeSupprimer = document.createElement("i")
-        iconeSupprimer.classList.add("fa-solid", "fa-trash-can")
-        baliseFigure.appendChild(btnSupprimer)
-        btnSupprimer.appendChild(iconeSupprimer)
-
-        //** Récupération de l'élément du DOM qui accueillera les projets (parent) **//
-        document.querySelector(".modal-gallery").appendChild(baliseFigure)
-    }
-}
-
-
 
 /*
 ** Déclaration de la fonction permettant de récupérer les travaux et les stocker dans le localStorage
@@ -89,50 +34,10 @@ export async function resetTravauxLocalStorage() {
 }
 
 /*
-** Déclaration de la fonction qui permettent d'extraire la liste de catégories sans doublons
-*/
-export function listerCategories(travaux) {
-    //** Récupération des catégories de travaux, en supprimant les doublons **//
-    let categories = new Map() // Création d'un nouvel objet Map, pour y stocker des paires de clé-valeur en mémorisant l'ordre d'insertion.
-    travaux.forEach( // méthode forEach pour exécuter une fonction une fois pour chaque élément du tableau "travaux"
-        projet => categories.set(projet.category.id, projet.category) // fonction lambda + set(key, value) appliqué à la structure Map pour y stocker des données
-    )
-    let listeCategories = Array.from(categories.values()) // Constitution d'un tableau à partir des values
-    return listeCategories
-}
-
-/*
-** Déclaration de la fonction qui permet de récupérer le token et connecter l'utilisateur
-*/
-export function connecterUtilisateur(loginUtilisateur) {
-    fetch("http://localhost:5678/api/users/login", {
-        method: "POST",
-        headers: {
-            "accept": "application/json",
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(loginUtilisateur)
-    })
-    .then(reponse => {
-        if (reponse.ok) {
-            reponse.json()
-            .then(token => {
-                localStorage.setItem("token", JSON.stringify(token))
-                window.location.href="index.html"
-            })
-        } else {
-            const loginForm = document.querySelector(".login-form")
-            loginForm.reset()
-            throw new Error("Erreur d'identifiant ou de mot de passe")
-        }
-    })
-    .catch(error => afficherMessageErreur(error.message))
-}
-
-/*
 ** Déclaration de la fonction permettant de faire une requête pour supprimer un projet de la BDD
 */
 export function supprimerProjet(id, token) {
+    token = JSON.parse(localStorage.getItem("token"))
     fetch(`http://localhost:5678/api/works/${id}`, {
         method: "DELETE",
         headers: {
@@ -146,19 +51,17 @@ export function supprimerProjet(id, token) {
         } else {
             console.log("L'élément a bien été supprimé")
 
-            // TEST :
+            // let galerieModale = document.querySelector(".modal-gallery")
+            // let projetASupprimerModale = galerieModale.querySelector(`figure[data-id="${id}"]`)
+            // projetASupprimerModale.remove()
 
-            let galerieModale = document.querySelector(".modal-gallery")
-            let projetASupprimerModale = galerieModale.querySelector(`figure[data-id="${id}"]`)
-            projetASupprimerModale.remove()
-
-            let galerieIndex = document.querySelector(".gallery")
-            let projetASupprimerIndex = galerieIndex.querySelector(`figure[data-id="${id}"]`)
-            projetASupprimerIndex.remove()
+            // let galerieIndex = document.querySelector(".gallery")
+            // let projetASupprimerIndex = galerieIndex.querySelector(`figure[data-id="${id}"]`)
+            // projetASupprimerIndex.remove()
 
             resetTravauxLocalStorage().then(travaux => {
                 afficherGalerie(travaux)
-                // afficherGalerieModale(travaux)
+                afficherGalerieModale(travaux)
             })
         }
     })
@@ -169,6 +72,7 @@ export function supprimerProjet(id, token) {
 ** Déclaration de la fonction permettant de faire une requête pour ajouter un projet à la BDD
 */
 export async function ajouterProjet(formData, token) {
+    token = JSON.parse(localStorage.getItem("token"))
     fetch("http://localhost:5678/api/works", {
         method: "POST",
         headers: {
@@ -185,7 +89,7 @@ export async function ajouterProjet(formData, token) {
 
             resetTravauxLocalStorage().then(travaux => {
                 afficherGalerie(travaux)
-                // afficherGalerieModale(travaux)
+                afficherGalerieModale(travaux)
             })
         }
     })
