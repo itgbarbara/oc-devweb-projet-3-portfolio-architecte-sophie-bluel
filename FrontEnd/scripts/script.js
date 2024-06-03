@@ -139,7 +139,6 @@ export function afficherMessageErreur(message) {
     spanMessageErreur.innerText = message // Ajout ou mise à jour du message à l'intérieur de la <span>
 }
 
-
 /*
 ** Déclaration de la fonction qui permet de récupérer le token et connecter l'utilisateur
 */
@@ -160,8 +159,8 @@ export function connecterUtilisateur(url, loginUtilisateur) {
                 window.location.href="index.html"
             })
         } else {
-            document.getElementById("email").value = ""
-            document.getElementById("mdp").value = ""
+            const loginForm = document.querySelector(".login-form")
+            loginForm.reset()
             throw new Error("Erreur d'identifiant ou de mot de passe")
         }
     })
@@ -190,9 +189,8 @@ export function desactiverModeEdition() {
     document.querySelector(".edit-button").classList.add("inactive")
 }
 
-
 /*
-** Déclaration de la fonction qui permet de supprimer le token, déconnecter l'utilisateur et quitter le mode édition
+** Déclaration de la fonction qui permet de supprimer le token
 */
 export function deconnecterUtilisateur() {
     localStorage.removeItem("token")
@@ -217,8 +215,6 @@ export function ouvrirPopupLogout(event) {
         document.location.reload()
     })
 
-    // popupLogout.addEventListener("click", fermerpopupLogout)
-    // popupLogout.querySelector(".js-stop-propagation").addEventListener("click", stopPropagation) // On empêche la propagation du listener à partir de l'élément "modal-wrapper" (et ses enfants)
     popupLogout.querySelectorAll(".js-close-popup").forEach(btnRetour => {
         btnRetour.addEventListener("click", fermerPopupLogout)
     })
@@ -240,8 +236,6 @@ export function fermerPopupLogout(event) {
         document.location.reload()
     })
 
-    // popupLogout.removeEventListener("click", fermerpopupLogout)
-    // popupLogout.querySelector(".js-stop-propagation").removeEventListener("click", stopPropagation) // On empêche la propagation du listener à partir de l'élément "modal-wrapper" (et ses enfants)
     popupLogout.querySelectorAll(".js-close-popup").forEach(btnRetour => {
         btnRetour.removeEventListener("click", fermerPopupLogout)
     })
@@ -330,7 +324,6 @@ export function changerVueModale() {
     document.getElementById("modal-vue-2").classList.toggle("inactive")
 }
 
-
 /*
 ** Déclaration de la fonction permettant de faire une requête pour supprimer un projet de la BDD
 */
@@ -347,6 +340,7 @@ export function supprimerProjet(id, token) {
             throw new Error("Erreur :" + error.message)
         } else {
             console.log("L'élément a bien été supprimé")
+            resetTravauxLocalStorage()
 
             let galerieModale = document.querySelector(".modal-gallery")
             let projetASupprimerModale = galerieModale.querySelector(`figure[data-id="${id}"]`)
@@ -359,7 +353,6 @@ export function supprimerProjet(id, token) {
     })
     .catch(error => error.message)
 }
-
 
 /*
 ** Déclaration de la fonction permettant d'afficher une preview de l'image sélectionnée dans le formulaire d'envoi d'un projet
@@ -392,7 +385,6 @@ export function supprimerPreviewFichier() {
         baliseImg.remove()
     }
 }
-
 
 /*
 ** Déclaration de la fonction permettant de récupérer les champs du formulaires pour créer un objet formData (body de la requête d'envoi)
@@ -448,7 +440,6 @@ export async function resetTravauxLocalStorage() {
         // afficherGalerieModale(travaux)
 }
 
-
 /*
 ** Déclaration de la fonction permettant d'afficher une popup de confirmation en cas de succès de l'ajout
 */
@@ -460,8 +451,6 @@ function ouvrirPopupConfirmationAjout() {
     popupConfirmationAjout.style.display = null
     popupConfirmationAjout.setAttribute("aria-hidden", "false")
 
-    // popupConfirmationAjout.addEventListener("click", fermerPopupConfirmationAjout)
-    // popupConfirmationAjout.querySelector(".js-stop-propagation").addEventListener("click", stopPropagation)
     popupConfirmationAjout.querySelector(".js-close-popup").addEventListener("click", fermerPopupConfirmationAjout)
 
 }
@@ -474,8 +463,6 @@ function fermerPopupConfirmationAjout() {
     popupConfirmationAjout.style.display = "none"
     popupConfirmationAjout.setAttribute("aria-hidden", "true")
 
-    // popupConfirmationAjout.removeEventListener("click", fermerPopupConfirmationAjout)
-    // popupConfirmationAjout.querySelector(".js-stop-propagation").removeEventListener("click", stopPropagation)
     popupConfirmationAjout.querySelector(".js-close-popup").removeEventListener("click", fermerPopupConfirmationAjout)
 
     popupConfirmationAjout = null
@@ -501,7 +488,7 @@ export function ajouterProjet(formData, token) {
         } else {
             // ouvrirPopupConfirmationAjout()
             console.log("Votre projet a bien été ajouté")
-            // majProjets()
+            resetTravauxLocalStorage()
         }
     })
     .catch(error => {
@@ -680,9 +667,4 @@ export async function fermerModale(event) { // Cette fonction fait l'inverse de 
     })
     
     modal = null // Après avoir tout réinitialisé, on redéfinit la valeur de la variable "modal" sur null
-
-    //** Mise à jour du localStorage **//
-    resetTravauxLocalStorage()
-
-    // majProjets()
 }
