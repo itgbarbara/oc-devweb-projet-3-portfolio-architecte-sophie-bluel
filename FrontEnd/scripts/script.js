@@ -430,20 +430,22 @@ export function validerChamps(btnSubmitWork, imageProjet, titreProjet, categorie
 /*
 ** Déclaration de la fonction permettant de mettre à jour le localStorage et les galeries
 */
-export async function majProjets() {
+export async function resetTravauxLocalStorage() {
         //** Mise à jour du localStorage **//
         window.localStorage.removeItem("travaux")
         const reponse = await fetch("http://localhost:5678/api/works")
         const travaux = await reponse.json()
         const valeurTravaux = JSON.stringify(travaux)
         window.localStorage.setItem("travaux", valeurTravaux)
+
+        // return travaux
         
         //** Mise à jour des galeries **//
-        document.querySelector(".gallery").innerHTML= ""
-        afficherGalerie(travaux)
+        // document.querySelector(".gallery").innerHTML= ""
+        // afficherGalerie(travaux)
 
-        document.querySelector(".modal-gallery").innerHTML = ""
-        afficherGalerieModale(travaux)
+        // document.querySelector(".modal-gallery").innerHTML = ""
+        // afficherGalerieModale(travaux)
 }
 
 
@@ -497,10 +499,9 @@ export function ajouterProjet(formData, token) {
         if (!reponse.ok) {
             throw new Error("Votre projet n'a pas été ajouté")
         } else {
-            ouvrirPopupConfirmationAjout()
+            // ouvrirPopupConfirmationAjout()
             console.log("Votre projet a bien été ajouté")
-
-            majProjets()
+            // majProjets()
         }
     })
     .catch(error => {
@@ -680,5 +681,8 @@ export async function fermerModale(event) { // Cette fonction fait l'inverse de 
     
     modal = null // Après avoir tout réinitialisé, on redéfinit la valeur de la variable "modal" sur null
 
-    majProjets()
+    //** Mise à jour du localStorage **//
+    resetTravauxLocalStorage()
+
+    // majProjets()
 }
