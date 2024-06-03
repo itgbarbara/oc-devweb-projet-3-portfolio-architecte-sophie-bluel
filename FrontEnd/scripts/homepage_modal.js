@@ -193,7 +193,6 @@ export async function ouvrirModale(event, travaux, token) {
 
     //** Affichage des données provenant de l'API **//
         /* Vue 1 */
-    console.log(travaux)
     afficherGalerieModale(travaux) // 1er affichage de la galerie
 
         /* Vue 2 */
