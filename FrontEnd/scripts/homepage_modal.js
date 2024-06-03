@@ -1,8 +1,7 @@
-/*
-** Import des fonctions
-*/
-import { recupererTravaux, resetTravauxLocalStorage, listerCategories, connecterUtilisateur, supprimerProjet, ajouterProjet } from "./fetch_requests.js"
-import { afficherGalerie } from "./homepage_portfolio.js"
+//************************************ Import des fonctions ***********************************//
+
+import { listerCategories, supprimerProjet, ajouterProjet } from "./fetch_requests.js"
+import { afficherIndex } from "./homepage_portfolio.js"
 
 
 //***********************************************************************************************//
@@ -38,6 +37,8 @@ export function afficherGalerieModale(travaux) {
         document.querySelector(".modal-gallery").appendChild(baliseFigure)
     }
 }
+
+
 
 /*
 ** Déclaration de la fonction qui permet de supprimer les travaux dans la page 1 de la modale (nettoyage de la modale lors de sa fermeture)
@@ -342,5 +343,5 @@ export async function fermerModale(event, travaux) { // Cette fonction fait l'in
 
     travaux = JSON.parse(window.localStorage.getItem("travaux"))
     console.log(travaux)
-    afficherGalerie(travaux)
+    afficherIndex(travaux)
 }

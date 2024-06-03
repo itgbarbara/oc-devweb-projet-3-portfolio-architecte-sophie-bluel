@@ -1,4 +1,68 @@
 
+//*******************************************************************************************************************//
+//*************** Déclaration des fonctions liées à l'affichage de la galerie (homepage_portfolio.js) ***************//
+//*******************************************************************************************************************//
+
+/*
+** Déclaration de la fonction qui génère dynamiquement tout le contenu de la galerie des projets
+*/
+export function afficherGalerie(travaux) {
+    document.querySelector(".gallery").innerHTML = ""
+    
+    for (let i=0; i < travaux.length; i++) {
+        const projet = travaux[i]
+
+        //** Création des élements html de la galerie de travaux **//
+        const baliseFigure = document.createElement("figure")
+        baliseFigure.dataset.id = projet.id
+    
+        const imageProjet = document.createElement("img")
+        imageProjet.src = projet.imageUrl
+        imageProjet.alt = projet.title
+        baliseFigure.appendChild(imageProjet)
+        
+        const captionProjet = document.createElement("figcaption")
+        captionProjet.innerText = projet.title
+        baliseFigure.appendChild(captionProjet)
+
+        //** Récupération de l'élément du DOM qui accueillera les projets (parent) **//
+        document.querySelector(".gallery").appendChild(baliseFigure)
+    }
+}
+
+
+/*
+** Déclaration de la fonction qui permet d'afficher les travaux dans la page 1 de la modale
+*/
+export function afficherGalerieModale(travaux) {
+    document.querySelector(".modal-gallery").innerHTML= ""
+    
+    for (let i=0; i < travaux.length; i++) {
+        const projet = travaux[i]
+
+        //** Création des élements html de la galerie de travaux **//
+        const baliseFigure = document.createElement("figure")
+        baliseFigure.dataset.id = projet.id
+
+        const imageProjet = document.createElement("img")
+        imageProjet.src = projet.imageUrl
+        imageProjet.alt = projet.title
+        baliseFigure.appendChild(imageProjet)
+        
+        const btnSupprimer = document.createElement("button")
+        btnSupprimer.classList.add("modal-delete-button", "js-delete-work")
+        const iconeSupprimer = document.createElement("i")
+        iconeSupprimer.classList.add("fa-solid", "fa-trash-can")
+        baliseFigure.appendChild(btnSupprimer)
+        btnSupprimer.appendChild(iconeSupprimer)
+
+        //** Récupération de l'élément du DOM qui accueillera les projets (parent) **//
+        document.querySelector(".modal-gallery").appendChild(baliseFigure)
+    }
+}
+
+
+
 /*
 ** Déclaration de la fonction permettant de récupérer les travaux et les stocker dans le localStorage
 */
@@ -12,7 +76,7 @@ export async function recupererTravaux() {
     const valeurTravaux = JSON.stringify(travaux)
     window.localStorage.setItem("travaux", valeurTravaux)
     
-    return travaux //// A TESTER
+    return travaux
 }
 
 /*
@@ -21,7 +85,6 @@ export async function recupererTravaux() {
 export async function resetTravauxLocalStorage() {
     window.localStorage.removeItem("travaux")
     const travaux = await recupererTravaux()
-    console.log(travaux) // Debugger
     return travaux
 }
 
@@ -83,6 +146,8 @@ export function supprimerProjet(id, token) {
         } else {
             console.log("L'élément a bien été supprimé")
 
+            // TEST :
+
             let galerieModale = document.querySelector(".modal-gallery")
             let projetASupprimerModale = galerieModale.querySelector(`figure[data-id="${id}"]`)
             projetASupprimerModale.remove()
@@ -91,7 +156,10 @@ export function supprimerProjet(id, token) {
             let projetASupprimerIndex = galerieIndex.querySelector(`figure[data-id="${id}"]`)
             projetASupprimerIndex.remove()
 
-            resetTravauxLocalStorage()
+            resetTravauxLocalStorage().then(travaux => {
+                afficherGalerie(travaux)
+                // afficherGalerieModale(travaux)
+            })
         }
     })
     .catch(error => error.message)
@@ -100,7 +168,7 @@ export function supprimerProjet(id, token) {
 /*
 ** Déclaration de la fonction permettant de faire une requête pour ajouter un projet à la BDD
 */
-export function ajouterProjet(formData, token) {
+export async function ajouterProjet(formData, token) {
     fetch("http://localhost:5678/api/works", {
         method: "POST",
         headers: {
@@ -111,16 +179,15 @@ export function ajouterProjet(formData, token) {
         body: formData,
     })
     .then(reponse => {
-        if (!reponse.ok) {
-            throw new Error("Votre projet n'a pas été ajouté")
-        } else {
+        if (reponse.ok) {
             // ouvrirPopupConfirmationAjout()
             console.log("Votre projet a bien été ajouté")
-            resetTravauxLocalStorage()
+
+            resetTravauxLocalStorage().then(travaux => {
+                afficherGalerie(travaux)
+                // afficherGalerieModale(travaux)
+            })
         }
     })
-    .catch(error => {
-        error.message
-        console.log("Votre projet n'a pas été ajouté")
-    })
+    .catch(error => console.error(error.message))
 }

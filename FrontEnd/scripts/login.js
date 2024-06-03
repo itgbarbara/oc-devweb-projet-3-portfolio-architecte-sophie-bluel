@@ -1,7 +1,3 @@
-/*
-** Import des fonctions
-*/
-import { recupererTravaux, resetTravauxLocalStorage, listerCategories, connecterUtilisateur, supprimerProjet, ajouterProjet } from "./fetch_requests.js"
 
 //***********************************************************************************************//
 //*************** Déclaration des fonctions liées à la connexion de l'utilisateur ***************//

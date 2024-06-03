@@ -1,11 +1,10 @@
-/*
-** Import des fonctions
-*/
-import { recupererTravaux, resetTravauxLocalStorage, listerCategories, connecterUtilisateur, supprimerProjet, ajouterProjet } from "./fetch_requests.js"
+//************************************ Import des fonctions ***********************************//
+
+import { connecterUtilisateur } from "./fetch_requests.js"
 import { validerEmail, validerMdp, afficherMessageErreur } from "./login.js"
 
 
-//*************** Exécution du script ***************//
+//************************************ Exécution du script ************************************//
 
 const loginForm = document.querySelector(".login-form")
 

@@ -1,7 +1,6 @@
-/*
-** Import des fonctions
-*/
-import { recupererTravaux, resetTravauxLocalStorage, listerCategories, connecterUtilisateur, supprimerProjet, ajouterProjet } from "./fetch_requests.js"
+//************************************ Import des fonctions ***********************************//
+
+import { listerCategories } from "./fetch_requests.js"
 
 //*******************************************************************************************************************//
 //*************** Déclaration des fonctions liées à l'affichage de la galerie (homepage_portfolio.js) ***************//
@@ -39,12 +38,14 @@ export function afficherGalerie(travaux) {
 */
 export function genererBoutonsCategorie(listeCategories) {
 
+    const divFilterButtons = document.querySelector(".filter-buttons")
+    divFilterButtons.innerHTML = ""
+
     //** Génération du bouton pour réinitialiser l'affichage par défaut **//
     const baliseButtonParDefaut = document.createElement("button")
     baliseButtonParDefaut.classList.add("btn-par-defaut")
     baliseButtonParDefaut.innerText = "Tous"
 
-    const divFilterButtons = document.querySelector(".filter-buttons")
     divFilterButtons.appendChild(baliseButtonParDefaut)
 
     //** Génération dynamique des boutons de catégories **//
@@ -64,6 +65,8 @@ export function genererBoutonsCategorie(listeCategories) {
 ** Déclaration de la fonction qui gère le fonctionnement des boutons du menu de catégories
 */
 export function gererBoutonsCategorie(travaux, listeCategories) {
+
+    travaux = JSON.parse(window.localStorage.getItem("travaux")) // TEST
 
     //** Affichage par défaut **//
     const affichageParDefaut = document.querySelector(".btn-par-defaut")
@@ -90,4 +93,11 @@ export function gererBoutonsCategorie(travaux, listeCategories) {
             }
         }
     )}
+}
+
+export function afficherIndex(travaux) {
+    afficherGalerie(travaux)
+    let listeCategories = listerCategories(travaux)
+    genererBoutonsCategorie(listeCategories)
+    gererBoutonsCategorie(travaux, listeCategories)
 }
