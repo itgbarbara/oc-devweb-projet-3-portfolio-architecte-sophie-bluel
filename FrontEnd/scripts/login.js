@@ -58,6 +58,34 @@ export function desactiverModeEdition() {
 }
 
 /*
+** Déclaration de la fonction qui permet de récupérer le token et connecter l'utilisateur
+*/
+export function connecterUtilisateur(loginUtilisateur) {
+    fetch("http://localhost:5678/api/users/login", {
+        method: "POST",
+        headers: {
+            "accept": "application/json",
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(loginUtilisateur)
+    })
+    .then(reponse => {
+        if (reponse.ok) {
+            reponse.json()
+            .then(token => {
+                localStorage.setItem("token", JSON.stringify(token))
+                window.location.href="index.html"
+            })
+        } else {
+            const loginForm = document.querySelector(".login-form")
+            loginForm.reset()
+            throw new Error("Erreur d'identifiant ou de mot de passe")
+        }
+    })
+    .catch(error => afficherMessageErreur(error.message))
+}
+
+/*
 ** Déclaration de la fonction qui permet de supprimer le token
 */
 export function deconnecterUtilisateur() {
