@@ -7,6 +7,8 @@
 ** Déclaration de la fonction qui génère dynamiquement tout le contenu de la galerie des projets
 */
 export function afficherGalerie(travaux) {
+    document.querySelector(".gallery").innerHTML = ""
+    
     for (let i=0; i < travaux.length; i++) {
         const projet = travaux[i]
 
@@ -252,6 +254,8 @@ export function fermerPopupLogout(event) {
 ** Déclaration de la fonction qui permet d'afficher les travaux dans la page 1 de la modale
 */
 export function afficherGalerieModale(travaux) {
+    document.querySelector(".modal-gallery").innerHTML= ""
+    
     for (let i=0; i < travaux.length; i++) {
         const projet = travaux[i]
 
@@ -322,6 +326,22 @@ export function stopPropagation(event) {
 export function changerVueModale() {
     document.getElementById("modal-vue-1").classList.toggle("inactive")
     document.getElementById("modal-vue-2").classList.toggle("inactive")
+}
+
+/*
+** Déclaration de la fonction permettant de mettre à jour le localStorage et les galeries
+*/
+export async function resetTravauxLocalStorage() {
+    //** Mise à jour du localStorage **//
+    window.localStorage.removeItem("travaux")
+    const reponse = await fetch("http://localhost:5678/api/works")
+    const travaux = await reponse.json()
+    const valeurTravaux = JSON.stringify(travaux)
+    window.localStorage.setItem("travaux", valeurTravaux)
+
+    //** Mise à jour des galeries **//
+    // afficherGalerie(travaux)
+    // afficherGalerieModale(travaux)
 }
 
 /*
@@ -417,27 +437,6 @@ export function validerChamps(btnSubmitWork, imageProjet, titreProjet, categorie
             btnSubmitWork.disabled = false
         }
     }
-}
-
-/*
-** Déclaration de la fonction permettant de mettre à jour le localStorage et les galeries
-*/
-export async function resetTravauxLocalStorage() {
-        //** Mise à jour du localStorage **//
-        window.localStorage.removeItem("travaux")
-        const reponse = await fetch("http://localhost:5678/api/works")
-        const travaux = await reponse.json()
-        const valeurTravaux = JSON.stringify(travaux)
-        window.localStorage.setItem("travaux", valeurTravaux)
-
-        // return travaux
-        
-        //** Mise à jour des galeries **//
-        // document.querySelector(".gallery").innerHTML= ""
-        // afficherGalerie(travaux)
-
-        // document.querySelector(".modal-gallery").innerHTML = ""
-        // afficherGalerieModale(travaux)
 }
 
 /*
