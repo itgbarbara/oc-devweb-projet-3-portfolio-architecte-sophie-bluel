@@ -28,7 +28,7 @@ if (categories === null) {
 let token = localStorage.getItem("token")
 let isLogedIn = false
 if (token !== null) { // si token existe
-    token = JSON.parse(token) // Reconstruction des données
+    token = JSON.parse(token)
     isLogedIn = true
 }
 
@@ -39,19 +39,20 @@ afficherIndex(travaux)
 
 //** Vérification de la présence du token d'authentification **//
 if (isLogedIn === true) {
+    //** Activation du mode édition **//
     activerModeEdition()
+
+    //** Activation du fonctionnement de la modale **//
+    document.querySelectorAll(".js-open-modal").forEach(btnModifier => {
+        btnModifier.addEventListener("click", (event) => {
+            travaux = JSON.parse(window.localStorage.getItem("travaux"))
+            ouvrirModale(event, travaux, categories, token)
+        })
+    })
+
+    //** Déconnexion **//
+    const btnLogout = document.getElementById("lien-logout")
+    btnLogout.addEventListener("click", ouvrirPopupLogout)
 } else {
     desactiverModeEdition()
 }
-
-//** Déconnexion **//
-const btnLogout = document.getElementById("lien-logout")
-btnLogout.addEventListener("click", ouvrirPopupLogout)
-
-//** Ouverture et activation de la modale **//
-document.querySelectorAll(".js-open-modal").forEach(btnModifier => {
-    btnModifier.addEventListener("click", (event) => {
-        travaux = JSON.parse(window.localStorage.getItem("travaux"))
-        ouvrirModale(event, travaux, categories, token)
-    })
-})
