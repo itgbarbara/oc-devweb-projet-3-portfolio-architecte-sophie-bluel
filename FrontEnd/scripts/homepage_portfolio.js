@@ -76,7 +76,7 @@ export function genererBoutonsCategorie(listeCategories) {
 */
 export function gererBoutonsCategorie(travaux, listeCategories) {
 
-    travaux = JSON.parse(window.localStorage.getItem("travaux")) // TEST
+    travaux = JSON.parse(window.localStorage.getItem("travaux"))
 
     //** Affichage par défaut **//
     const affichageParDefaut = document.querySelector(".btn-par-defaut")
@@ -86,9 +86,8 @@ export function gererBoutonsCategorie(travaux, listeCategories) {
     })
 
     //** Sélection d'une catégorie **//
-    const btnCategorie = document.querySelectorAll(".btn-categorie") // Utiliser methode forEach pour alléger le code
-    for (let i=0; i < btnCategorie.length; i++) {
-        btnCategorie[i].addEventListener("click", (event) => {
+    document.querySelectorAll(".btn-categorie").forEach(btnCategorie => {
+        btnCategorie.addEventListener("click", (event) => {
 
             let btnCategorieClick = event.target.value
 
@@ -101,8 +100,8 @@ export function gererBoutonsCategorie(travaux, listeCategories) {
 
                 }
             }
-        }
-    )}
+        })
+    })
 }
 
 export function afficherIndex(travaux) {
