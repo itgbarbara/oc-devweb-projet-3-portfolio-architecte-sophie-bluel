@@ -1,6 +1,6 @@
 //************************************ Import des fonctions ***********************************//
 
-import { recupererTravaux } from "./fetch_requests.js"
+import { recupererCategories, recupererTravaux } from "./fetch_requests.js"
 import { afficherIndex } from "./homepage_portfolio.js"
 import { activerModeEdition, desactiverModeEdition, ouvrirPopupLogout } from "./login.js"
 import { ouvrirModale } from "./homepage_modal.js"
@@ -14,6 +14,14 @@ if (travaux === null) { // peut aussi s'écrire if (!travaux)
     recupererTravaux()
 } else {
     travaux = JSON.parse(travaux)
+}
+
+//** Récupération de la liste de catégories **//
+let categories = window.localStorage.getItem("categories")
+if (categories === null) {
+    recupererCategories()
+} else {
+    categories = JSON.parse(categories)
 }
 
 //** Récupération du token éventuellement stockées dans le localStorage **//
