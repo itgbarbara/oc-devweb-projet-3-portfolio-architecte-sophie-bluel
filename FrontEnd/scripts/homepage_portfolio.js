@@ -52,22 +52,29 @@ export function genererBoutonsCategorie(listeCategories) {
     divFilterButtons.innerHTML = ""
 
     //** Génération du bouton pour réinitialiser l'affichage par défaut **//
+    const baliseListe = document.createElement("li")
+
     const baliseButtonParDefaut = document.createElement("button")
     baliseButtonParDefaut.classList.add("btn-par-defaut")
     baliseButtonParDefaut.innerText = "Tous"
 
-    divFilterButtons.appendChild(baliseButtonParDefaut)
+    baliseListe.appendChild(baliseButtonParDefaut)
+    divFilterButtons.appendChild(baliseListe)
 
     //** Génération dynamique des boutons de catégories **//
     for (let i = 0; i < listeCategories.length; i++) {
+        const baliseListe = document.createElement("li")
+
         const baliseButton = document.createElement("button")
         baliseButton.classList.add("btn-categorie")
         baliseButton.value = listeCategories[i].name
         baliseButton.dataset.id = listeCategories[i].id
         baliseButton.innerText = listeCategories[i].name
+
+        baliseListe.appendChild(baliseButton)
         
         const divFilterButtons = document.querySelector(".filter-buttons")
-        divFilterButtons.appendChild(baliseButton)
+        divFilterButtons.appendChild(baliseListe)
     }
 }
 
