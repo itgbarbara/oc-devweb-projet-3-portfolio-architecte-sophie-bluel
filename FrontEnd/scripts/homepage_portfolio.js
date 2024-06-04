@@ -96,12 +96,12 @@ export function gererBoutonsCategorie(travaux, listeCategories) {
     document.querySelectorAll(".btn-categorie").forEach(btnCategorie => {
         btnCategorie.addEventListener("click", (event) => {
 
-            let btnCategorieClick = event.target.value
+            let btnCategorieClick = parseInt(event.target.dataset.id)
 
             for (let index = 0; index < listeCategories.length; index++) {
-                if (btnCategorieClick === listeCategories[index].name) {
+                if (btnCategorieClick === listeCategories[index].id) {
 
-                    let categorieChoisie = travaux.filter(travaux => travaux.category.name === listeCategories[index].name)
+                    let categorieChoisie = travaux.filter(travaux => travaux.category.id === listeCategories[index].id)
                     document.querySelector(".gallery").innerHTML = ""
                     afficherGalerie(categorieChoisie)
 
