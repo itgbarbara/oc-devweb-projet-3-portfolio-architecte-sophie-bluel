@@ -1,6 +1,5 @@
 //************************************ Import des fonctions ***********************************//
 
-import { listerCategories } from "./homepage_portfolio.js"
 import { ajouterProjet, supprimerProjet } from "./fetch_requests.js"
 
 
@@ -203,7 +202,7 @@ export function resetFormulaire() {
 ** Déclaration de la fonction qui gère les évènements à l'ouverture de la modale et son fonctionnement interne
 */
 let modal = null
-export async function ouvrirModale(event, travaux, token) {
+export async function ouvrirModale(event, travaux, categories, token) {
     event.preventDefault() // On empêche le comportement par défaut du clic sur le lien (renvoi vers l'ancre #modal)
     modal = document.getElementById("modal")
 
@@ -217,8 +216,7 @@ export async function ouvrirModale(event, travaux, token) {
     afficherGalerieModale(travaux, token)
 
         /* Vue 2 */
-    let listeCategories = listerCategories(travaux)
-    selectionnerCategorie(listeCategories)
+    selectionnerCategorie(categories)
 
     //** Gestion des vues de la modale **//
         /* Vue par défaut */

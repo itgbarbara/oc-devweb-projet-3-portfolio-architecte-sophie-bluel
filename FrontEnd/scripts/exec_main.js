@@ -52,6 +52,6 @@ btnLogout.addEventListener("click", ouvrirPopupLogout)
 document.querySelectorAll(".js-open-modal").forEach(btnModifier => {
     btnModifier.addEventListener("click", (event) => {
         travaux = JSON.parse(window.localStorage.getItem("travaux"))
-        ouvrirModale(event, travaux, token)
+        ouvrirModale(event, travaux, categories, token)
     })
 })
