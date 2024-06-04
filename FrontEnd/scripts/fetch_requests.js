@@ -40,7 +40,7 @@ export async function recupererCategories() {
 
     //** Stockage des catégories dans le localStorage **//
     const listeCategories = JSON.stringify(categories)
-    window.localStorage.setItem("categories", valeurCategories)
+    window.localStorage.setItem("categories", listeCategories)
     
     return categories
 }
