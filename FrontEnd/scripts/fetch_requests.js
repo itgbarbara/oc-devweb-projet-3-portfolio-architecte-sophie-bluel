@@ -33,6 +33,18 @@ export async function resetTravauxLocalStorage() {
     return travaux
 }
 
+export async function recupererCategories() {
+    //** Requête pour récupérer les catégories **//
+    const reponse = await fetch("http://localhost:5678/api/categories")
+    let categories = await reponse.json()
+
+    //** Stockage des catégories dans le localStorage **//
+    const listeCategories = JSON.stringify(categories)
+    window.localStorage.setItem("categories", valeurCategories)
+    
+    return categories
+}
+
 /*
 ** Déclaration de la fonction qui permet de récupérer le token et connecter l'utilisateur
 */
@@ -78,14 +90,6 @@ export function supprimerProjet(id, token) {
             throw new Error("Erreur :" + error.message)
         } else {
             console.log("L'élément a bien été supprimé")
-
-            // let galerieModale = document.querySelector(".modal-gallery")
-            // let projetASupprimerModale = galerieModale.querySelector(`figure[data-id="${id}"]`)
-            // projetASupprimerModale.remove()
-
-            // let galerieIndex = document.querySelector(".gallery")
-            // let projetASupprimerIndex = galerieIndex.querySelector(`figure[data-id="${id}"]`)
-            // projetASupprimerIndex.remove()
 
             resetTravauxLocalStorage().then(travaux => {
                 afficherIndex(travaux)
