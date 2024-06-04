@@ -68,17 +68,17 @@ export function supprimerGalerieModale() {
 /*
 ** Déclaration de la fonction qui permet d'afficher la liste déroulante de catégories dans la page 2 de la modale
 */
-export function selectionnerCategorie(listeCategories) {
+export function selectionnerCategorie(categories) {
     const baliseOptionVide = document.createElement("option")
     baliseOptionVide.value = ""
     document.getElementById("select-category").appendChild(baliseOptionVide)
     
     //** Génération dynamique de a liste déroulante de catégories **//
-    for (let i = 0; i < listeCategories.length; i++) {
+    for (let i = 0; i < categories.length; i++) {
         const baliseOption = document.createElement("option")
-        baliseOption.value = listeCategories[i].name
-        baliseOption.innerText = listeCategories[i].name
-        baliseOption.dataset.id = listeCategories[i].id
+        baliseOption.value = categories[i].name
+        baliseOption.innerText = categories[i].name
+        baliseOption.dataset.id = categories[i].id
 
         document.getElementById("select-category").appendChild(baliseOption)
     }
