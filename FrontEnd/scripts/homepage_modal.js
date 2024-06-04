@@ -231,16 +231,6 @@ export async function ouvrirModale(event, travaux, token) {
         btnPrecedent.addEventListener("click", changerVueModale)
     })
 
-    // //** Suppression d'un projet **//
-    // document.querySelectorAll(".js-delete-work").forEach(btnSupprimer => {
-    //     btnSupprimer.addEventListener("click", (event) => {
-    //         event.preventDefault()
-
-    //         let id = event.target.closest("figure").getAttribute("data-id")
-    //         supprimerProjet(id, token)
-    //     })
-    // })
-
     //** Ajout d'un projet **//
     resetFormulaire()
     let imageProjet = []
@@ -310,16 +300,6 @@ export async function fermerModale(event) { // Cette fonction fait l'inverse de 
     document.querySelectorAll(".modal-previous-btn").forEach(btnPrecedent => {
         btnPrecedent.removeEventListener("click", changerVueModale)
     })
-
-    // //** Reset suppression d'un projet **//
-    // document.querySelectorAll(".js-delete-work").forEach(btnSupprimer => {
-    //     btnSupprimer.removeEventListener("click", (event) => {
-    //         event.preventDefault()
-
-    //         let id = event.target.closest("figure").getAttribute("data-id")
-    //         supprimerProjet(id, token)
-    //     })
-    // })
 
     //** Reset ajout d'un projet **//
     resetFormulaire()
