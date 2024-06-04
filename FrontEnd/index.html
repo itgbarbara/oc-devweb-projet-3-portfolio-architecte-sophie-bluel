@@ -17,7 +17,7 @@
     <!-- Liens vers le fichier CSS : -->
 	<link rel="stylesheet" href="./assets/style.css">
 	<!-- Liens vers les scripts JS : -->
-	<script type="module" src="scripts/exec_main.js" defer></script>
+	<script type="module" src="scripts/exec_main.js"></script> <!-- Attribut "defer" non nécessaire car les modules sont chargés de façon différée par défaut -->
 </head>
 
 <body>
@@ -80,7 +80,7 @@
 			<i class="fa-regular fa-pen-to-square"></i><p>Mode édition</p>
 	</div>
 
-	<aside id="modal" class="modal-background" aria-hidden="true" role="dialog" style="display:none">
+	<div id="modal" role="dialog" class="modal-background" aria-hidden="true" style="display:none;">
 		<div class="modal-wrapper js-stop-propagation">
 			<div id="modal-vue-1" class="modal-vue"> <!-- Mettre <section> ici ? -->
 				<div class="modal-action-buttons">
@@ -123,7 +123,7 @@
 				</div>
 			</div>
 		</div>
-	</aside>
+	</div>
 
 	<dialog id="popup-confirmation-suppression" class="popup" aria-hidden="true">
 		<h3 class="modal-title">Suppression d'un projet</h3>
