@@ -106,19 +106,19 @@
 						<div class="placeholder">
 							<i class="fa-regular fa-image"></i>
 							<label for="image">
-								<input type="file" id="image" name="image" accept=".jpg,.png" max-size="4000" class="form-field inactive" required>
-								<p class="btn-ajouter-photo">+ Ajouter photo</p>
+								<input type="file" id="image" name="image" accept=".jpg,.png" class="form-field inactive" required>
+								<span class="btn-ajouter-photo">+ Ajouter photo</span>
 							</label>
-							<span>jpg, png : 4mo max</span>
+							<span class="accept">jpg, png : 4mo max</span>
 						</div>
 						<label for="title">Titre</label>
 						<input type="text" id="title" name="title" class="form-field" required>
-						<label for="category">Catégorie</label>
+						<label for="select-category">Catégorie</label>
 						<select id="select-category" name="select-category" class="form-field" required>
 							<!-- Généreration des catégories via le script homepage_modal.js -->
 						</select>
 						<hr>
-						<input type="submit" value="Valider" class="modal-submit-btn btn-submit-work" disabled></button>
+						<input type="submit" value="Valider" class="modal-submit-btn btn-submit-work" disabled>
 					</form>
 				</div>
 			</div>
@@ -129,8 +129,8 @@
 		<h3 class="modal-title">Suppression d'un projet</h3>
 		<span>Êtes-vous sûr(e) de vouloir supprimer ce projet ?</span>
 		<menu class="popup-buttons">
-			<button class="popup-submit-btn js-delete-confirmation" style="display: none;">Oui</button>
-			<button class="popup-submit-btn js-close-popup">Annuler</button>
+			<li><button class="popup-submit-btn js-delete-confirmation" style="display: none;">Oui</button></li>
+			<li><button class="popup-submit-btn js-close-popup">Annuler</button></li>
 		</menu>
 	</dialog>
 
@@ -138,8 +138,8 @@
 		<h3 class="modal-title">Logout</h3>
 		<p>Êtes-vous sûr(e) de vouloir vous déconnecter ?</p>
 		<menu class="popup-buttons">
-			<button class="popup-submit-btn js-confirmation-logout">Oui</button>
-			<button class="popup-submit-btn js-close-popup">Annuler</button>
+			<li><button class="popup-submit-btn js-confirmation-logout">Oui</button></li>
+			<li><button class="popup-submit-btn js-close-popup">Annuler</button></li>
 		</menu>
 	</dialog>
 
@@ -147,7 +147,7 @@
 		<h3 class="modal-title">Ajout d'un projet</h3>
 		<span class="message-confirmation">Votre projet a bien été ajouté</span>
 		<menu class="popup-buttons">
-			<button class="popup-submit-btn js-close-popup">Ok</button>
+			<li><button class="popup-submit-btn js-close-popup">Ok</button></li>
 		</menu>
 	</dialog>
 

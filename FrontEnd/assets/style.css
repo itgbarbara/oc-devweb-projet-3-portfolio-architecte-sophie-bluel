@@ -34,7 +34,7 @@ body {
 	line-height: 1;
 }
 
-ol, ul {
+li, ol, ul {
 	list-style: none;
 }
 
@@ -486,7 +486,7 @@ hr {
 	cursor: pointer;
 }
 
-.placeholder span {
+.accept {
 	font-size: 0.6rem;
 	color: #444444;
 }
@@ -532,6 +532,11 @@ dialog {
 
 dialog[aria-hidden="true"] {
 	display: none;
+}
+
+.popup-buttons {
+	display: flex;
+	gap : 0.5rem;
 }
 
 .popup-submit-btn {
