@@ -2,6 +2,7 @@
 //************************************ Import des fonctions ***********************************//
 
 import { afficherIndex } from "./homepage_portfolio.js"
+import { afficherMessageErreur } from "./login.js"
 import { afficherGalerieModale, ouvrirPopupConfirmationAjout } from "./homepage_modal.js"
 
 //*******************************************************************************************************************//
@@ -30,6 +31,34 @@ export async function resetTravauxLocalStorage() {
     window.localStorage.removeItem("travaux")
     const travaux = await recupererTravaux()
     return travaux
+}
+
+/*
+** Déclaration de la fonction qui permet de récupérer le token et connecter l'utilisateur
+*/
+export function connecterUtilisateur(loginUtilisateur) {
+    fetch("http://localhost:5678/api/users/login", {
+        method: "POST",
+        headers: {
+            "accept": "application/json",
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(loginUtilisateur)
+    })
+    .then(reponse => {
+        if (reponse.ok) {
+            reponse.json()
+            .then(token => {
+                localStorage.setItem("token", JSON.stringify(token))
+                window.location.href="index.html"
+            })
+        } else {
+            const loginForm = document.querySelector(".login-form")
+            loginForm.reset()
+            throw new Error("Erreur d'identifiant ou de mot de passe")
+        }
+    })
+    .catch(error => afficherMessageErreur(error.message))
 }
 
 /*

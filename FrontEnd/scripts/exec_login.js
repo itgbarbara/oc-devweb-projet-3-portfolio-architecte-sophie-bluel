@@ -1,6 +1,7 @@
 //************************************ Import des fonctions ***********************************//
 
-import { validerEmail, validerMdp, afficherMessageErreur, connecterUtilisateur } from "./login.js"
+import { connecterUtilisateur } from "./fetch_requests.js"
+import { validerEmail, validerMdp, afficherMessageErreur } from "./login.js"
 
 
 //************************************ Exécution du script ************************************//
