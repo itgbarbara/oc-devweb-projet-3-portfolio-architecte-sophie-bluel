@@ -265,8 +265,15 @@ export async function ouvrirModale(event, travaux, categories, token) {
     //** Fermeture de la modale **//
     modal.addEventListener("click", fermerModale) // Lorsque l'on clique dans la modale (#modal), ça la ferme
     modal.querySelector(".js-stop-propagation").addEventListener("click", stopPropagation) // On empêche la propagation du listener à partir de l'élément "modal-wrapper" (et ses enfants)
-    modal.querySelectorAll(".js-close-modal").forEach(btnFermer => {
+    
+    modal.querySelectorAll(".js-close-modal").forEach(btnFermer => { // Lorsque l'on clique sur la croix, ça ferme la modale
         btnFermer.addEventListener("click", fermerModale)
+    })
+
+    window.addEventListener("keydown", (event) => {
+        if(event.key === "Escape" || event.key === "Esc") { // Lorsque l'on clique sur la touche Echap, ça ferme la modale
+           fermerModale(event)
+        }
     })
 }
 
@@ -335,8 +342,15 @@ export async function fermerModale(event) { // Cette fonction fait l'inverse de 
     //** Fermeture de la modale **//
     modal.removeEventListener("click", fermerModale)
     modal.querySelector(".js-stop-propagation").removeEventListener("click", stopPropagation)
+
     modal.querySelectorAll(".js-close-modal").forEach(btnFermer => {
         btnFermer.removeEventListener("click", fermerModale)
+    })
+
+    window.removeEventListener("keydown", (event) => {
+        if(event.key === "Escape" || event.key === "Esc") {
+           fermerModale(event)
+        }
     })
     
     modal = null // Après avoir tout réinitialisé, on redéfinit la valeur de la variable "modal" sur null
