@@ -6,11 +6,11 @@ import { afficherMessageErreur } from "./login.js"
 import { afficherGalerieModale, ouvrirPopupConfirmationAjout } from "./homepage_modal.js"
 
 //*******************************************************************************************************************//
-//*************** Déclaration des fonctions liées à l'affichage de la galerie (homepage_portfolio.js) ***************//
+//*************************** Déclaration des fonctions pour effectuer les appels à l'API ***************************//
 //*******************************************************************************************************************//
 
 /*
-** Déclaration de la fonction permettant de récupérer les travaux et les stocker dans le localStorage
+** Déclaration de la fonction permettant de récupérer les travaux et de les stocker dans le localStorage
 */
 export async function recupererTravaux() {
     //** Requête pour récupérer les travaux **//
@@ -33,6 +33,9 @@ export async function resetTravauxLocalStorage() {
     return travaux
 }
 
+/*
+** Déclaration de la fonction permettant de récupérer toutes les catégories et de les stocker dans le localStorage
+*/
 export async function recupererCategories() {
     //** Requête pour récupérer les catégories **//
     const reponse = await fetch("http://localhost:5678/api/categories")
@@ -46,7 +49,7 @@ export async function recupererCategories() {
 }
 
 /*
-** Déclaration de la fonction qui permet de récupérer le token et connecter l'utilisateur
+** Déclaration de la fonction qui permet de récupérer le token pour connecter l'utilisateur
 */
 export function connecterUtilisateur(loginUtilisateur) {
     fetch("http://localhost:5678/api/users/login", {

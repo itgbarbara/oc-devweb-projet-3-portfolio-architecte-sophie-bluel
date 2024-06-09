@@ -8,7 +8,7 @@ import { ajouterProjet, supprimerProjet } from "./fetch_requests.js"
 //***********************************************************************************************//
 
 /*
-** Déclaration de la fonction qui permet d'afficher et supprimer les travaux dans la page 1 de la modale
+** Déclaration de la fonction qui permet d'afficher et supprimer les travaux dans la vue 1 de la modale
 */
 export function afficherGalerieModale(travaux, token) {
     document.querySelector(".modal-gallery").innerHTML= ""
@@ -18,7 +18,7 @@ export function afficherGalerieModale(travaux, token) {
 
         //** Création des élements html de la galerie de travaux **//
         const baliseFigure = document.createElement("figure")
-        baliseFigure.dataset.id = projet.id
+        baliseFigure.dataset.id = projet.id // Identification du projet sur la balise figure
 
         const imageProjet = document.createElement("img")
         imageProjet.src = projet.imageUrl
@@ -42,7 +42,7 @@ export function afficherGalerieModale(travaux, token) {
             event.preventDefault()
 
             let id = event.target.closest("figure").getAttribute("data-id")
-            supprimerProjet(id, token)
+            supprimerProjet(id, token) // Appel à l'API pour supprimer un projet
         })
     })
 }
@@ -53,7 +53,7 @@ export function afficherGalerieModale(travaux, token) {
 export function supprimerGalerieModale() {
     document.querySelector(".modal-gallery").innerHTML = ""
 
-    //** Suppression d'un projet **//
+    //** Retrait du listener pour supprimer un projet **//
     document.querySelectorAll(".js-delete-work").forEach(btnSupprimer => {
         btnSupprimer.removeEventListener("click", (event) => {
             event.preventDefault()
@@ -65,9 +65,11 @@ export function supprimerGalerieModale() {
 }
 
 /*
-** Déclaration de la fonction qui permet d'afficher la liste déroulante de catégories dans la page 2 de la modale
+** Déclaration de la fonction qui permet d'afficher la liste déroulante de catégories dans la vue 2 de la modale
 */
 export function selectionnerCategorie(categories) {
+
+    //** Option vide **//
     const baliseOptionVide = document.createElement("option")
     baliseOptionVide.value = ""
     document.getElementById("select-category").appendChild(baliseOptionVide)
@@ -136,7 +138,7 @@ export function supprimerPreviewFichier() {
 }
 
 /*
-** Déclaration de la fonction permettant de récupérer les champs du formulaires pour créer un objet formData (body de la requête d'envoi)
+** Déclaration de la fonction permettant de récupérer les champs du formulaires pour créer un objet formData (pour le body de la requête d'envoi)
 */
 export function recupererSaisieFormulaire(imageProjet, titreProjet, categorieProjet) {
     imageProjet = document.getElementById("image").files[0]
@@ -237,26 +239,26 @@ export async function ouvrirModale(event, travaux, categories, token) {
     let btnSubmitWork = document.querySelector(".btn-submit-work")
     btnSubmitWork.disabled = true
     
-    document.getElementById("image").addEventListener("change", (event) => {
+    document.getElementById("image").addEventListener("change", (event) => { // Lorsque l'input file change, on affiche la preview
         afficherPreviewFichier(event)
     })
     
-    document.querySelectorAll(".form-field").forEach(formField => {
+    document.querySelectorAll(".form-field").forEach(formField => { // Lorsque l'un des champs du formulaire change, on re-vérifie la saisie
         formField.addEventListener("change", () => {
             imageProjet = document.getElementById("image").files[0]
             titreProjet = document.getElementById("title").value
             categorieProjet = document.getElementById("select-category").value
     
-            validerChamps(btnSubmitWork, imageProjet, titreProjet, categorieProjet)
+            validerChamps(btnSubmitWork, imageProjet, titreProjet, categorieProjet) // Active ou non le bouton de soumission
         })
     })
     
     let modalForm = document.getElementById("modal-form")
-    modalForm.addEventListener("submit", (event) => {
+    modalForm.addEventListener("submit", (event) => { // Soumission du formulaire
         event.preventDefault()
         
         let formData = recupererSaisieFormulaire(imageProjet, titreProjet, categorieProjet)
-        ajouterProjet(formData, token)
+        ajouterProjet(formData, token) // Appel à l'API pour ajouter un projet
         resetFormulaire()
     })
     

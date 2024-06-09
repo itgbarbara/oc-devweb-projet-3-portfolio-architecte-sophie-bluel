@@ -20,8 +20,8 @@ loginForm.addEventListener("submit", async (event) => {
         let mdp = document.getElementById("mdp").value
 
         // Vérification de la validité de la saisie des champs
-        validerEmail(email)
-        validerMdp(mdp)
+        validerEmail(email) // Lance une exception au lieu de poursuivre le script en cas d'erreur
+        validerMdp(mdp) // Lance une exception au lieu de poursuivre le script en cas d'erreur
         afficherMessageErreur("")
 
         // Vider les champs après la soumission du formulaire
@@ -33,7 +33,7 @@ loginForm.addEventListener("submit", async (event) => {
             password: mdp
         }
         
-        connecterUtilisateur(loginUtilisateur)
+        connecterUtilisateur(loginUtilisateur) // Appel à l'API pour récupérer le token
         
     } catch(error) {
         afficherMessageErreur(error.message)

@@ -1,6 +1,6 @@
 
 //***********************************************************************************************//
-//*************** Déclaration des fonctions liées à la connexion de l'utilisateur ***************//
+//************* Déclaration des fonctions liées à la connexion de l'administrateur **************//
 //***********************************************************************************************//
 
 /*
@@ -22,24 +22,24 @@ export function validerMdp(mdp) {
 }
 
 /*
-** Déclaration de la fonction qui affiche le message d'erreur
+** Déclaration de la fonction qui affiche un message en cas d'erreur de connexion
 */
 export function afficherMessageErreur(message) {
     
     let spanMessageErreur = document.getElementById("message-erreur") // On vérifie qu'il n'y a pas déjà une <span> pour le message d'erreur (on ne veut pas de doublon)
 
     if (!spanMessageErreur) { // Si la <span> n'existe pas, on la crée
-        const btnConnexion = document.getElementById("btn-connexion") // Sélection de la balise avant laquelle on va afficher le message
+        spanMessageErreur = document.createElement("span")
+        spanMessageErreur.id = "message-erreur"
 
-        spanMessageErreur = document.createElement("span") // Création de la <span> (pas besoin de déclarer la variable puisqu'elle l'a déjà été)
-        spanMessageErreur.id = "message-erreur" // Ajout d'un id pour identifier cette <span>
-        btnConnexion.insertAdjacentElement("beforebegin", spanMessageErreur) // Insertion de la <span> avant le bouton de connexion
+        const btnConnexion = document.getElementById("btn-connexion")
+        btnConnexion.insertAdjacentElement("beforebegin", spanMessageErreur)
     }
-    spanMessageErreur.innerText = message // Ajout ou mise à jour du message à l'intérieur de la <span>
+    spanMessageErreur.innerText = message
 }
 
 /*
-** Déclaration des fonctions pour activer / déactiver l'interface administrateur(ice)
+** Déclaration des fonctions pour activer / déactiver le mode édition (interface administrateur)
 */
 export function activerModeEdition() {
     document.querySelector(".bandeau-mode-edition").classList.remove("inactive")
@@ -58,7 +58,7 @@ export function desactiverModeEdition() {
 }
 
 /*
-** Déclaration de la fonction qui permet de supprimer le token
+** Déclaration de la fonction qui permet de supprimer le token du localStorage (provoque la deconnexion)
 */
 export function deconnecterUtilisateur() {
     localStorage.removeItem("token")

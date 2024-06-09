@@ -1,10 +1,10 @@
 
 //*******************************************************************************************************************//
-//*************** Déclaration des fonctions liées à l'affichage de la galerie (homepage_portfolio.js) ***************//
+//****************** Déclaration des fonctions liées à l'affichage de la galerie (page d'accueil) *******************//
 //*******************************************************************************************************************//
 
 /*
-** Déclaration de la fonction qui génère dynamiquement tout le contenu de la galerie des projets
+** Déclaration de la fonction qui génère dynamiquement la galerie des projets (accueil)
 */
 export function afficherGalerie(travaux) {
     document.querySelector(".gallery").innerHTML = ""
@@ -36,7 +36,7 @@ export function afficherGalerie(travaux) {
 export function listerCategories(travaux) {
     //** Récupération des catégories de travaux, en supprimant les doublons **//
     let categories = new Map() // Création d'un nouvel objet Map, pour y stocker des paires de clé-valeur en mémorisant l'ordre d'insertion.
-    travaux.forEach( // méthode forEach pour exécuter une fonction une fois pour chaque élément du tableau "travaux"
+    travaux.forEach(
         projet => categories.set(projet.category.id, projet.category) // fonction lambda + set(key, value) appliqué à la structure Map pour y stocker des données
     )
     let listeCategories = Array.from(categories.values()) // Constitution d'un tableau à partir des values
@@ -111,6 +111,9 @@ export function gererBoutonsCategorie(travaux, listeCategories) {
     })
 }
 
+/*
+** Déclaration de la fonction permettant de générer tous les éléments dynamiques de la page d'accueil
+*/
 export function afficherIndex(travaux) {
     afficherGalerie(travaux)
     let listeCategories = listerCategories(travaux)
