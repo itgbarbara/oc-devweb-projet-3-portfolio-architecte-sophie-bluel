@@ -45,8 +45,9 @@ export function activerModeEdition() {
     document.querySelector(".bandeau-mode-edition").classList.remove("inactive")
     document.querySelector("header").classList.add("header-mode-edition")
     document.getElementById("lien-logout").classList.remove("inactive")
-    document.getElementById("lien-login").classList.add("inactive") 
+    document.getElementById("lien-login").classList.add("inactive")
     document.querySelector(".edit-button").classList.remove("inactive")
+    document.querySelector(".filter-buttons").classList.add("inactive")
 }
 
 export function desactiverModeEdition() {
@@ -55,6 +56,7 @@ export function desactiverModeEdition() {
     document.getElementById("lien-logout").classList.add("inactive")
     document.getElementById("lien-login").classList.remove("inactive")
     document.querySelector(".edit-button").classList.add("inactive")
+    document.querySelector(".filter-buttons").classList.remove("inactive")
 }
 
 /*

@@ -161,7 +161,6 @@ li:hover {
 	display: flex;
 	justify-content: center;
 	gap: 0.6rem;
-	margin: 50px;
 }
 
 .filter-buttons button { /* Ajout */
@@ -188,6 +187,7 @@ li:hover {
 	grid-template-columns: 1fr 1fr 1fr;
 	grid-column-gap: 20px;
 	grid-row-gap: 20px;
+	margin-top: 50px;
 }
 
 .gallery img {
@@ -297,7 +297,7 @@ footer nav ul {
 	justify-content: center;
 	align-items: center;
 	gap: 1rem;
-	margin-bottom: 30px;
+	margin-bottom: 50px;
 }
 
 .edit-button {
