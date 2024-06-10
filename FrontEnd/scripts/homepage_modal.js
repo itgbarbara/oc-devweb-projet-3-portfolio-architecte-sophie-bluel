@@ -138,6 +138,21 @@ export function supprimerPreviewFichier() {
 }
 
 /*
+** Déclaration de la fonction permettant de vérifier les champs du formulaire et débloquer le bouton de soumission
+*/
+export function validerChamps(btnSubmitWork, imageProjet, titreProjet, categorieProjet) {
+    if (imageProjet === undefined || titreProjet.trim() === "" || categorieProjet === "") {
+        if (!btnSubmitWork.disabled) {
+            btnSubmitWork.disabled = true
+        }
+    } else {
+        if (btnSubmitWork.disabled) {
+            btnSubmitWork.disabled = false
+        }
+    }
+}
+
+/*
 ** Déclaration de la fonction permettant de récupérer les champs du formulaires pour créer un objet formData (pour le body de la requête d'envoi)
 */
 export function recupererSaisieFormulaire(imageProjet, titreProjet, categorieProjet) {
@@ -153,21 +168,6 @@ export function recupererSaisieFormulaire(imageProjet, titreProjet, categoriePro
     formData.append("category", parseInt(idCategorieProjet))
 
     return formData
-}
-
-/*
-** Déclaration de la fonction permettant de vérifier les champs du formulaire et débloquer le bouton de soumission
-*/
-export function validerChamps(btnSubmitWork, imageProjet, titreProjet, categorieProjet) {
-    if (imageProjet === undefined || titreProjet.trim() === "" || categorieProjet === "") {
-        if (!btnSubmitWork.disabled) {
-            btnSubmitWork.disabled = true
-        }
-    } else {
-        if (btnSubmitWork.disabled) {
-            btnSubmitWork.disabled = false
-        }
-    }
 }
 
 /*
@@ -242,7 +242,7 @@ export async function ouvrirModale(event, travaux, categories, token) {
     btnSubmitWork.disabled = true
     
     document.getElementById("image").addEventListener("change", (event) => { // Lorsque l'input file change, on affiche la preview
-        afficherPreviewFichier(event)
+        afficherPreviewFichier(event) // fonction ligne 113
     })
     
     document.querySelectorAll(".form-field").forEach(formField => { // Lorsque l'un des champs du formulaire change, on re-vérifie la saisie
@@ -251,7 +251,8 @@ export async function ouvrirModale(event, travaux, categories, token) {
             titreProjet = document.getElementById("title").value
             categorieProjet = document.getElementById("select-category").value
     
-            validerChamps(btnSubmitWork, imageProjet, titreProjet, categorieProjet) // Active ou non le bouton de soumission
+            // Active ou non le bouton de soumission
+            validerChamps(btnSubmitWork, imageProjet, titreProjet, categorieProjet) // fonction ligne 143
         })
     })
     
@@ -259,7 +260,7 @@ export async function ouvrirModale(event, travaux, categories, token) {
     modalForm.addEventListener("submit", (event) => { // Soumission du formulaire
         event.preventDefault()
         
-        let formData = recupererSaisieFormulaire(imageProjet, titreProjet, categorieProjet)
+        let formData = recupererSaisieFormulaire(imageProjet, titreProjet, categorieProjet) // fonction ligne 158
         ajouterProjet(formData, token) // Appel à l'API pour ajouter un projet
         resetFormulaire()
     })
