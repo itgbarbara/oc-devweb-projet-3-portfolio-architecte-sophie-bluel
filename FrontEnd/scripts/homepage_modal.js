@@ -200,6 +200,8 @@ export function resetFormulaire() {
     supprimerPreviewFichier()
 }
 
+
+
 /*
 ** Déclaration de la fonction qui gère les évènements à l'ouverture de la modale et son fonctionnement interne
 */
