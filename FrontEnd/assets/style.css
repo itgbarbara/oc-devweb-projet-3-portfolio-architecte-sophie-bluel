@@ -389,8 +389,15 @@ hr {
 	border: solid 1px;
 	display: block;
 	color: #B3B3B3;
-	width: 100%;
 	margin: 50px 0 0 0;
+}
+
+.separation-1 {
+	width: 75%;
+}
+
+.separation-2 {
+	width: 100%;
 }
 
 
