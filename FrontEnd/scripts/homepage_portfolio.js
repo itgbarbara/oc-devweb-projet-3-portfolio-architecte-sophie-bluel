@@ -55,7 +55,7 @@ export function genererBoutonsCategorie(listeCategories) {
     const baliseListe = document.createElement("li")
 
     const baliseButtonParDefaut = document.createElement("button")
-    baliseButtonParDefaut.classList.add("btn-par-defaut")
+    baliseButtonParDefaut.classList.add("btn-par-defaut", "active-filter")
     baliseButtonParDefaut.innerText = "Tous"
 
     baliseListe.appendChild(baliseButtonParDefaut)
@@ -84,10 +84,16 @@ export function genererBoutonsCategorie(listeCategories) {
 export function gererBoutonsCategorie(travaux, listeCategories) {
 
     travaux = JSON.parse(window.localStorage.getItem("travaux"))
+    let filtreActif = document.querySelector(".active-filter")
 
     //** Affichage par défaut **//
-    const affichageParDefaut = document.querySelector(".btn-par-defaut")
-    affichageParDefaut.addEventListener("click", () => {
+    const btnParDefaut = document.querySelector(".btn-par-defaut")
+    btnParDefaut.addEventListener("click", (event) => {
+
+        filtreActif.classList.remove("active-filter")
+        event.target.classList.add("active-filter")
+        filtreActif = event.target
+
         document.querySelector(".gallery").innerHTML = ""
         afficherGalerie(travaux)
     })
@@ -96,10 +102,14 @@ export function gererBoutonsCategorie(travaux, listeCategories) {
     document.querySelectorAll(".btn-categorie").forEach(btnCategorie => {
         btnCategorie.addEventListener("click", (event) => {
 
-            let btnCategorieClick = parseInt(event.target.dataset.id)
+            filtreActif.classList.remove("active-filter")
+            event.target.classList.add("active-filter")
+            filtreActif = event.target
+
+            let idBtnCategorieChoisie = parseInt(event.target.dataset.id)
 
             for (let index = 0; index < listeCategories.length; index++) {
-                if (btnCategorieClick === listeCategories[index].id) {
+                if (idBtnCategorieChoisie === listeCategories[index].id) {
 
                     let categorieChoisie = travaux.filter(travaux => travaux.category.id === listeCategories[index].id)
                     document.querySelector(".gallery").innerHTML = ""

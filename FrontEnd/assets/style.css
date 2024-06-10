@@ -157,13 +157,14 @@ li:hover {
 	/* margin-bottom: 1em; */
 }
 
-.filter-buttons { /* Ajout */
+.filter-buttons {
 	display: flex;
 	justify-content: center;
 	gap: 0.6rem;
 }
 
-.filter-buttons button { /* Ajout */
+.btn-par-defaut,
+.btn-categorie {
 	min-width: 100px;
 	font-family: 'Syne';
 	color: #1D6154;
@@ -176,9 +177,15 @@ li:hover {
 	cursor: pointer;
 }
 
-.filter-buttons button:hover { /* Ajout */
+.btn-par-defaut:hover,
+.btn-categorie:hover {
 	color: white;
 	background-color: #1D6154;
+}
+
+.active-filter {
+	color: white;
+	background-color: #1D6154; 
 }
 
 .gallery {
